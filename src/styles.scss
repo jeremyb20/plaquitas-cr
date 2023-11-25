@@ -1,0 +1,271 @@
+/* You can add global styles to this file, and also import other style files */
+@import './scss/partials/bootstrap-breakpoints';
+@import './scss/custom-variables.scss';
+@import './assets/fonts/fontawesome5/fontawesome';
+@import './assets/fonts/fontawesome5/regular';
+@import './assets/fonts/fontawesome5/solid';
+@import './assets/fonts/fontawesome5/brands';
+@import './scss/themes/theme-ctsadmin.scss';
+@import './scss/themes/theme-default-light.scss';
+@import './scss/themes/theme-default-dark.scss';
+// icon
+// Theme Font
+@import './assets/fonts/theme-font';
+@import './assets/fonts/feather';
+
+// p{
+//     margin-bottom: 0px;
+// }
+
+.notifications {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    min-width: 250px;
+    max-width: 250px;
+    font-size: 12px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+}
+
+.card {
+    border: none;
+}
+
+.card-header {
+    background-color: #fff;
+}
+
+.forms-inputs {
+    position: relative
+}
+
+.forms-inputs .span-login {
+    position: absolute;
+    top: -15px;
+    left: 10px;
+    background-color: #fff;
+    padding: 5px;
+    font-size: 0.875em;
+    z-index: 1;
+}
+
+// .btn-login{
+//     background: #1D4A49;
+//     color: #fff;
+//     border: 1px solid #1D4A49;
+//     height: 50px;
+//     text-decoration: none;
+//     position: relative;
+//     overflow: hidden;
+// }
+
+// .btn:focus-visible,
+// .btn:active,
+// .btn-login:active,
+// .btn-login:hover {
+//     background-color: #266362;
+//     background: #266362;
+//     color: #fff;
+//     border: 1px solid #266362;
+//     box-shadow: 1px 1px 25px 10px rgba(146, 148, 248, 0.4);
+// }
+
+.small {
+    color: var(--bs-primary-rgb);
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+.success-data {
+    display: flex;
+    flex-direction: column
+}
+
+.bxs-badge-check {
+    font-size: 90px
+}
+
+.btn-login:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(146, 148, 248, 0.4), transparent);
+    transition: all 650ms;
+}
+
+.btn-login:hover:before {
+    left: 100%;
+}
+
+@include media-breakpoint-up(md){
+
+    .notfound-content {
+        width: 29rem;
+    }
+}
+
+.text-sm {
+    font-size: 14px;
+}
+
+.text-dim {
+    color: #BDBDBD;
+}
+
+@media (min-width : 992px) {
+    .offcanvas {
+        visibility: visible;
+       // position: relative;
+        //background: none;
+        border: none;
+        justify-content: end;
+        //color: red;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .offcanvas {
+        width: 320px !important;
+    }
+
+    .offcanvas-start-lg {
+        top: 0;
+        left: 0;
+        border-right: 1px solid rgba(0, 0, 0, .2);
+        transform: translateX(-100%);
+    }
+}
+
+.custom-badge{
+    font-size: 9px;
+    position: absolute;
+    left: 27px; 
+    margin-top: -5px;
+}
+
+.text-in-progress{
+    color: #0342f3;
+}
+
+.text-open{
+    color: #ff0000;
+}
+
+.text-resolved {
+    color: #2fce37;
+}
+
+.small-color {
+    color: #1abc9c;
+}
+
+.notfound-title {
+    margin-top: 20px;
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1.5;
+    letter-spacing: 0.00735em;
+}
+
+.notfound-text {
+    font-weight: 400;
+    font-size: 1rem;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    color: rgb(99, 115, 129);
+}
+
+.text-dark {
+    color: #000;
+}
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #084cdf;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+    background: #0d45a5;
+}
+
+
+.is-invalid:hover {
+    border-color: #730101 !important;
+}
+
+.dropdown-invalid .angular-editor-textarea,
+.invalid {
+    border: 2px solid #f90303 !important;
+}
+
+.is-invalid {
+    border-color: 2px solid #f90303;
+}
+
+p-dropdown.ng-invalid.dropdown-invalid:not(form)> div:hover,
+p-dropdown.ng-invalid.dropdown-invalid:not(form) > div {
+    border: 2px solid #D40000;
+}
+
+p-dropdown.ng-invalid.ng-touched.ui-inputwrapper-focus:not(form) > div {
+    box-shadow: 0 0 0 0.05em #F40000;
+    border: 1px solid #D40000;
+    border-radius: 2px;
+}
+
+p-dropdown.ng-invalid.ng-untouched.ui-inputwrapper-focus:not(form) > div {
+    box-shadow: 0 0 0 0.05em #F40000;
+    border: 1px solid #D40000;
+    border-radius: 2px;
+}
+
+.hovered:hover {
+    background-color: rgba(26, 188, 156, 0.1);
+}
+
+.custom-badge {
+    position: absolute;
+    left: 27px;
+    margin-bottom: 16px;
+    transition: .5s;
+}
+
+.reply-player-false{
+    border: 1px solid #dedede !important;
+    margin: 15px 50px !important;
+}
+
+.custom-card-buttom {
+    position: absolute;
+    right: 9px;
+    top: 15px;
+}
+
+.btn-yellow {
+    border: 2px solid #F9A825;
+    background-color: #F9A825;
+    color: #fff;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.btn-yellow:hover {
+    background-color: #F57F17;
+    border: 2px solid #F57F17;
+}

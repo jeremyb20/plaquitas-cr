@@ -1,0 +1,48 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "ts-node": {
+    "require": [ "tsconfig-paths/register" ]
+  },
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "strictPropertyInitialization": false,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "resolveJsonModule": true,
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "paths": {
+      "@models/*" : ["src/app/models/*"],
+      "@components/*" : ["src/app/core/components/*"],
+      "@views/*": [ "src/app/core/views/*" ],
+      "@services/*": [ "src/app/services/*" ],
+      "@methods/*": ["src/app/common/*"],
+      "@assets/*": ["src/assets/*"]
+    }
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

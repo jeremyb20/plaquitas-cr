@@ -1,0 +1,85 @@
+<div *ngIf="payloadData">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.ownerPetName.errors }">{{ 'Owner Pet Name' | translate }}</span>
+            <input type="text" formControlName="ownerPetName"  [ngClass]="{ 'is-invalid': submitted && f.ownerPetName.errors }" class="form-control">
+            <div *ngIf="submitted && f.ownerPetName.errors" class="invalid-feedback">
+                <div *ngIf="f.ownerPetName.errors.required">{{'Owner Pet Name' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.petName.errors }">{{ 'Pet Name' | translate }}</span>
+            <input type="text" formControlName="petName"  [ngClass]="{ 'is-invalid': submitted && f.petName.errors }" class="form-control">
+            <div *ngIf="submitted && f.petName.errors" class="invalid-feedback">
+                <div *ngIf="f.petName.errors.required">{{'Pet Name' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phone.errors }">{{ 'Phone Number' | translate }}</span>
+            <p-inputMask mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                <div *ngIf="f.phone.errors.required">{{'Phone Number' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.birthDate.errors }">{{ 'Birthdate' | translate }}</span>
+            <p-calendar [showClear]="true" formControlName="birthDate" class="datePickTC"  dateFormat="d/m/yy" styleClass="w-100"></p-calendar>
+            <div *ngIf="submitted && f.birthDate.errors" class="invalid-feedback">
+                <div *ngIf="f.birthDate.errors.required">{{'Owner Pet Name' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.veterinarianContact.errors }">{{ 'Veterinarian Name' | translate }}</span>
+            <input type="text" formControlName="veterinarianContact"  [ngClass]="{ 'is-invalid': submitted && f.veterinarianContact.errors }" class="form-control">
+            <div *ngIf="submitted && f.veterinarianContact.errors" class="invalid-feedback">
+                <div *ngIf="f.veterinarianContact.errors.required">{{'Veterinarian Name' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <div class="forms-inputs mt-4">
+                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phoneVeterinarian.errors }">{{ 'Phone Veterinarian' | translate }}</span>
+                <p-inputMask mask="9999-9999" formControlName="phoneVeterinarian" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phoneVeterinarian.errors }"></p-inputMask>
+                <div *ngIf="submitted && f.phoneVeterinarian.errors" class="invalid-feedback">
+                    <div *ngIf="f.phoneVeterinarian.errors.required">{{'Phone Veterinarian' | translate}} {{'is required' | translate}}</div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.favoriteActivities.errors }">{{ 'Favorite Activities' | translate }}</span>
+            <input type="text" formControlName="favoriteActivities"  [ngClass]="{ 'is-invalid': submitted && f.favoriteActivities.errors }" class="form-control">
+            <div *ngIf="submitted && f.favoriteActivities.errors" class="invalid-feedback">
+                <div *ngIf="f.favoriteActivities.errors.required">{{'Favorite Activities' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.healthAndRequirements.errors }">{{ 'Health and Requirements' | translate }}</span>
+            <input type="text" formControlName="healthAndRequirements"  [ngClass]="{ 'is-invalid': submitted && f.healthAndRequirements.errors }" class="form-control">
+            <div *ngIf="submitted && f.healthAndRequirements.errors" class="invalid-feedback">
+                <div *ngIf="f.healthAndRequirements.errors.required">{{'Health and Requirements' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.address.errors }">{{ 'Address' | translate }}</span>
+            <input type="text" formControlName="address"  [ngClass]="{ 'is-invalid': submitted && f.address.errors }" class="form-control">
+            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                <div *ngIf="f.address.errors.required">{{'Address' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+    
+        <div class="w-100 text-center">
+            <button [disabled]="loading" type="submit" class="btn btn-primary mt-4">
+                <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div> {{'Save' | translate}}
+            </button>
+        </div>
+    </form>
+</div>

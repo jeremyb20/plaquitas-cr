@@ -1,0 +1,169 @@
+<p-card class="card" header="{{'QR code registration list' | translate}}">
+   <div class="row">
+        <div class="col-12 col-md-6 d-flex justify-content-center">
+            <canvas baseChart
+                [type]="'pie'"
+                [datasets]="pieChartDatasets"
+                [labels]="translateLabels(pieChartLabels)"
+                [options]="pieChartOptions"
+                [plugins]="pieChartPlugins"
+                [legend]="pieChartLegend">
+            </canvas>
+        </div>
+        <div *ngIf="filteredData" class="col-12 col-md-6" [ngClass]="{'text-center pt-4': Media.IsMobile}" >
+            <span class="fs-5 fw-bold">{{'Code created' | translate }}: {{filteredData.length}}</span><br>
+            <span class="fs-5 text-preparing"> {{'Preparing' | translate }}: {{isPreparing}}</span><br>
+            <span class="fs-5 text-ended"> {{'Finished' | translate}}: {{isEnding}}</span><br>
+            <span class="fs-5 text-pending"> {{'Pendings' | translate}}: {{isPending}}</span><br>
+            <span class="fs-5 text-order "> {{'Starting' | translate}}: {{isOrdering}}</span><br>
+        </div>
+   </div>
+</p-card>
+
+<p-card class="card" header="{{'QR Code Generator' | translate}}">
+    <p-table #dt
+        [value]="payloadData"
+        [columns]="columsData"
+        [scrollable]="true" 
+        scrollHeight="700px" 
+        dataKey="id"
+        editMode="row" 
+        [rowHover]="true" 
+        [rows]="5" 
+        [rowsPerPageOptions]="[5,10,25,50]"
+        [showCurrentPageReport]="true" 
+        [loading]="loading" 
+        [paginator]="true" 
+        [id]="'test'"
+        responsiveLayout="stack" 
+        [tableStyle]="{'min-width': '60rem', 'height': '550px'}"
+        currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}" 
+        [filterDelay]="0"
+        [globalFilterFields]="['id','randomCode', 'stateActivation']">
+
+        <ng-template pTemplate="caption">
+            <div class="row g-2 my-2">
+                <div class="col-sm-4 col-md-4 col-lg">
+                    <input pInputText type="text" id="filterid" (input)="dt.filter($any($event.target).value, 'id', 'contains')" placeholder="{{'Filter By Id' | translate}}" class="p-column-filter w-100">
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg">
+                    <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target).value, 'randomCode', 'contains')" placeholder="{{'Filter By Code' | translate}}" class="p-column-filter w-100">
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg">
+                    <input pInputText type="text" id="filteremail" (input)="dt.filter($any($event.target).value, 'email', 'contains')" placeholder="{{'Filter By Link' | translate}}" class="p-column-filter w-100">
+                </div>
+
+                <div class="col-sm-4 col-md-4 col-lg">
+                    <p-dropdown 
+                        [options]="statusFilter" 
+                        (onChange)="dt.filter($event.value, 'stateActivation', 'equals')" 
+                        [autoDisplayFirst]="false"
+                        [showClear]="true"
+                        styleClass="p-column-filter d-flex w-100"
+                        placeholder="{{'Filter By Status' | translate}}">
+                        <ng-template let-option pTemplate="item">
+                            <span [class]="'customer-badge status-' + option.value">{{option.label | translate}}</span>
+                        </ng-template>
+                        <ng-template let-selectedItem pTemplate="selectedItem">
+                            {{selectedItem.label | translate}}
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+
+                <div class="col-sm-12 col-md-12 col-lg d-lg-flex gap-2">
+                    <p-button (onClick)="refresh()"  styleClass="p-button-warning m-1" icon="feather icon-refresh-cw" ngbTooltip="{{'Refresh' | translate }}" label=""></p-button>
+               
+                    <p-button (onClick)="generateNewCode()"  styleClass="p-button-primary m-1" icon="feather icon-file-plus" ngbTooltip="{{'Generate Code' | translate }}" label=""></p-button>
+               
+                    <p-button (onClick)="refresh()"  styleClass="p-button-danger m-1" icon="feather icon-edit" ngbTooltip="{{'Customize Code' | translate }}" label=""></p-button>
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <span> {{ col.header | translate }} </span>
+                </th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-payloadData let-expanded="expanded" let-editing="editing" let-ri="rowIndex">
+            <tr class="p-selectable-row" [pEditableRow]="payloadData" [ngClass]="getStatusType(payloadData.stateActivation)">
+                <td>
+                    <span ngbTooltip="{{payloadData.id}}" class="d-inline-block text-truncate" style="max-width: 50px;">{{payloadData.id | translate}}</span>
+                </td>
+                <td>
+                    <span (click)="copy(payloadData.link)" ngbTooltip="{{payloadData.link}}"  class="d-inline-block text-truncate" style="max-width: 150px;">{{payloadData.link }}</span>
+                </td>
+                <td>
+                    <span (click)="copy(payloadData.randomCode)" >{{payloadData.randomCode | translate}}</span>
+                </td>
+                <td>
+                    <span>
+                        <button (click)="checkQrCode(payloadData, payloadData.link)" class="btn btn-outline-success btn-sm" > <i class="fas fa-qrcode"></i> </button>    
+                    </span>
+                </td>
+                <td>
+                    <span *ngIf="payloadData.updatedAt" >{{transformDate(payloadData.updatedAt)}}</span>
+                    <span *ngIf="!payloadData.updatedAt" >{{'There are no records' | translate}}</span>
+                </td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-dropdown  
+                                styleClass="d-flex w-100" 
+                                [options]="statusFilter"
+                                optionLabel="label"
+                                [(ngModel)]="payloadData.stateActivation"
+                                optionValue="value">
+                                <ng-template let-option pTemplate="item">
+                                    <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <span>{{payloadData.stateActivation | translate}}</span>
+                        </ng-template>
+                        <ng-template let-selectedItem pTemplate="selectedItem">
+                            {{selectedItem.label | translate}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    <div class="d-flex">
+                        <button *ngIf="!editing" type="button" pInitEditableRow  (click)="onRowEditInit(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-edit"></i> </button>
+                        <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-save"></i> </button>
+                        <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(payloadData, ri)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-x"></i> </button>
+                        <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteQRCode(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-trash-2"></i> </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td style="padding: 200px; text-align: center;" colspan="12">
+                    <span *ngIf="!showHardReloadBtn"> {{ 'No data found' | translate }} </span>
+                    <span *ngIf="showHardReloadBtn"> {{'An error occurred in the process.' | translate}} <a class="btn btn-danger" (click)="hardRefresh()"> <i class="feather icon-refresh-cw"></i> {{ 'Refresh' | translate }}</a> </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<div class="modal fade" id="qrcodeModal" tabindex="-1" aria-labelledby="qrcodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-search">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="qrcodeModalLabel">{{ 'QR Code' | translate}}</h5>
+                <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0 text-center">
+                <qrcode [qrdata]="AngularxQrCode" [allowEmptyString]="true" [width]="256" [errorCorrectionLevel]="'H'"></qrcode>
+                <qrcode [qrdata]="AngularxQrCode" [allowEmptyString]="true" [width]="256" [errorCorrectionLevel]="'H'" size="500" level="H" canvas="true" #qrCode></qrcode>
+                <button class="btn btn-success" (click)="downloadImage(true)">{{'Download Image' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</div>

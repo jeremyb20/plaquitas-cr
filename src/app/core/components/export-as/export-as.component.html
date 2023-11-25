@@ -1,0 +1,10 @@
+<div class="row g-5">
+    <div class="col-6 col-md-6">
+        <img class="w-100" [ngClass]="{'px-5': !Media.IsMobile, 'px-4': Media.IsMobile}" alt="Card" src="assets/images/pdf-icon.png" />
+        <button (click)="exportPdf()" class="btn btn-secondary w-100 my-3" [ngClass]="{'btn-sm': Media.IsMobile}"> <i class="feather icon-download"></i> {{'Download PDF' | translate }}</button>        
+    </div>
+    <div class="col-6 col-md-6">
+        <img class="w-100" [ngClass]="{'px-5': !Media.IsMobile, 'px-4': Media.IsMobile}" alt="Card" src="assets/images/excel-icon.png" />
+        <button (click)="generateExcel()" class="btn btn-secondary w-100 my-3" [ngClass]="{'btn-sm': Media.IsMobile}"> <i class="feather icon-download"></i> {{'Download Excel' | translate }} </button>
+    </div>
+</div>

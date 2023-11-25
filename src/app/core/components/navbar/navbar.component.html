@@ -1,0 +1,140 @@
+<div class="toolbar-header fixed-top" [ngClass]="{ 'expanded': isExpanded, 'closed' : !isExpanded }">
+    <div class="row g-0">
+        <div class="col-10 justify-content-between align-items-center">
+            <button class="btn btn-primary m-2" aria-label="Open Menu" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" *ngIf="Media.IsMobile">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav class="navbar navbar-icon-top navbar-expand-lg navbar-dark"
+                *ngIf="!Media.IsMobile">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul *ngIf="navigation" class="navbar-nav ">
+                        <li *ngFor="let item of navigation; let i = index" class="nav-item dropdown">
+                            <ng-container *ngIf="item.hasPermission">
+                                <a *ngIf="item.showInToolbar && item.SubMenu.length == 0" [routerLinkActive]="['active']" class="nav-link"
+                                    [routerLink]="item.routerLink">
+                                    <i class="{{item.iconClass}}">
+                                        <span *ngIf="item.isNew" class="badge badge-info bg-danger text-sm" style="font-size: 9px;">New</span>
+                                    </i>
+                                    {{ item.translate | translate }}
+                                </a>
+                                <div *ngIf="item.SubMenu.length > 0">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+                                        aria-haspopup="true" aria-expanded="false">
+                                        <i class="{{item.iconClass}}">
+                                            <span *ngIf="item.isNew" class="badge badge-info bg-danger text-sm" style="font-size: 9px;">New</span>
+                                        </i>
+                                        <p>
+                                            {{ item.translate | translate }} <i class="fas fa-arrow-down"></i>
+                                        </p>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a *ngFor="let val of item.SubMenu" class="dropdown-item" [routerLink]="val.routerLink"><span> </span> <i
+                                                class='{{val.iconClass}} nav_icon ms-2' style="margin-right: 6px;"></i>
+                                            <span class="nav_name">{{ val.translate | translate }}<span *ngIf="val.isNew"
+                                                    class="badge badge-info bg-danger text-sm ms-2"
+                                                    style="font-size: 9px; z-index: 100;">New</span></span> </a>
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-2 d-flex justify-content-end align-items-center button-logout">
+
+            <!-- <a class="btn text-light-nav dropdown-toggle" aria-label="Search Modal" role="button" (click)="GeneralSearch()">
+                <i class="feather icon-search fs-4 text-light"></i>
+            </a> -->
+
+            <ul class="navbar-nav me-2">
+                <li class="nav-item dropdown">
+                    <div class="dropdown-menu text-small shadow dropdown-right p-3" aria-labelledby="navbarDropdownMenuLink-4">
+                        <div class="notification d-flex justify-content-between">
+                            <h6 class="fw-bold d-inline">Notifications</h6>
+                            <button class="btn text-dark fw-bold p-0" type="button" style="font-size: 12px;">Show All</button>
+                        </div>
+                        <div class="row mt-3 g-0">
+                            <div class="col-2">
+                                <span class="badge bg-secondary"><i class="fas fa-ticket-alt"></i></span>
+                            </div>
+                            <div class="col-7">
+                                <span class="text-light-nav" style="font-size: 13px;">New help ticket - Ticket</span>
+                            </div>
+                            <div class="col-3 text-end">
+                                <span class="badge rounded-pill bg-secondary">#67897</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3 g-0">
+                            <div class="col-2">
+                                <span class="badge bg-secondary"><i class="fas fa-ticket-alt"></i></span>
+                            </div>
+                            <div class="col-7">
+                                <span class="text-light-nav" style="font-size: 13px;">New help ticket - Ticket</span>
+                            </div>
+                            <div class="col-3 text-end">
+                                <span class="badge rounded-pill bg-secondary">#67897</span>
+                            </div>
+                        </div>
+                        <div class="row mt-3 g-0">
+                            <div class="col-2">
+                                <span class="badge bg-secondary"><i class="fas fa-ticket-alt"></i></span>
+                            </div>
+                            <div class="col-7">
+                                <span class="text-light-nav" style="font-size: 13px;">New help ticket - Ticket</span>
+                            </div>
+                            <div class="col-3 text-end">
+                                <span class="badge rounded-pill bg-secondary">#67897</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div>
+                <a class="btn dropdown-toggle" (click)="scanQRCode()">
+                    <i class="bi bi-qr-code-scan text-light fs-4"></i>
+                </a>
+            </div>
+
+            <div class="dropdown">
+                <a class="btn dropdown-toggle" aria-label="logout" data-bs-auto-close="outside" type="button" id="dropdownlanguageSelector" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-globe-americas text-light fs-4"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-bg p-0" aria-labelledby="dropdownlanguageSelector">
+                    <li *ngFor="let item of langFilter">
+                        <a (click)="langSelected(item)" class="dropdown-item p-3"> <span class="p-2 d-inline-block">{{item.label}}</span></a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="dropdown">
+                <a class="btn dropdown-toggle" aria-label="logout" data-bs-auto-close="outside" type="button" id="dropdownMenuButton1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-user-circle text-light fs-4"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-bg p-0" aria-labelledby="dropdownMenuButton1">
+                    <ng-container *ngIf="userLogin">
+                        <li>
+                            <a class="dropdown-item p-3" (click)="logout()" href="#"> <img class="rounded-circle" width="30" height="30" src="assets/images/userProfile.jpg" alt="Profile Icon"> <span class="p-2 d-inline-block">{{userLogin.petName}} <i class="feather icon-log-out nav_icon ms-1 me-1"></i></span></a>
+                        </li>
+                    </ng-container>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="generalSearchModal" tabindex="-1" aria-labelledby="generalSearchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-search">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="generalSearchModalLabel">{{ 'General Search' | translate}}</h5>
+                <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0">
+              <span>Hello from modal</span>
+            </div>
+        </div>
+    </div>
+</div>

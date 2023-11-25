@@ -1,0 +1,206 @@
+<div *ngIf="payloadData" class="container-fluid pt-4">
+    <div class="row">
+        <div class="col-12 col-md-7 col-lg-7 col-xl-5 d-flex justify-content-center">
+            <div class="card-profile mb-4 text-center" [ngClass]="{'w-100': Media.IsMobile}">
+                <div class="banner">
+                    <img class="rounded-circle" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
+                </div>
+                <div class="menu">
+                    <div class="dropdown">
+                        <div class="opener" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="dropdown-menu test" aria-labelledby="dropdownMenuButton">
+                            <a (click)="copy()" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-external-link mt-1 mx-1 fs-5"></i> Copiar enlace</a>
+                            <a *ngIf="!isPublicProfile" (click)="newPetModal()" class="dropdown-item p-2" style="cursor: pointer;"><i class="fa fa-paw mt-1 mx-1"></i> Añadir Mascota</a>
+                            <a *ngIf="!isPublicProfile" (click)="newPetModal()" class="dropdown-item p-2" style="cursor: pointer;"><i class="fa fa-edit mt-1 mx-1"></i> Cambiar de perfil</a>
+                        </div>
+                    </div>
+                </div>
+                <span class="fs-4 text-primary">{{payloadData.petName}}</span>
+
+                <span class="fw-bold">{{payloadData.phone}}</span>
+
+                <hr class="mx-5">
+
+                <span class="fs-6">{{'Email' | translate}}</span>
+
+                <span>{{payloadData.email}}</span>
+
+                <div class="actions p-4">
+                    <div class="follow-btn">
+                        <button *ngIf="showEditBtnEvent" type="submit" class="btn btn-custom w-100 ">
+                            <div class="me-3 text-dark" role="status">
+                            </div> {{'View public profile' | translate}}
+                        </button>
+                    </div>
+                </div>
+                <div class="desc p-4">
+                    <div class="text-sm text-decoration-none text-dim text-center">
+                        {{'Last Modification' | translate}} : {{transformDate(payloadData.updatedAt)}}
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="col-12 col-md-5 col-lg-5 col-xl-6 mb-5">
+           <p-card styleClass="card-custom">
+                <div *ngIf="showEditBtnEvent" class="d-flex justify-content-center w-100">
+                    <button class="btn btn-outline-success" (click)="editProfile(payloadData)">
+                        <i class="feather " [ngClass]="{'icon-edit': !isProfileEdition, 'icon-x': isProfileEdition}"></i> <span *ngIf="!isProfileEdition"> {{'Edit Profile' | translate }} </span>  <span *ngIf="isProfileEdition"> {{'Cancel' | translate}}</span>
+                    </button>
+                </div>
+            
+                <div class="row">
+                    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplateownerPetName">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.ownerPetName.errors }">{{ 'Owner Pet Name' | translate }}</span>
+                                <input type="text" formControlName="ownerPetName"  [ngClass]="{ 'is-invalid': submitted && f.ownerPetName.errors }" class="form-control">
+                                <div *ngIf="submitted && f.ownerPetName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.ownerPetName.errors.required">{{'Owner Pet Name' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplateownerPetName>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.petName == '' && isPublicProfile}">  {{ 'Owner Pet Name' | translate }} 
+                                    <ng-container *ngIf="showEditBtnEvent">
+                                        <button *ngIf="!payloadData.ownerPetName && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)">
+                                            <i class="feather icon-edit"></i>
+                                        </button>
+                                    </ng-container>
+                                </h5>
+                                <span>{{payloadData.ownerPetName}}</span>
+                            </ng-template>
+                        </div>
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplatepetName">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.petName.errors }">{{ 'Pet Name' | translate }}</span>
+                                <input type="text" formControlName="petName"  [ngClass]="{ 'is-invalid': submitted && f.petName.errors }" class="form-control">
+                                <div *ngIf="submitted && f.petName.errors" class="invalid-feedback">
+                                    <div *ngIf="f.petName.errors.required">{{'Pet Name' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplatepetName>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.petName == '' && isPublicProfile}">{{ 'Pet Name' | translate }} <button *ngIf="!payloadData.petName && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                <span>{{payloadData.petName}}</span>
+                            </ng-template>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <div class="forms-inputs mt-4">
+                                <ng-container *ngIf="isProfileEdition; else elseTemplatephone">
+                                    <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phone.errors }">{{ 'Phone Number' | translate }}</span>
+                                    <p-inputMask mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+                                    <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                        <div *ngIf="f.phone.errors.required">{{'Phone Number' | translate}} {{'is required' | translate}}</div>
+                                    </div>
+                                </ng-container>
+                                <ng-template #elseTemplatephone>
+                                    <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.phone == '' && isPublicProfile}">{{'Phone Number' | translate}} <button *ngIf="!payloadData.phone && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                    <span>{{payloadData.phone}}</span>
+                                </ng-template>
+                            </div>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplatebirthDate">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.birthDate.errors }">{{ 'Birthdate' | translate }}</span>
+                                <p-calendar [showClear]="true" formControlName="birthDate" class="datePickTC"  dateFormat="d/m/yy" styleClass="w-100"></p-calendar>
+                                <div *ngIf="submitted && f.birthDate.errors" class="invalid-feedback">
+                                    <div *ngIf="f.birthDate.errors.required">{{'Owner Pet Name' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplatebirthDate>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.birthDate == '' && isPublicProfile}">{{ 'Birthdate' | translate }} <button *ngIf="!payloadData.birthDate && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                <span *ngIf="payloadData.birthDate">{{payloadData.birthDate | date }}  | {{ payloadData.petName }} {{'have' | translate}} {{calculateAge(payloadData.birthDate)}} {{'years' | translate }} humanos y en años canino aproximadamente: {{calcularEdadPerroDesdeHumano()}} </span>
+                            </ng-template>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplateveterinarianContact">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.veterinarianContact.errors }">{{ 'Veterinarian Name' | translate }}</span>
+                                <input type="text" formControlName="veterinarianContact"  [ngClass]="{ 'is-invalid': submitted && f.veterinarianContact.errors }" class="form-control">
+                                <div *ngIf="submitted && f.veterinarianContact.errors" class="invalid-feedback">
+                                    <div *ngIf="f.veterinarianContact.errors.required">{{'Veterinarian Name' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplateveterinarianContact>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.veterinarianContact == '' && isPublicProfile}">{{ 'Veterinarian Name' | translate }} <button *ngIf="!payloadData.veterinarianContact && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                <span>{{payloadData.veterinarianContact}}</span>
+                            </ng-template>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <div class="forms-inputs mt-4">
+                                <ng-container *ngIf="isProfileEdition; else elseTemplatephoneVeterinarian">
+                                    <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phoneVeterinarian.errors }">{{ 'Phone Veterinarian' | translate }}</span>
+                                    <p-inputMask mask="9999-9999" formControlName="phoneVeterinarian" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phoneVeterinarian.errors }"></p-inputMask>
+                                    <div *ngIf="submitted && f.phoneVeterinarian.errors" class="invalid-feedback">
+                                        <div *ngIf="f.phoneVeterinarian.errors.required">{{'Phone Veterinarian' | translate}} {{'is required' | translate}}</div>
+                                    </div>
+                                </ng-container>
+                                <ng-template #elseTemplatephoneVeterinarian>
+                                    <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.phoneVeterinarian == '' && isPublicProfile}">{{'Phone Veterinarian' | translate}} <button *ngIf="!payloadData.phoneVeterinarian && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                    <span>{{payloadData.phoneVeterinarian}}</span>
+                                </ng-template>
+                            </div>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplatefavoriteActivities">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.favoriteActivities.errors }">{{ 'Favorite Activities' | translate }}</span>
+                                <input type="text" formControlName="favoriteActivities"  [ngClass]="{ 'is-invalid': submitted && f.favoriteActivities.errors }" class="form-control">
+                                <div *ngIf="submitted && f.favoriteActivities.errors" class="invalid-feedback">
+                                    <div *ngIf="f.favoriteActivities.errors.required">{{'Favorite Activities' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplatefavoriteActivities>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.favoriteActivities == '' && isPublicProfile}">{{ 'Favorite Activities' | translate }} <button *ngIf="!payloadData.favoriteActivities && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                <span>{{payloadData.favoriteActivities}}</span>
+                            </ng-template>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplatehealthAndRequirements">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.healthAndRequirements.errors }">{{ 'Health and Requirements' | translate }}</span>
+                                <input type="text" formControlName="healthAndRequirements"  [ngClass]="{ 'is-invalid': submitted && f.healthAndRequirements.errors }" class="form-control">
+                                <div *ngIf="submitted && f.healthAndRequirements.errors" class="invalid-feedback">
+                                    <div *ngIf="f.healthAndRequirements.errors.required">{{'Health and Requirements' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplatehealthAndRequirements>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.healthAndRequirements == '' && isPublicProfile}" *ngIf="!payloadData.healthAndRequirements && isPublicProfile">{{ 'Health and Requirements' | translate }} <button *ngIf="!payloadData.healthAndRequirements && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5>
+                                <span>{{payloadData.healthAndRequirements}}</span>
+                            </ng-template>
+                        </div>
+
+                        <div class="forms-inputs mt-4">
+                            <ng-container *ngIf="isProfileEdition; else elseTemplateaddress">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.address.errors }">{{ 'Address' | translate }}</span>
+                                <input type="text" formControlName="address"  [ngClass]="{ 'is-invalid': submitted && f.address.errors }" class="form-control">
+                                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                    <div *ngIf="f.address.errors.required">{{'Address' | translate}} {{'is required' | translate}}</div>
+                                </div>
+                            </ng-container>
+                            <ng-template #elseTemplateaddress>
+                                <h5 class="fw-bold" [ngClass]="{'d-none': payloadData.address == '' && isPublicProfile}">{{ 'Address' | translate }} <button *ngIf="!payloadData.address && !isPublicProfile" class="btn btn-icon" (click)="editProfile(payloadData)"> <i class="feather icon-edit"></i> </button></h5> 
+                                <span>{{payloadData.address}}</span>
+                            </ng-template>
+                        </div>
+
+
+                        <div class="w-100 text-center" *ngIf="isProfileEdition">
+                            <button [disabled]="loading" type="submit" class="btn btn-primary mt-4">
+                                <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div> {{'Save' | translate}}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+           </p-card>
+        </div>
+    </div>
+</div>

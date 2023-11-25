@@ -1,0 +1,56 @@
+<div class="login">
+    <div class="auth-content text-center">
+        <div class="card card-custom mx-3">
+            <div class="card-header">
+                <img src="assets/images/logo.png" alt="Image Logo CTS Admin" class="img-fluid" height="150px"
+                    width="150px">
+            </div>
+            <div class="card-body">
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                    <div class="forms-inputs mt-4">
+                        <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.email.errors }">{{ 'Email' |
+                            translate }}</span>
+                        <input type="email" formControlName="email"
+                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">{{'User is required' | translate}}</div>
+                        </div>
+                    </div>
+                    <div class="forms-inputs mt-4">
+                        <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.password.errors }">{{
+                            'Password' | translate }}</span>
+                        <input type="{{showPassword ? 'text': 'password'}}" pInputText class="w-100 pe-5"
+                            formControlName="password"
+                            [ngClass]="{ 'is-invalid invalid': submitted && f.password.errors }"
+                            (keyup.enter)="onSubmit();" />
+                        <i style="cursor: pointer; position: relative; top: -38px; right: -38%;"
+                            (click)="showPassword = !showPassword"
+                            ngbTooltip="{{!showPassword ? 'Show password': 'Hide password' | translate}}"
+                            class="{{!showPassword ? 'far fa-eye eye-show' : 'far fa-eye-slash eye-hide'}} px-3 py-1"></i>
+                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback"
+                            style="position: relative; margin-bottom: 13px; top: -21px;">
+                            <div *ngIf="f.password.errors.required">{{'Password is required' | translate}}</div>
+                        </div>
+                    </div>
+                </form>
+
+                <button [disabled]="loading" type="submit" (click)="onSubmit();" class="btn btn-custom w-100 ">
+                    <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div> {{'Sign in' | translate}}
+                </button>
+
+                <div *ngIf="messageResult != ''" class="alert alert-danger mt-3" role="alert">
+                    {{messageResult | translate }}
+                </div>
+
+                <div class="col-12 mt-4 d-flex justify-content-between">
+                    <a [routerLink]="['/forgot-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br>
+                    <a [routerLink]="['/home']" class="text-sm ml-auto text-decoration-none text-dim">{{'Go to home' | translate}}</a> <br>
+                </div>
+                <hr class="mx-5">
+                <a [routerLink]="['/register-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+<p-card class="card" header="{{'Users Registered' | translate}} : {{ payloadData?.length}}">
+    <app-generic-data-table
+        [payloadData]="payloadData"
+        [columsData]="columsData"
+        [loading]="loading"
+        [showHardReloadBtn]="true"
+        (refreshData)="refreshData($event)">
+    </app-generic-data-table>
+</p-card>

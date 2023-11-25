@@ -1,0 +1,22 @@
+<div>
+    <ng-container *ngIf="this.routeState !== '/login' && this.routeState !== '/404'">
+        <app-sidenav [isExpanded]="sidebarExpanded" (toggleSidebar)="sidebarExpanded = !sidebarExpanded"></app-sidenav>
+        <div [ngClass]="{ 'sidebarExpanded': sidebarExpanded, 'hide-content': this.routeState !== '/login' }">
+            <app-navbar [isExpanded]="sidebarExpanded"></app-navbar>
+        </div>
+    </ng-container>
+    <div class="pb-5" [ngClass]="{ 'sidebarExpanded': sidebarExpanded, 'content': this.routeState !== '/login' && this.routeState !== '/404', 'sidebarDesktopExpanded': Media.IsMobile}">
+        <ng-http-loader 
+            [backdrop]="true" 
+            [backgroundColor]="this.themeList.spinerLoaderColor" 
+            [debounceDelay]="100" 
+            [extraDuration]="100"
+            [minDuration]="100" 
+            [opacity]="opacity" 
+            [backdropBackgroundColor]="this.themeList.spinerBgColor" 
+            [spinner]="this.themeList.spiner">
+        </ng-http-loader>
+        <router-outlet></router-outlet>
+        <p-scrollTop></p-scrollTop>
+    </div>
+</div>

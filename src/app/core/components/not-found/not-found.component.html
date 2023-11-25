@@ -1,0 +1,10 @@
+<div class="container d-grid text-center justify-content-center p-5">
+    <p class="notfound-title">{{ 'Sorry, page not found!' | translate }}</p>
+    <div class="mx-auto notfound-content">
+        <p class="p-2 notfound-text my-4">
+            {{ 'not_found_text' | translate }}
+        </p>
+        <img class="w-100" src="assets/images/notfound.svg" alt="Not Found Image">
+        <button (click)="backToHome()" style="width: 200px;" class="btn btn-custom mt-5 text-uppercase"> {{ 'Back to home' | translate }}</button>
+    </div>
+</div>

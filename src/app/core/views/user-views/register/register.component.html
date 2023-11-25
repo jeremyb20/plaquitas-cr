@@ -1,0 +1,17 @@
+<div class="register">
+    <div class="auth-content">
+        <div class="card register-card">
+            <div class="card-header text-center">
+                <img src="assets/images/logo.png" alt="Plaquitas CR Logo Register" class="img-fluid" height="150px" width="150px">
+            </div>
+            <div class="card-body">
+                <app-register-form></app-register-form>
+
+                <div class="col-12 mt-4 d-flex justify-content-between">
+                    <a [routerLink]="['/forgotPassword']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br>
+                    <a [routerLink]="['/home']" class="text-sm ml-auto text-decoration-none text-dim">{{'Go to home' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

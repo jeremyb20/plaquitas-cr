@@ -1,0 +1,288 @@
+<p-table #dt
+    [value]="payloadData"
+    [columns]="columsData"
+    [scrollable]="true" 
+    scrollHeight="700px" 
+    dataKey="id"
+    editMode="row" 
+    [rowHover]="true" 
+    [rows]="5" 
+    [rowsPerPageOptions]="[5,10,25,50]"
+    [showCurrentPageReport]="true" 
+    [loading]="loading" 
+    [paginator]="true" 
+    [id]="'test'"
+    responsiveLayout="stack" 
+    [tableStyle]="{'min-width': '60rem', 'height': '550px'}"
+    currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}" 
+    [filterDelay]="0"
+    [globalFilterFields]="['id','petName', 'email', 'phone', 'userState']">
+
+    <ng-template pTemplate="caption">
+        <div class="row g-2 my-2">
+            <div class="col-sm-4 col-md-4 col-lg-2">
+                <input pInputText type="text" id="filterid" (input)="dt.filter($any($event.target).value, 'id', 'contains')" placeholder="{{'Filter By Id' | translate}}" class="p-column-filter w-100">
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-2">
+                <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target).value, 'petName', 'contains')" placeholder="{{'Filter By Name' | translate}}" class="p-column-filter w-100">
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-2">
+                <input pInputText type="text" id="filteremail" (input)="dt.filter($any($event.target).value, 'email', 'contains')" placeholder="{{'Filter By Email' | translate}}" class="p-column-filter w-100">
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-2">
+                <input pInputText type="text" id="filterphone"  (input)="dt.filter($any($event.target).value, 'phone', 'contains')" placeholder="{{'Filter By Phone' | translate}}" class="p-column-filter w-100">
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-2">
+                <p-dropdown 
+                    [options]="userTypeFilter" 
+                    (onChange)="dt.filter($event.value, 'userState', 'equals')" 
+                    [autoDisplayFirst]="false"
+                    [showClear]="true"
+                    styleClass="p-column-filter d-flex w-100"
+                    placeholder="{{'Filter By User Type' | translate}}">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'customer-badge status-' + option.value">{{option.label | translate}}</span>
+                    </ng-template>
+                    <ng-template let-selectedItem pTemplate="selectedItem">
+                        {{selectedItem.label | translate}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+            <div class="col-sm-12 col-md-4 col-lg-2 d-none d-lg-flex">
+                <p-button (onClick)="refresh()"  styleClass="p-button-secondary mx-1" icon="feather icon-refresh-cw" ngbTooltip="{{'Refresh' | translate }}" label=""></p-button>
+                <div *ngIf="payloadData">
+                    <p-button [disabled]="payloadData.length == 0" (onClick)="downloadModal()" styleClass="p-button-primary mx-1" icon="feather icon-download" ngbTooltip="{{ 'Download As' | translate }}" label=""></p-button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                <span *ngIf="col.showInPrimaryHeader"> {{ col.header | translate }} </span>
+            </th>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-payloadData let-expanded="expanded" let-editing="editing" let-ri="rowIndex">
+        <tr class="p-selectable-row" [pEditableRow]="payloadData" [ngClass]="{'bg-info': editing && themeSelected == 'theme-default-light', 'bg-dark': editing && themeSelected == 'theme-default-dark', }">
+            <td>
+                <button [disabled]="!payloadData.newPetProfile" type="button" pButton pRipple [pRowToggler]="payloadData" class="p-button-rounded" [ngClass]="{'p-button-text p-button-success': !payloadData.newPetProfile}" [icon]="expanded ? 'feather icon-chevron-down' : 'feather icon-chevron-right'"></button>
+            </td>
+            <td>
+                <span ngbTooltip="{{payloadData.id}}" class="d-inline-block text-truncate" style="max-width: 50px;">{{payloadData.id | translate}}</span>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="petName" [(ngModel)]="payloadData.petName">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{payloadData.petName | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="email" [(ngModel)]="payloadData.email">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{payloadData.email | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="phone" [(ngModel)]="payloadData.phone">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{payloadData.phone | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="age" [(ngModel)]="payloadData.age">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{payloadData.age | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="birthDate" [(ngModel)]="payloadData.birthDate">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{payloadData.birthDate | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="ownerPetName" [(ngModel)]="payloadData.ownerPetName">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span ngbTooltip="{{payloadData.ownerPetName}}"  class="d-inline-block text-truncate" style="max-width: 100px;">{{payloadData.ownerPetName | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td>
+                <span>
+                    <button (click)="checkQrCode(payloadData, payloadData.id, 0)" class="btn btn-outline-success btn-sm" > <i class="fas fa-qrcode"></i> </button>    
+                </span>
+            </td>
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="text" id="petStatus" [(ngModel)]="payloadData.petStatus">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{payloadData.petStatus | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+
+            <td>
+                <span>{{transformDate(payloadData.updatedAt)}}</span>
+            </td>
+
+            <td>
+                <span>{{transformDate(payloadData.createdAt)}}</span>
+            </td>
+
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-dropdown  
+                            styleClass="d-flex w-100" 
+                            [options]="userTypeFilter"
+                            optionLabel="label"
+                            [(ngModel)]="payloadData.userState"
+                            optionValue="value">
+                            <ng-template let-option pTemplate="item">
+                                <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                            </ng-template>
+                            <ng-template let-selectedItem pTemplate="selectedItem">
+                                {{selectedItem.label | translate}}
+                            </ng-template>
+                        </p-dropdown>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span *ngIf="payloadData.userState === 0" >{{ 'Administrator' | translate}}</span>
+                        <span *ngIf="payloadData.userState === 3" >{{ 'Customer' | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+
+            <td>
+                <div class="d-flex">
+                    <button *ngIf="!editing" type="button" pInitEditableRow  (click)="onRowEditInit(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-edit"></i> </button>
+                    <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-save"></i> </button>
+                    <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(payloadData, ri)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-x"></i> </button>
+                    <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteUser(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-trash-2"></i> </button>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-payload>
+        <tr>
+            <td colspan="10">
+                <div class="p-3">
+                    <p-table 
+                        responsiveLayout="stack" 
+                        dataKey="_id" 
+                        [tableStyle]="{'min-width': '90rem'}"
+                        [value]="payload.newPetProfile"
+                        [columns]="columsData">
+
+                        <ng-template pTemplate="header" let-columns>
+                            <tr>
+                                <th [ngClass]="{'d-none': !col.showInSecondaryHeader}" *ngFor="let col of columns">
+                                    <span> {{ col.header | translate }} </span>
+                                </th>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="body" let-payloadData>
+                            <tr class="p-selectable-row">
+                                <td>
+                                    <span>{{payloadData.idParental | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.petName | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.email | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.phone | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.age | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.birthDate | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.ownerPetName | translate}}</span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <button (click)="checkQrCode(payloadData, payloadData._id, payloadData.idParental)" class="btn btn-outline-success btn-sm" > <i class="fas fa-qrcode"></i> </button>    
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>{{payloadData.petStatus | translate}}</span>
+                                </td>
+                                <td>
+                                    <button pButton pRipple type="button" icon="feather icon-trash-2" (click)="deleteUser(payloadData)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="6">There are no order for this product yet.</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+        <tr>
+            <td style="padding: 200px; text-align: center;" colspan="12">
+                <span *ngIf="!showHardReloadBtn"> {{ 'No data found' | translate }} </span>
+                <span *ngIf="showHardReloadBtn"> {{'An error occurred in the process.' | translate}} <a class="btn btn-danger" (click)="hardRefresh()"> <i class="feather icon-refresh-cw"></i> {{ 'Refresh' | translate }}</a> </span>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<div class="modal fade" id="qrcodeModal" tabindex="-1" aria-labelledby="qrcodeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-search">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="qrcodeModalLabel">{{ 'QR Code' | translate}} de <span *ngIf="itemSelected">{{ itemSelected.petName }}</span></h5>
+                <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0 text-center">
+                <div class="p-4 bg-info my-3 rounded">
+                    <span style="cursor: pointer;" (click)="copy(AngularxQrCode)" >{{AngularxQrCode}}</span>
+                </div>
+                <qrcode [qrdata]="AngularxQrCode" [width]="256" [errorCorrectionLevel]="'H'"></qrcode>
+                <qrcode [qrdata]="AngularxQrCode" [width]="256" [errorCorrectionLevel]="'H'" size="500" level="H" canvas="true" #qrCode></qrcode>
+                <button class="btn btn-success" (click)="downloadImage(true)">{{'Download Image' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</div>

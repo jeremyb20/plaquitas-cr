@@ -1,0 +1,37 @@
+<div class="container-fluid">
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <p-card class="card" header="{{'Theme' | translate}}">
+                <p-dropdown  
+                    styleClass="d-flex w-100" 
+                    [options]="themeList"
+                    optionLabel="label"
+                    [(ngModel)]="themeSelected"
+                    (onChange)="onSetTheme($event)"
+                    optionValue="value">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                    </ng-template>
+                </p-dropdown>
+            </p-card>
+        </div>
+        <div class="col-12 col-md-6">
+            <p-card class="card" header="{{'Language' | translate}}">
+                <div class="m-auto text-center">
+                    <p-dropdown  
+                        styleClass="d-flex w-100" 
+                        [options]="languageItems"
+                        optionLabel="label"
+                        (onChange)="setLanguage($event)"
+                        [(ngModel)]="langSelected"
+                        optionValue="value">
+                        <ng-template let-option pTemplate="item">
+                            <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                        </ng-template>
+                    </p-dropdown>
+                </div>
+            </p-card>
+        </div>
+    </div>
+    
+</div>
