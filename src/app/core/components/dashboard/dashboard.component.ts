@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GetMethods, responseError, transformDate } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, responseError, transformDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
+import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
 import { MediaResponse, MediaService } from '@services/media.service';
 import { NotificationService } from '@services/notification.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -36,6 +38,7 @@ export class DashboardComponent implements OnInit {
         private _mediaService: MediaService, 
         private _router: Router, 
         private _clipboardService: ClipboardService,
+        private _translateService: TranslateService,
         private _formBuilder: FormBuilder) {
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
@@ -89,7 +92,7 @@ export class DashboardComponent implements OnInit {
             next: (result: ResponseData) => {
                 if (result.success) {
                     this.payloadData = result.payload;
-                    console.log(this.payloadData);
+                    //console.log(this.payloadData);
                 }
             },
             error: (err: any) => {
@@ -146,6 +149,47 @@ export class DashboardComponent implements OnInit {
         })
         this.registerModal.show()
     }
+
+    refreshUserData(event){
+        this.registerModal.hide()
+        this.getUserProfile();
+    }
+
+    deletePet(item: any) {
+        Swal.fire({
+            text: this.TranslateText('Are you sure?'),
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: this.TranslateText('No'),
+            confirmButtonText: this.TranslateText('Yes'),
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                item.idPrimary = this.userLogin.id;
+                const URL = `${environment.WebApiUrl + PostMethods.USER_DELETE_PET_BY_ID }`;
+
+                this._apiService.apiPostMethod(URL, item).subscribe({
+                    next: (result: ResponseData) => {
+                        if (result.success) {
+                            this.getUserProfile();
+                            this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                        }else{
+                            this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                        }
+                    },
+                    error: (err: ResponseData) => {
+                        console.log(err);
+                        this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+                    }
+                });
+
+            }
+        })
+    }
+
+    TranslateText(text: string) {
+        return this._translateService.instant(text);
+    } 
 
     cancel(){
         this.itemPetSelected = [];

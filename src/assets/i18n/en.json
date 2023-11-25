@@ -89,6 +89,7 @@
   "Owner Pet Name" : "Owner Pet Name",
   "The email already exists in the system": "The email already exists in the system",
   "Your pet has been created successfully.": "Your pet has been created successfully.",
+  "Your pet has been deleted successfully.": "Your pet has been deleted successfully.",
   "Pet Gender": "Pet Gender",
   "Register Pet": "Register Pet",
   "Veterinarian Name": "Veterinarian Name",
@@ -98,5 +99,6 @@
   "Address": "Address",
   "have" : "have",
   "years" : "years",
-  "My Pets": "My Pets"
+  "My Pets": "My Pets",
+  "Delete Pet": "Delete Pet"
 }

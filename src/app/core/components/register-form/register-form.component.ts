@@ -1,11 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MustMatch, PostMethods } from '@methods/methods';
+import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
 import { MediaResponse, MediaService } from '@services/media.service';
+import { NotificationService } from '@services/notification.service';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
@@ -24,6 +26,9 @@ export class RegisterFormComponent implements OnInit {
     @Input() isNewPetRegisterFromUserProfile: boolean;
     @Input() formValidation: any;
     @Input() formShowInputs: any;
+    @Input() registerType: number;
+    @Input() payloadData: any;
+    @Output() refreshUserData = new EventEmitter<any>();
 
     showPassword: boolean = false;
     showPassword2: boolean = false;
@@ -42,14 +47,16 @@ export class RegisterFormComponent implements OnInit {
     uploadedFiles: any[] = [];
     genderType: any = [];
     showInputCode: boolean = false;
-
+    userLogin: User;
 
     constructor(
         private formBuilder: FormBuilder,
         private _apiService: ApiService,
         private _translateService: TranslateService,
+        private _notificationService: NotificationService,
         private router: Router,
-        private route: ActivatedRoute, private _mediaService: MediaService) {
+        private route: ActivatedRoute, 
+        private _mediaService: MediaService) {
 
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
@@ -66,12 +73,15 @@ export class RegisterFormComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.userLogin = JSON.parse(localStorage.getItem('user')!);
         this.genderType = [
             { Id: 1, gender: 'Macho' },
             { Id: 2, gender: 'Hembra' }
         ];
 
         console.log(this.formValidation)
+        console.log(this.payloadData);
+
 
         this.registerForm = this.formBuilder.group({
             petName: ['', Validators.required],
@@ -139,8 +149,8 @@ export class RegisterFormComponent implements OnInit {
         }
         if (this.file != undefined) {
             this.loading = true;
-            const URL = `${environment.WebApiUrl + PostMethods.USER_REGISTER_NEW_PET }`;
-            const data: any = this.returnObjectData(this.showInputCode);
+            const URL = `${ environment.WebApiUrl + this.returnURLParameter(this.registerType) }`;
+            const data: any = this.returnObjectData(this.registerType);
 
             const fd = new FormData();
             fd.append('petName', data.petName);
@@ -152,27 +162,46 @@ export class RegisterFormComponent implements OnInit {
             fd.append('petStatus', data.petStatus);
             fd.append('genderSelected', data.genderSelected);
             fd.append('isActivated', data.isActivated);
+            fd.append('ownerPetName', data.ownerPetName);
+            fd.append('birthDate', data.birthDate);
+            fd.append('favoriteActivities', data.favoriteActivities);
+            fd.append('healthAndRequirements', data.healthAndRequirements);
+            fd.append('phoneVeterinarian', data.phoneVeterinarian);
+            fd.append('veterinarianContact', data.veterinarianContact);
+            fd.append('address', data.address);
+            fd.append('_id', data._id);
 
             this._apiService.apiPostMethod(URL, fd).subscribe({
-                next: (data: ResponseData) => {
-                    if (data.success) {
+                next: (result: ResponseData) => {
+                    if (result.success) {
                         this.loading = false;
-                        Swal.fire({
-                            position: 'center',
-                            icon: 'success',
-                            title: 'Registro de ' + this.f.petName.value + ' exitoso',
-                            html: this.TranslateText(data.msg),
-                            confirmButtonText: 'OK',
-                        })
+                        this.photoSelected = null;
+                        this.uploadedFiles = [];
+                        if(this.registerType == 1) {
+                            this.registerForm.reset();
+                            this.refreshUserData.emit(true);
+                            this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+
+                        }else{
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Se ha registrado ' + this.f.petName.value + ' exitosamente!',
+                                html: this.TranslateText(result.msg),
+                                confirmButtonText: 'OK',
+                            })
                             .then((result) => {
                                 if (result.value) {
-                                    this.router.navigate(['/login']);
+                                    if(this.registerType == 0 || this.registerType == 2){
+                                        this.router.navigate(['/login']);
+                                    }
                                 }
                             });
+                        }
                     } else {
                         this.hideMsg = true;
                         this.loading = false;
-                        this.ShowMsg = this.TranslateText(data.msg);
+                        this.ShowMsg = this.TranslateText(result.msg);
                         setTimeout(() => { this.hideMsg = false }, this.timeSeconds);
                     }
                 },
@@ -201,9 +230,18 @@ export class RegisterFormComponent implements OnInit {
         }
     }
 
-    returnObjectData(key: boolean) {
+    returnURLParameter(key: number) {
         switch (key) {
-            case true: return {
+            case 0 : return PostMethods.USER_REGISTER_NEW_PET;
+            case 1 : return PostMethods.USER_REGISTER_NEW_PET_FROM_USER_PROFILE;
+            case 2 : return PostMethods.USER_REGISTER_NEW_PET_FOR_QR_CODE;
+            default: return null;
+        }
+    }
+
+    returnObjectData(key: number) {
+        switch (key) {
+            case 0 : return {
                 petName: this.f.petName.value,
                 phone: this.f.phone.value,
                 email: this.f.email.value.toLowerCase(),
@@ -216,7 +254,26 @@ export class RegisterFormComponent implements OnInit {
                 photo: this.file
             }
 
-            case false: return {
+            case 1 : return {
+                genderSelected: this.f.genderSelected.value,
+                petName: this.f.petName.value,
+                phone: this.f.phone.value,
+                email: this.userLogin.email,
+                userState: 3,
+                petStatus: 'No-Perdido',
+                isActivated: false,
+                photo: this.file,
+                _id: this.payloadData._id,
+                ownerPetName: this.payloadData.ownerPetName,
+                address: this.payloadData.address,
+                birthDate: new Date(),
+                favoriteActivities: '',
+                healthAndRequirements: '',
+                phoneVeterinarian: '',
+                veterinarianContact: ''
+            }
+
+            case 2: return {
                 _id: this.getLinkIdParam,
                 idSecond: this.getLinkIdSecondaryParams,
                 codeGenerator: this.f.codeGenerator.value,

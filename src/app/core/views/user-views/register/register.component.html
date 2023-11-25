@@ -5,7 +5,9 @@
                 <img src="assets/images/logo.png" alt="Plaquitas CR Logo Register" class="img-fluid" height="150px" width="150px">
             </div>
             <div class="card-body">
-                <app-register-form></app-register-form>
+                <app-register-form
+                    [registerType]="0"
+                ></app-register-form>
 
                 <div class="col-12 mt-4 d-flex justify-content-between">
                     <a [routerLink]="['/forgotPassword']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br>

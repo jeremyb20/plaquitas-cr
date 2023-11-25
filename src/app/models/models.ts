@@ -22,6 +22,7 @@ export class Position {
 }
 
 export class ResponseData{
+    error?: any;
     success: boolean;
     msg: string;
     payload?: any;

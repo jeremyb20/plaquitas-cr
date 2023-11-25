@@ -30,7 +30,7 @@
                 <span class="fw-bold mt-3">{{payloadData.phone}}</span>
         
                 <hr class="mx-5">
-                <span class="fs-4 text-primary">{{payloadData.petName}} <button class="btn icon"><i class="feather icon-edit"></i></button></span>
+                <span class="fs-4 text-primary">{{payloadData.petName}} <button (click)="editProfile(payloadData, 0)" class="btn icon"><i class="feather icon-edit"></i></button></span>
                 <div class="actions p-4">
                     <div class="follow-btn">
                         <button (click)="openExternalProfile(payloadData._id, 0)" type="submit" class="btn btn-custom w-100 ">
@@ -63,7 +63,8 @@
                         <div class="dropdown-menu test" aria-labelledby="dropdownMenuButton">
                             <a (click)="copy(payloadData._id, item._id)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-external-link mt-1 mx-1 fs-5"></i> Copiar enlace</a>
                             <a (click)="editProfile(item, item._id)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-edit mt-1 mx-1"></i> {{'Edit Profile' | translate}}</a>
-                            <a  class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-lock mt-1 mx-1"></i> {{'Edit Permissions' | translate}}</a>
+                            <!-- <a class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-lock mt-1 mx-1"></i> {{'Edit Permissions' | translate}}</a> -->
+                            <a (click)="deletePet(item)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-trash mt-1 mx-1"></i> {{'Delete Pet' | translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -71,7 +72,7 @@
                 <span class="fw-bold mt-3">{{item.phone}}</span>
     
                 <hr class="mx-5">
-                <span class="fs-4 text-primary">{{item.petName}} <button class="btn icon"><i class="feather icon-edit"></i></button> </span>
+                <span class="fs-4 text-primary">{{item.petName}} <button (click)="editProfile(item, item._id)" class="btn icon"><i class="feather icon-edit"></i></button> </span>
     
                 <div class="actions p-4">
                     <div class="follow-btn">
@@ -124,7 +125,10 @@
                     [secondaryId]="0"
                     [isNewPetRegisterFromUserProfile]="true"
                     [formValidation]="formValidateInputs"
-                    [formShowInputs]="formShowInputs">
+                    [formShowInputs]="formShowInputs"
+                    [registerType]="1"
+                    [payloadData]="payloadData"
+                    (refreshUserData)="refreshUserData($event)">
                 </app-register-form>
             </div>
         </div>
