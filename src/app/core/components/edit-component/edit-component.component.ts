@@ -19,11 +19,16 @@ export class EditComponentComponent implements OnInit {
     @Input() primaryId: any;
     @Input() secondaryId: any;
     @Output() getProfileUpdated = new EventEmitter<any>();
+    genderType: any = [];
+
 
     constructor( private _apiService: ApiService, private _notificationService: NotificationService, private _formBuilder: FormBuilder) {}
 
     ngOnInit(): void {
-
+        this.genderType = [
+            { Id: '1', gender: 'Macho' },
+            { Id: '2', gender: 'Hembra' }
+        ];
     }
 
     get f() { return this.profileForm.controls; }
@@ -31,6 +36,7 @@ export class EditComponentComponent implements OnInit {
     onSubmit(){
         const data = {
             ownerPetName: this.f.ownerPetName.value,
+            genderSelected: this.f.genderSelected.value,
             petName: this.f.petName.value,
             phone: this.f.phone.value,
             birthDate: this.f.birthDate.value,

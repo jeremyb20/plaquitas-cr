@@ -37,8 +37,6 @@ export class RegisterFormComponent implements OnInit {
     registerForm: FormGroup;
 
     hideMsg: boolean = false;
-    getLinkIdParam: null;
-    getLinkIdSecondaryParams: null;
     isActivated: boolean;
     ShowMsg: string;
     timeSeconds: number = 6000;
@@ -46,7 +44,6 @@ export class RegisterFormComponent implements OnInit {
     photoSelected: any | ArrayBuffer;
     uploadedFiles: any[] = [];
     genderType: any = [];
-    showInputCode: boolean = false;
     userLogin: User;
 
     constructor(
@@ -61,15 +58,6 @@ export class RegisterFormComponent implements OnInit {
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
         });
-
-        if (this.getLinkIdParam == undefined) {
-            this.route.queryParams.subscribe(params => {
-                this.getLinkIdParam = params.id;
-                this.getLinkIdSecondaryParams = params.idSecond;
-                this.isActivated = Boolean(params.isActivated);
-                this.showInputCode = (this.getLinkIdParam == undefined) ? false : true;
-            });
-        }
     }
 
     ngOnInit() {
@@ -85,22 +73,16 @@ export class RegisterFormComponent implements OnInit {
 
         this.registerForm = this.formBuilder.group({
             petName: ['', Validators.required],
-            codeGenerator: ['', Validators.required],
             genderSelected: ['', Validators.required],
             phone: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/\d/)]),
             email: ['', [Validators.required, Validators.email]],
             password: new FormControl('', [Validators.required, Validators.minLength(6)]),
             confirmPassword: new FormControl('', [Validators.required, Validators.minLength(6)]),
+            codeGenerator: ['', Validators.required],
             acceptTerms: [false, Validators.requiredTrue]
         }, {
             validator: MustMatch('password', 'confirmPassword')
         });
-
-        if (!this.showInputCode) {
-            var inputName = this.registerForm.get('codeGenerator');
-            inputName?.setValidators(null);
-            inputName?.updateValueAndValidity();
-        }
 
 
         Object.keys(this.registerForm.controls).forEach(key => {
@@ -162,13 +144,14 @@ export class RegisterFormComponent implements OnInit {
             fd.append('petStatus', data.petStatus);
             fd.append('genderSelected', data.genderSelected);
             fd.append('isActivated', data.isActivated);
-            fd.append('ownerPetName', data.ownerPetName);
-            fd.append('birthDate', data.birthDate);
-            fd.append('favoriteActivities', data.favoriteActivities);
-            fd.append('healthAndRequirements', data.healthAndRequirements);
-            fd.append('phoneVeterinarian', data.phoneVeterinarian);
-            fd.append('veterinarianContact', data.veterinarianContact);
-            fd.append('address', data.address);
+            fd.append('ownerPetName', data.ownerPetName != undefined ? data.ownerPetName: '');
+            fd.append('birthDate', data.birthDate != undefined ? data.birthDate : new Date());
+            fd.append('favoriteActivities', data.favoriteActivities != undefined ? data.favoriteActivities : '');
+            fd.append('healthAndRequirements', data.healthAndRequirements != undefined ? data.healthAndRequirements : '');
+            fd.append('phoneVeterinarian', data.phoneVeterinarian != undefined? data.phoneVeterinarian : '');
+            fd.append('veterinarianContact', data.veterinarianContact != undefined ? data.veterinarianContact : '');
+            fd.append('address', data.address != undefined ? data.address : '');
+            fd.append('codeGenerator', data.codeGenerator);
             fd.append('_id', data._id);
 
             this._apiService.apiPostMethod(URL, fd).subscribe({
@@ -188,6 +171,7 @@ export class RegisterFormComponent implements OnInit {
                                 icon: 'success',
                                 title: 'Se ha registrado ' + this.f.petName.value + ' exitosamente!',
                                 html: this.TranslateText(result.msg),
+                                allowOutsideClick: false,
                                 confirmButtonText: 'OK',
                             })
                             .then((result) => {
@@ -241,6 +225,8 @@ export class RegisterFormComponent implements OnInit {
 
     returnObjectData(key: number) {
         switch (key) {
+
+            // registro normail
             case 0 : return {
                 petName: this.f.petName.value,
                 phone: this.f.phone.value,
@@ -250,9 +236,11 @@ export class RegisterFormComponent implements OnInit {
                 genderSelected: this.f.genderSelected.value,
                 userState: 3,
                 petStatus: 'No-Perdido',
-                isActivated: this.showInputCode,
+                isActivated: false,
                 photo: this.file
             }
+
+            //registro de nueva mascota en el perfil de usuario ya creado
 
             case 1 : return {
                 genderSelected: this.f.genderSelected.value,
@@ -273,9 +261,10 @@ export class RegisterFormComponent implements OnInit {
                 veterinarianContact: ''
             }
 
+            // desde un qr code
             case 2: return {
-                _id: this.getLinkIdParam,
-                idSecond: this.getLinkIdSecondaryParams,
+                _id: this.primaryId,
+                idSecond: this.secondaryId,
                 codeGenerator: this.f.codeGenerator.value,
                 petName: this.f.petName.value,
                 phone: this.f.phone.value,
@@ -283,9 +272,10 @@ export class RegisterFormComponent implements OnInit {
                 password: this.f.password.value,
                 acceptTerms: this.f.acceptTerms.value,
                 genderSelected: this.f.genderSelected.value,
+                birthDate: new Date(),
                 userState: 3,
                 petStatus: 'No-Perdido',
-                isActivated: this.showInputCode,
+                isActivated: false,
                 photo: this.file
             }
 

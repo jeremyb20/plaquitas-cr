@@ -1,2 +1,12 @@
 <router-outlet></router-outlet>
+<ng-http-loader 
+    [backdrop]="true" 
+    [backgroundColor]="this.themeList.spinerLoaderColor" 
+    [debounceDelay]="100" 
+    [extraDuration]="100"
+    [minDuration]="100" 
+    [opacity]="opacity" 
+    [backdropBackgroundColor]="this.themeList.spinerBgColor" 
+    [spinner]="this.themeList.spiner">
+</ng-http-loader>
 <p-scrollTop></p-scrollTop>

@@ -100,5 +100,6 @@
   "have" : "have",
   "years" : "years",
   "My Pets": "My Pets",
-  "Delete Pet": "Delete Pet"
+  "Delete Pet": "Delete Pet",
+  "Invalid code": "Invalid code"
 }

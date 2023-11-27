@@ -62,7 +62,6 @@ export class LoginComponent implements OnInit {
       next: (result: ResponseData) => {
         if (result.success) {
           this.loading = false;
-          console.log(result)
           this._apiService.storeUserData(result);
           switch (result.payload.userState) {
             case 0:

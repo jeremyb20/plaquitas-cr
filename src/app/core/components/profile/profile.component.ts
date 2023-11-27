@@ -71,7 +71,6 @@ export class ProfileComponent implements OnInit {
         const URL = `${environment.WebApiUrl + GetMethods.GET_USER_PROFILE_BY_ID + '?id=' + this.userLogin.id}`;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
-                console.log(result)
                 if(result.success){
                     this.payloadData = result.payload;
                 }

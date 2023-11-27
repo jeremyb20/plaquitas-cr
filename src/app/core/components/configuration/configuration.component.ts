@@ -40,14 +40,11 @@ export class ConfigurationComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userLogin = JSON.parse(localStorage.getItem('UserAccessCTS')!);
+    this.userLogin = JSON.parse(localStorage.getItem('user')!);
     this.idUser = localStorage.getItem('IdUser');
     this.themeSelected = this._themeService.getThemeSelected();
     this.langSelected = this._translationService.currentLang();
     this.languageItems = LanguageFilter
-    this.smartLoginForm = this._formBuilder.group({
-      isSmartLogin: ['', [Validators.required]]
-    });
   }
 
   setLanguage(item: any){

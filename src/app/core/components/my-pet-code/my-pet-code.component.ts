@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GetMethods, calcularEdadPerro, calcularEdadPerroDesdeHumano, calculateAge, responseError, transformDate, transformMediumDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
@@ -9,6 +9,7 @@ import { NotificationService } from '@services/notification.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-my-pet-code',
@@ -28,8 +29,11 @@ export class MyPetCodeComponent implements OnInit{
     constructor(private route: ActivatedRoute, 
         private _media: MediaService, 
         private _apiService: ApiService,
+        private router: Router,
         private _clipboardService: ClipboardService,
         private _notificationService: NotificationService){
+
+        //Para registro con codigo qr    
         this.route.params.subscribe(params => {
             this.primaryId = params.id;
             this.secondaryId = params.idSecond;
@@ -56,9 +60,38 @@ export class MyPetCodeComponent implements OnInit{
         this.AngularxQrCode = 'https://www.localpetsandfamily.com/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
-                console.log(result)
                 if(result.success){
-                    this.payloadData = result.payload.data;
+                    if(result.payload.isActivated){
+                        this.router.navigate(['/register-pets/'],{ queryParams: {id: this.primaryId, idSecond: this.secondaryId, isActivated: result.payload.isActivated}}); 
+                        return;
+                    }
+                    this.payloadData = result.payload;
+                }else{
+                    if(result.msg == 'User not found'){
+                        let timerInterval;
+                        Swal.fire({
+                            title: 'Error de enrutamiento!',
+                            html: 'Prece que el link no está disponible o ya caducó. Se enviará al inicio en <b>' + timerInterval + '</b> millisegundos.',
+                            timer: 7000,
+                            timerProgressBar: true,
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();
+                                const timer: any = Swal.getPopup()?.querySelector("b");
+                                timerInterval = setInterval(() => {
+                                    timer.textContent = `${Swal.getTimerLeft()}`;
+                                }, 100);
+                            },
+                            willClose: () => {
+                                clearInterval(timerInterval);
+                            }
+                        }).then((result) => {
+                            /* Read more about handling dismissals below */
+                            if (result.dismiss === Swal.DismissReason.timer) {
+                                this.router.navigate(['/login']);
+                            }
+                        });
+                    }
                 }
             },
             error: (err: any) => {

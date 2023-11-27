@@ -203,9 +203,9 @@ export class SideNavComponent implements OnInit, OnDestroy {
   validateTitle(route: any, isExternalRoute: boolean) {
     if(!isExternalRoute){
       const found = this.navigation.find(el =>  el.url == route ).title;
-      this._title.setTitle(`${ this.TranslateText(found)} | CTS `);
+      this._title.setTitle(`${ this.TranslateText(found)} | Plaquitas CR `);
     }else{
-      this._title.setTitle(`${ this.TranslateText(route)} | CTS `);
+      this._title.setTitle(`${ this.TranslateText(route)} | Plaquitas CR `);
     }
   }
   

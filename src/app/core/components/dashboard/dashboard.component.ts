@@ -53,6 +53,7 @@ export class DashboardComponent implements OnInit {
 
         this.profileForm =  this._formBuilder.group({
             ownerPetName: [''],
+            genderSelected: [''],
             petName: [''],
             phone: [''],
             birthDate: [''],
@@ -123,6 +124,7 @@ export class DashboardComponent implements OnInit {
         this.secondaryId = secondaryId;
 
         this.profileForm.get('ownerPetName')?.setValue(this.itemPetSelected.ownerPetName);
+        this.profileForm.get('genderSelected')?.setValue(this.itemPetSelected.genderSelected);
         this.profileForm.get('petName')?.setValue(this.itemPetSelected.petName);
         this.profileForm.get('phone')?.setValue(this.itemPetSelected.phone);
         this.profileForm.get('birthDate')?.setValue(this.itemPetSelected.birthDate != undefined ? new Date(this.itemPetSelected.birthDate): new Date());

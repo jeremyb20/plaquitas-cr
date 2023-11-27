@@ -100,5 +100,7 @@
   "have" : "tiene",
   "years" : "años",
   "My Pets": "Mis mascotas",
-  "Delete Pet": "Eliminar mascota"
+  "Delete Pet": "Eliminar mascota",
+  "Invalid code": "Código invalido favor revisar de nuevo"
+
 }

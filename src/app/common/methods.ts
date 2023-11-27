@@ -302,7 +302,7 @@ export enum PostMethods {
     ADMIN_POST_CREATE_NEW_QR_CODE = 'api/admin/createNewCode',
     USER_REGISTER_NEW_PET = 'api/user/registerNewPet',
     USER_REGISTER_NEW_PET_FROM_USER_PROFILE = 'api/user/registerNewPetfromUserProfile',
-    USER_REGISTER_NEW_PET_FOR_QR_CODE = 'api/user/registerNewPetfromQRCode',
+    USER_REGISTER_NEW_PET_FOR_QR_CODE = 'api/user/registerNewPetByQRcode',
     USER_DELETE_PET_BY_ID = 'api/user/deletePetById'
 }
 

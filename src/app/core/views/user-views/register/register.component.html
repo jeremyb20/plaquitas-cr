@@ -1,13 +1,19 @@
 <div class="register">
-    <div class="auth-content">
+    <div class="auth-content mx-3">
         <div class="card register-card">
             <div class="card-header text-center">
                 <img src="assets/images/logo.png" alt="Plaquitas CR Logo Register" class="img-fluid" height="150px" width="150px">
             </div>
             <div class="card-body">
+
                 <app-register-form
-                    [registerType]="0"
-                ></app-register-form>
+                    [primaryId]="primaryId"
+                    [secondaryId]="secondaryId"
+                    [isNewPetRegisterFromUserProfile]="false"
+                    [formValidation]="formValidateInputs"
+                    [formShowInputs]="formShowInputs"
+                    [registerType]="registerType">
+                </app-register-form>
 
                 <div class="col-12 mt-4 d-flex justify-content-between">
                     <a [routerLink]="['/forgotPassword']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br>

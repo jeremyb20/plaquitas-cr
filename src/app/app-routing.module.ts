@@ -50,6 +50,7 @@ const routes: Routes = [
       { path: 'user-registered', component: UserListComponent, canActivate: [AdminGuard] },
       { path: 'code-generator', component: CodeGeneratorComponent, canActivate: [AdminGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] },
+      { path: 'myPetCode', component: MyPetCodeComponent},
     ]
   },
   { path: '404', component: NotFoundComponent },

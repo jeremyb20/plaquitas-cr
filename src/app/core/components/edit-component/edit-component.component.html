@@ -7,6 +7,22 @@
                 <div *ngIf="f.ownerPetName.errors.required">{{'Owner Pet Name' | translate}} {{'is required' | translate}}</div>
             </div>
         </div>
+
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.genderSelected.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Pet Gender' | translate }}</span>
+        
+            <p-dropdown styleClass="d-flex w-100" 
+                [options]="genderType" 
+                [autoDisplayFirst]="false"
+                optionLabel="gender" formControlName="genderSelected"
+                [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.genderSelected.errors }" optionValue="Id">
+            </p-dropdown>        
+    
+            <div *ngIf="submitted && f.genderSelected.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.genderSelected.errors.required">{{'Pet Gender'}} {{'is required' | translate}}</small>
+            </div>
+        </div>
+
         <div class="forms-inputs mt-4">
             <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.petName.errors }">{{ 'Pet Name' | translate }}</span>
             <input type="text" formControlName="petName"  [ngClass]="{ 'is-invalid': submitted && f.petName.errors }" class="form-control">

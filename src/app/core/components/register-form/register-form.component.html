@@ -77,7 +77,7 @@
         </div>
     </div>
 
-    <div *ngIf="showInputCode" class="forms-inputs mb-4">
+    <div *ngIf="formShowInputs.showCodeGenerator" class="forms-inputs mb-4">
         <label htmlFor="codeGenerator" [ngClass]="{ 'text-danger': submitted && f.codeGenerator.errors }"><i
                 class="feather icon-edit-2"></i> Ingrese el codigo de registro</label>
         <input pInputText class="w-100" id="codeGenerator" aria-describedby="codeGenerator-help" pInputText
