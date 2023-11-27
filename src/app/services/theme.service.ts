@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { NavigationEnd, Router } from '@angular/router';
+import { BehaviorSubject, filter } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,17 @@ export class ThemeService {
   private _actualTheme = new BehaviorSubject<any>(null);
   _ActualTheme = this._actualTheme.asObservable();
 
-  constructor(@Inject(DOCUMENT) private document: Document) {
+  constructor(@Inject(DOCUMENT) private document: Document, public _router: Router) {
     this.bodyClass = this.availableClasses[this.currentClassIdx];
+
+    _router.events.pipe(
+        filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+        if (event.url == '/login') {
+            let metaTheme =  this.document.getElementById('meta-color') as HTMLMetaElement;
+            metaTheme.content = '#ff9ea9';
+        }
+    });
   }
 
   setTheme(theme:any){
@@ -56,9 +66,9 @@ export class ThemeService {
   getMetaColor(theme: string){
     switch (theme) {
       case 'theme-default-light': 
-      case 'theme-ctsadmin': return '#1D4A49';
-      case 'theme-default-dark': return '#0a0e1d';
-      default: return '#1D4A49'
+      case 'theme-ctsadmin': return '#236877';
+      case 'theme-default-dark': return '#060811';
+      default: return '#236877'
     }
   }
 
