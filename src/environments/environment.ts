@@ -5,13 +5,8 @@
 export const environment = {
   production: false,
   environmentName: 'dev',
-  //ws: 'https://www.localpetsandfamily.com'
-  //ws: 'https://localpetsandfamily.onrender.com'
-   //ws: 'https://pets-qr-production.up.railway.app'
-  //ws: 'https://pets-qr.vercel.app'
-  //ws: 'https://petsqrbackend.fly.dev'
-  ws: 'http://localhost:8080/',
-  WebApiUrl: 'http://localhost:8080/',
+  ws: 'https://petsqrbackend.fly.dev/',
+  WebApiUrl: 'https://petsqrbackend.fly.dev/',
   uploadFilesApi: '',
   previousDisplay: ''
 
