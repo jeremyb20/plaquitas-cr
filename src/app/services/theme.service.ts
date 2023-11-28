@@ -1,8 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { BehaviorSubject, filter } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs';
+import { ApiService } from './api.service';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,17 +16,8 @@ export class ThemeService {
   private _actualTheme = new BehaviorSubject<any>(null);
   _ActualTheme = this._actualTheme.asObservable();
 
-  constructor(@Inject(DOCUMENT) private document: Document, public _router: Router) {
+  constructor(@Inject(DOCUMENT) private document: Document, private _apiService: ApiService) {
     this.bodyClass = this.availableClasses[this.currentClassIdx];
-
-    _router.events.pipe(
-        filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: any) => {
-        if (event.url == '/login') {
-            let metaTheme =  this.document.getElementById('meta-color') as HTMLMetaElement;
-            metaTheme.content = '#ff9ea9';
-        }
-    });
   }
 
   setTheme(theme:any){
@@ -45,8 +35,10 @@ export class ThemeService {
       let themeLink =  this.document.getElementById('app-theme') as HTMLLinkElement;
       themeLink.href = this.getPrimeNgTheme(theme);
 
+      const currentRoute = this._apiService.getRouterLink();
+
        let metaTheme =  this.document.getElementById('meta-color') as HTMLMetaElement;
-      metaTheme.content = this.getMetaColor(theme);
+      metaTheme.content = currentRoute == '/login' ? '#ff9eaa' : this.getMetaColor(theme);
 
       this.bodyClass = nextClass;
       localStorage.setItem( 'theme' ,this.bodyClass);

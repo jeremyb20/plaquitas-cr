@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GetMethods, calcularEdadPerro, calcularEdadPerroDesdeHumano, calculateAge, responseError, transformDate, transformMediumDate } from '@methods/methods';
 import { User } from '@models/auth-model';
@@ -26,7 +27,8 @@ export class MyPetCodeComponent implements OnInit{
     humanAge: number = 0;
     AngularxQrCode: string = '';
 
-    constructor(private route: ActivatedRoute, 
+    constructor(@Inject(DOCUMENT) private document: Document,
+        private route: ActivatedRoute, 
         private _media: MediaService, 
         private _apiService: ApiService,
         private router: Router,
@@ -65,7 +67,40 @@ export class MyPetCodeComponent implements OnInit{
                         this.router.navigate(['/register-pets/'],{ queryParams: {id: this.primaryId, idSecond: this.secondaryId, isActivated: result.payload.isActivated}}); 
                         return;
                     }
+
                     this.payloadData = result.payload;
+
+                    let ogImageMetaTag = this.document.querySelector('meta[property="og:image"]') as HTMLMetaElement | null;
+                    if (ogImageMetaTag) {
+                    // Cambia el contenido de la etiqueta og:image
+                    const nuevaURLImagen = this.payloadData.photo;
+                    ogImageMetaTag.content = nuevaURLImagen;
+                    } else {
+                        // Si no se encuentra la etiqueta, puedes crearla y agregarla al head
+                        const nuevaMetaTag = document.createElement('meta');
+                        nuevaMetaTag.setAttribute('property', 'og:image');
+                        nuevaMetaTag.content = this.payloadData.photo;
+                    
+                        // Obtén el head del documento y añade la nueva etiqueta meta
+                        const head = document.head || document.getElementsByTagName('head')[0];
+                        head.appendChild(nuevaMetaTag);
+                    }
+
+                    let ogDescriptionMetaTag = this.document.querySelector('meta[property="og:description"]') as HTMLMetaElement | null;
+                    if (ogDescriptionMetaTag) {
+                        // Cambia el contenido de la etiqueta og:image
+                        ogDescriptionMetaTag.content = '¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi cédula canina, visita el link que esta abajo. 👇';
+                        } else {
+                            // Si no se encuentra la etiqueta, puedes crearla y agregarla al head
+                            const nuevaMetaTag = document.createElement('meta');
+                            nuevaMetaTag.setAttribute('property', 'og:image');
+                            nuevaMetaTag.content = '¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi cédula canina, visita el link que esta abajo. 👇';
+                        
+                            // Obtén el head del documento y añade la nueva etiqueta meta
+                            const head = document.head || document.getElementsByTagName('head')[0];
+                            head.appendChild(nuevaMetaTag);
+                        }
+                    console.log(this.payloadData)
                 }else{
                     if(result.msg == 'User not found'){
                         let timerInterval;

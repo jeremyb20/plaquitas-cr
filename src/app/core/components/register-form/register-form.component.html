@@ -25,7 +25,7 @@
 
     <div *ngIf="formShowInputs.showPhone" class="forms-inputs mb-4">
         <span class="span-login" [ngClass]="{'text-danger': submitted && f.phone.errors }">
-            <i  class="feather icon-phone"></i> Ingrese un número telefónico {{ ( f.petName.value == '') ? ' ' : 'para ' + f.petName.value }}
+            <i  class="feather icon-phone"></i> Número telefónico {{ ( f.petName.value == '') ? ' ' : 'para ' + f.petName.value }}
         </span>
         <p-inputMask styleClass="w-100" mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
         <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
@@ -149,4 +149,4 @@
             </div>
         </div>
     </div>
-  </div>
+</div>

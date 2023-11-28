@@ -322,7 +322,7 @@ export enum GetMethods {
     GET_USER_PROFILE = 'api/pet/getAllProfileList/',
     GET_USER_PROFILE_BY_ID = 'api/user/getUserProfileById',
     GET_MY_PET_CODE_BY_ID = 'api/user/getMyPetCode',
-    ADMIN_GET_ALL_LOCATION_PETS = 'api/pet/getLocationAllPets',
+    ADMIN_GET_ALL_LOCATION_PETS = 'api/admin/getLocationAllPets',
     ADMIN_GET_ALL_REGISTERED_USERS = 'api/admin/getAllUsers',
     ADMIN_GET_CODES = 'api/admin/getNewCodes'
 }

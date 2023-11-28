@@ -109,7 +109,6 @@ export class SideNavComponent implements OnInit, OnDestroy {
     }
 
     this._counterService._CounterActualRoute.subscribe(data => {
-      console.log(data);
       if(data != null){
         this.actualRouter = data;
       }else{

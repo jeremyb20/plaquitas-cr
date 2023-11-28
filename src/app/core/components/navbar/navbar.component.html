@@ -116,7 +116,7 @@
                 <ul class="dropdown-menu dropdown-menu-bg p-0" aria-labelledby="dropdownMenuButton1">
                     <ng-container *ngIf="userLogin">
                         <li>
-                            <a class="dropdown-item p-3" (click)="logout()" href="#"> <img class="rounded-circle" width="30" height="30" src="assets/images/userProfile.jpg" alt="Profile Icon"> <span class="p-2 d-inline-block">{{userLogin.petName}} <i class="feather icon-log-out nav_icon ms-1 me-1"></i></span></a>
+                            <a class="dropdown-item p-3" (click)="logout()" href="#"> <img class="rounded-circle" style="object-fit: cover;" width="30" height="30" src="{{this.userLogin.photo}}" alt="Profile Icon"> <span class="p-2 d-inline-block">{{userLogin.petName}} <i class="feather icon-log-out nav_icon ms-1 me-1"></i></span></a>
                         </li>
                     </ng-container>
                 </ul>

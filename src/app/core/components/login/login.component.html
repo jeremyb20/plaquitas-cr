@@ -2,8 +2,7 @@
     <div class="auth-content text-center">
         <div class="card card-custom mx-3">
             <div class="card-header">
-                <img src="assets/images/logo.png" alt="Image Logo Plaquitas CR" class="img-fluid" height="150px"
-                    width="150px">
+                <img src="assets/images/plaquitascr.png" alt="Plaquitas CR Logo Principal Plaquitas Costa Rica Plaquitas cr" title="Plaquitas CR" class="img-fluid" height="150px" width="150px">
             </div>
             <div class="card-body">
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
@@ -47,7 +46,7 @@
                 <div class="col-12 mt-4 d-flex justify-content-between">
                     <!-- <a [routerLink]="['/forgot-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br> -->
                     <!-- <a [routerLink]="['/home']" class="text-sm ml-auto text-decoration-none text-dim">{{'Go to home' | translate}}</a> <br> -->
-                    <a [routerLink]="['/register-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a>
+                    <a style="cursor: pointer;" (click)="goToRegisterPets()" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a>
                 </div>
                 <!-- <hr class="mx-5"> -->
                 <!-- <a [routerLink]="['/register-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a> -->

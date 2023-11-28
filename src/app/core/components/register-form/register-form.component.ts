@@ -237,6 +237,12 @@ export class RegisterFormComponent implements OnInit {
                 userState: 3,
                 petStatus: 'No-Perdido',
                 isActivated: false,
+                address: '',
+                birthDate: new Date(),
+                favoriteActivities: '',
+                healthAndRequirements: '',
+                phoneVeterinarian: '',
+                veterinarianContact: '',
                 photo: this.file
             }
 
