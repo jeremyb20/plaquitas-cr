@@ -7,12 +7,10 @@
             <div class="card-body">
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                     <div class="forms-inputs mt-4">
-                        <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.email.errors }">{{ 'Email' |
-                            translate }}</span>
-                        <input type="email" formControlName="email"
-                            [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control">
+                        <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.email.errors }">{{ 'Email' | translate }}</span>
+                        <input type="email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control">
                         <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
-                            <div *ngIf="f.email.errors.required">{{'User is required' | translate}}</div>
+                            <div *ngIf="f.email.errors.required">{{'Email is required' | translate}}</div>
                         </div>
                     </div>
                     <div class="forms-inputs mt-4">
@@ -44,7 +42,7 @@
                 </div>
 
                 <div class="col-12 mt-4 d-flex justify-content-between">
-                    <!-- <a [routerLink]="['/forgot-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br> -->
+                    <a [routerLink]="['/forgot']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br>
                     <!-- <a [routerLink]="['/home']" class="text-sm ml-auto text-decoration-none text-dim">{{'Go to home' | translate}}</a> <br> -->
                     <a style="cursor: pointer;" (click)="goToRegisterPets()" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a>
                 </div>

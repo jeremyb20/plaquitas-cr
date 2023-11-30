@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ApiService } from '@services/api.service';
@@ -8,6 +8,7 @@ import { MediaResponse, MediaService } from '@services/media.service';
 import { Subscription } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { ResponseData } from '@models/models';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
     selector: 'app-login',
@@ -27,6 +28,7 @@ export class LoginComponent implements OnInit {
 
 
     constructor(
+        @Inject(DOCUMENT) private document: Document,
         private _apiService: ApiService,
         private _formBuilder: FormBuilder,
         private _router: Router,
@@ -35,6 +37,9 @@ export class LoginComponent implements OnInit {
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
         });
+
+        let metaTheme =  this.document.getElementById('meta-color') as HTMLMetaElement;
+        metaTheme.content = '#ff9eaa';
     }
 
     ngOnInit() {

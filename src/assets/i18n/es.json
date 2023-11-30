@@ -2,6 +2,8 @@
   "Showing {first} to {last} of {totalRecords} entries": "Mostrando {first} al {last} de {totalRecords} registros",
   "Show password": "Mostrar Contraseña",
   "Hide password": "Ocultar Contraseña",
+  "Email not found": "El correo ingresado no existe, favor revise de nuevo",
+  "Wrong password": "Contraseña equivocada",
   "Password is required": "Contraseña es requerida",
   "is required": "es requerido",
   "Email": "Correo",
@@ -101,6 +103,11 @@
   "years" : "años",
   "My Pets": "Mis mascotas",
   "Delete Pet": "Eliminar mascota",
-  "Invalid code": "Código invalido favor revisar de nuevo"
+  "Invalid code": "Código invalido favor revisar de nuevo",
+  "To reset your password, please enter your email address and follow the instructions we will send to your inbox." : "Para restablecer tu contraseña, por favor ingresa tu dirección de correo electrónico y sigue las instrucciones que te enviaremos a tu bandeja de entrada.",
+  "Send token": "Enviar token",
+  "Password change successfully": "Cambio de contraseña exitoso",
+  "Your password has been successfully updated.": "Su contraseña ha sido actualizada satisfactoriamente.",
+  "Update Password": "Actualizar Contraseña"
 
 }

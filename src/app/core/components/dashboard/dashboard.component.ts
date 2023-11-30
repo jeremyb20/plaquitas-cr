@@ -147,7 +147,8 @@ export class DashboardComponent implements OnInit {
     
     registerNewPet(){
         this.registerModal = new bootstrap.Modal(document.getElementById('registerModal'), {
-            keyboard: false
+            keyboard: false,
+            backdrop: 'static'
         })
         this.registerModal.show()
     }

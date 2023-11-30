@@ -67,10 +67,6 @@ export class RegisterFormComponent implements OnInit {
             { Id: 2, gender: 'Hembra' }
         ];
 
-        console.log(this.formValidation)
-        console.log(this.payloadData);
-
-
         this.registerForm = this.formBuilder.group({
             petName: ['', Validators.required],
             genderSelected: ['', Validators.required],

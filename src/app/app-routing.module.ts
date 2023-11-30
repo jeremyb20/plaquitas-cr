@@ -21,6 +21,8 @@ import { CodeGeneratorComponent } from '@views/admin-views/code-generator/code-g
 import { ProfileComponent } from '@components/profile/profile.component';
 import { RegisterComponent } from '@views/user-views/register/register.component';
 import { MyPetCodeComponent } from '@components/my-pet-code/my-pet-code.component';
+import { ForgotComponent } from '@views/user-views/forgot/forgot.component';
+import { ResetPasswordComponent } from '@views/user-views/reset-password/reset-password.component';
 
 
 
@@ -36,6 +38,8 @@ const routes: Routes = [
       { path: 'register-pets', component: RegisterComponent },
       { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
       { path: 'myPetCode', component: MyPetCodeComponent},
+      { path: 'forgot', component: ForgotComponent },
+      { path: 'reset-password/:token', component: ResetPasswordComponent }
     ]
   },
   {

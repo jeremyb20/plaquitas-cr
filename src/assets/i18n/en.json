@@ -2,6 +2,8 @@
   "Showing {first} to {last} of {totalRecords} entries": "Showing {first} to {last} of {totalRecords} entries",
   "Show password": "Show password",
   "Hide password": "Hide password",
+  "Email not found": "Email not found",
+  "Wrong password": "Wrong password",
   "Password is required": "Password is required",
   "is required": "is required",
   "Email": "Email",
@@ -101,5 +103,10 @@
   "years" : "years",
   "My Pets": "My Pets",
   "Delete Pet": "Delete Pet",
-  "Invalid code": "Invalid code"
+  "Invalid code": "Invalid code",
+  "To reset your password, please enter your email address and follow the instructions we will send to your inbox.": "To reset your password, please enter your email address and follow the instructions we will send to your inbox.",
+  "Send token": "Send token",
+  "Password change successfully": "Password change successfully",
+  "Your password has been successfully updated.": "Your password has been successfully updated.",
+  "Update Password": "Update Password"
 }

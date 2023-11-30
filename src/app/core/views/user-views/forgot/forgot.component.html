@@ -1,0 +1,37 @@
+<div class="login">
+    <div class="auth-content text-center">
+        <div class="card card-custom mx-3">
+            <div class="card-header">
+                <img src="assets/images/plaquitascr.png" alt="Plaquitas CR Logo Principal Plaquitas Costa Rica Plaquitas cr" title="Plaquitas CR" class="img-fluid" height="150px" width="150px">
+            </div>
+            <div class="card-body">
+                <p>{{'To reset your password, please enter your email address and follow the instructions we will send to your inbox.' | translate}}</p>
+
+                <form [formGroup]="forgotPassword" (ngSubmit)="onSubmit()">
+                    <div class="forms-inputs my-4">
+                        <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.email.errors }">{{ 'Email' | translate }}</span>
+                        <input type="email" formControlName="email"  [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control">
+                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                            <div *ngIf="f.email.errors.required">{{'Email is required' | translate}}</div>
+                        </div>
+                    </div>
+                </form>
+
+                <button [disabled]="loading" type="submit" (click)="onSubmit();" class="btn btn-custom w-100 ">
+                    <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div> {{'Send token' | translate}}
+                </button>
+
+                <div *ngIf="messageResult != ''" class="alert alert-danger mt-3" role="alert">
+                    {{messageResult | translate }}
+                </div>
+
+                <div class="col-12 mt-4 d-flex justify-content-between">
+                    <a [routerLink]="['/login']" class="text-sm ml-auto text-decoration-none text-dim">{{'Sign in' | translate}}</a> <br>
+                    <a style="cursor: pointer;" (click)="goToRegisterPets()" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

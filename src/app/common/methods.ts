@@ -297,7 +297,9 @@ export function calcularEdadPerroDesdeHumano(edadHumana: number): number {
   
 
 export enum PostMethods {
-    POST_LOGIN_USER = 'api/pet/authenticate',
+    POST_LOGIN_USER = 'api/user/authenticate',
+    POST_FORGOT_PASSWORD = 'api/user/forgot',
+    POST_RESET_PASSWORD = 'api/user/reset-password',
     POST_UPDATE_LANGUAGE_BY_USER = '',
     ADMIN_POST_CREATE_NEW_QR_CODE = 'api/admin/createNewCode',
     USER_REGISTER_NEW_PET = 'api/user/registerNewPet',
@@ -324,5 +326,5 @@ export enum GetMethods {
     GET_MY_PET_CODE_BY_ID = 'api/user/getMyPetCode',
     ADMIN_GET_ALL_LOCATION_PETS = 'api/admin/getLocationAllPets',
     ADMIN_GET_ALL_REGISTERED_USERS = 'api/admin/getAllUsers',
-    ADMIN_GET_CODES = 'api/admin/getNewCodes'
+    ADMIN_GET_CODES = 'api/admin/getNewCodes',
 }

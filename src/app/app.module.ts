@@ -92,6 +92,8 @@ import { TermsAndConditionsComponent } from './core/components/terms-and-conditi
 import { MyPetCodeComponent } from './core/components/my-pet-code/my-pet-code.component';
 import { ExportAsComponent } from '@components/export-as/export-as.component';
 import { EditComponentComponent } from './core/components/edit-component/edit-component.component';
+import { ForgotComponent } from './core/views/user-views/forgot/forgot.component';
+import { ResetPasswordComponent } from './core/views/user-views/reset-password/reset-password.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -129,7 +131,9 @@ export function tokenGetter() {
     TermsAndConditionsComponent,
     MyPetCodeComponent,
     ExportAsComponent,
-    EditComponentComponent
+    EditComponentComponent,
+    ForgotComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
