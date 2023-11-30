@@ -33,7 +33,7 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'login', component: LoginComponent },
-      { path: 'home', component: HomeComponent },
+    //   { path: 'home', component: HomeComponent },
       { path: 'register-pets/:id/:idSecond/:isActivated', component: RegisterComponent },
       { path: 'register-pets', component: RegisterComponent },
       { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
