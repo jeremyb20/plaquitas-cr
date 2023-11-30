@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -12,6 +12,8 @@ import { User } from '@models/auth-model';
 import { CookieService } from 'ngx-cookie-service';
 import { TranslationService } from '@services/translate.service';
 import { Filters } from '@models/models';
+import { ThemeService } from '@services/theme.service';
+import { DOCUMENT } from '@angular/common';
 
 declare const bootstrap: any;
 
@@ -44,12 +46,18 @@ export class NavbarComponent {
   messageResult: string = "";
   langFilter: Filters[]
   langItemSelected: any;
+  themeSelected: any = '';
 
   get f() { return this.smartLoginForm.controls; }
 
 
-  constructor(private _media: MediaService, private _apiService: ApiService, private _formBuilder: FormBuilder, private _cookieService: CookieService,
-    private router: Router, private _notificationService: NotificationService, private _translationService: TranslationService) {
+  constructor(
+    @Inject(DOCUMENT) private document: Document,
+    private _media: MediaService, 
+    private _apiService: ApiService, 
+    private _formBuilder: FormBuilder,
+    private _themeService: ThemeService,
+    private _notificationService: NotificationService, private _translationService: TranslationService) {
     this.mediaSubscription = this._media.subscribeMedia().subscribe(media => {
       this.Media = media;
     });
@@ -59,10 +67,14 @@ export class NavbarComponent {
 
   ngOnInit(): void {
     this.userLogin = JSON.parse(localStorage.getItem('user')!);
+    this.themeSelected = this._themeService.getThemeSelected();
     if(this.userLogin){
       this.getModalInit();
       this.getMenuItemByUser();
     }
+
+    let metaTheme = this.document.getElementById('meta-color') as HTMLMetaElement;
+    metaTheme.content =  this._themeService.getMetaColor(this.themeSelected);
     
   }
 
