@@ -9,12 +9,14 @@ import { Subscription } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { ResponseData } from '@models/models';
 import { DOCUMENT } from '@angular/common';
+import packageJson from '../../../../../package.json';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html'
 })
 export class LoginComponent implements OnInit {
+    public version: string = packageJson.version;
     private mediaSubscription: Subscription;
     Media: MediaResponse;
     showPassword: boolean;

@@ -5,6 +5,7 @@
                 <img src="assets/images/plaquitascr.png" alt="Plaquitas CR Logo Principal Plaquitas Costa Rica Plaquitas cr" title="Plaquitas CR" class="img-fluid" height="150px" width="150px">
             </div>
             <div class="card-body">
+                <small style="font-size: 10px; font-style: italic;" class="ms-2 text-sm text-decoration-none text-dim text-center text-italic">version: {{version}}</small>
                 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                     <div class="forms-inputs mt-4">
                         <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.email.errors }">{{ 'Email' | translate }}</span>
@@ -46,8 +47,6 @@
                     <!-- <a [routerLink]="['/home']" class="text-sm ml-auto text-decoration-none text-dim">{{'Go to home' | translate}}</a> <br> -->
                     <a style="cursor: pointer;" (click)="goToRegisterPets()" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a>
                 </div>
-                <!-- <hr class="mx-5"> -->
-                <!-- <a [routerLink]="['/register-pets']" class="text-sm ml-auto text-decoration-none text-dim">{{'Register Pet' | translate}}</a> -->
             </div>
         </div>
     </div>
