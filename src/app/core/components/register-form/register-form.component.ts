@@ -179,6 +179,7 @@ export class RegisterFormComponent implements OnInit {
                             });
                         }
                     } else {
+                        console.log(result)
                         this.hideMsg = true;
                         this.loading = false;
                         this.ShowMsg = this.TranslateText(result.msg);
