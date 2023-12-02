@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColumHeader, StatusFilter } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, UpdateMethods, generateCodeRandom, getStatusType, responseError, transformDate } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateCodeRandom, getStatusType, responseError, transformDate } from '@methods/methods';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
@@ -175,8 +175,8 @@ export class CodeGeneratorComponent implements OnInit {
     }
 
     onRowEditSave(product: any) {
-        const URL = `${environment.WebApiUrl + UpdateMethods.ADMIN_UPDATE_QR_STATUS }`;
-        this._apiService.apiUpdateMethod(URL, product).subscribe({
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_QR_STATUS }`;
+        this._apiService.apiPutMethod(URL, product).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
                     delete this.clonedProfile[product.id as string];

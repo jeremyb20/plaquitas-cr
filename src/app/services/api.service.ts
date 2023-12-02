@@ -22,7 +22,7 @@ export class ApiService {
     return this._http.get<ResponseData>(URL);
   }
 
-  apiUpdateMethod(URL: string, body: any): Observable<ResponseData> {
+  apiPutMethod(URL: string, body: any): Observable<ResponseData> {
     return this._http.put<ResponseData>(URL, body);
   }
 

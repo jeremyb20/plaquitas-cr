@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { UpdateMethods } from '@methods/methods';
+import { PutMethods } from '@methods/methods';
 import { ResponseData } from '@models/models';
 import { ApiService } from '@services/api.service';
 import { NotificationService } from '@services/notification.service';
@@ -48,8 +48,8 @@ export class EditComponentComponent implements OnInit {
             _id: this.primaryId,
             idSecond: this.secondaryId
         }
-        const URL = `${environment.WebApiUrl + UpdateMethods.USER_UPDATE_SECONDARY_PROFILE }`;
-        this._apiService.apiUpdateMethod(URL, data).subscribe({
+        const URL = `${environment.WebApiUrl + PutMethods.USER_UPDATE_SECONDARY_PROFILE }`;
+        this._apiService.apiPutMethod(URL, data).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
                     this.getProfileUpdated.emit(data);

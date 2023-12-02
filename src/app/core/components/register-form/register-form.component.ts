@@ -40,6 +40,7 @@ export class RegisterFormComponent implements OnInit {
     isActivated: boolean;
     ShowMsg: string;
     timeSeconds: number = 6000;
+    maxSizeInBytes = 6 * 1024 * 1024; // 5MB
     file: File;
     photoSelected: any | ArrayBuffer;
     uploadedFiles: any[] = [];
@@ -103,7 +104,6 @@ export class RegisterFormComponent implements OnInit {
                 this.file = <File>event.files[0];
                 if (this.file.type == String('image/png') || this.file.type == String('image/jpg') || this.file.type == String('image/jpeg')) {
                     const reader = new FileReader();
-
                     reader.onload = e => this.photoSelected = reader.result;
                     reader.readAsDataURL(this.file);
                 } else {

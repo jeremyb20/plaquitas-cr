@@ -10,7 +10,7 @@
         <div class="col-12 col-md-4" [ngClass]="{'d-flex justify-content-center': !Media.IsMobile}">
             <div class="card-profile dashboard mb-4 text-center">
                 <div class="banner">
-                    <img class="rounded-circle" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
+                    <img (click)="OpenProfilePhoto(payloadData, false, payloadData._id, 0)" class="rounded-circle" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
                 </div>
                 <div class="menu">
                     <div class="dropdown">
@@ -24,6 +24,7 @@
                             <a (click)="copy(payloadData._id, 0)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-external-link mt-1 mx-1 fs-5"></i> Copiar enlace</a>
                             <a (click)="editProfile(payloadData, 0)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-edit mt-1 mx-1"></i> {{'Edit Profile' | translate}}</a>
                             <a  class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-lock mt-1 mx-1"></i> {{'Edit Permissions' | translate}}</a>
+                            <a (click)="OpenProfilePhoto(payloadData, true, payloadData._id, 0)" style="cursor: pointer;" class="dropdown-item p-2"><i class="feather icon-edit mt-1 mx-1"></i> {{'Change profile photo' | translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +50,7 @@
         <div class="col-12 col-md-4" [ngClass]="{'d-flex justify-content-center': !Media.IsMobile}" *ngFor="let item of payloadData.newPetProfile let i = index">
             <div class="card-profile dashboard mb-4 text-center">
                 <div class="banner">
-                    <img class="rounded-circle" style="object-fit: cover;" src="{{item.photo}}" alt="{{item.photo}}">
+                    <img (click)="OpenProfilePhoto(item, false, payloadData._id, item._id)" class="rounded-circle" style="object-fit: cover;" src="{{item.photo}}" alt="{{item.photo}}">
                 </div>
 
                 <div class="menu">
@@ -65,6 +66,7 @@
                             <a (click)="editProfile(item, item._id)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-edit mt-1 mx-1"></i> {{'Edit Profile' | translate}}</a>
                             <!-- <a class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-lock mt-1 mx-1"></i> {{'Edit Permissions' | translate}}</a> -->
                             <a (click)="deletePet(item)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-trash mt-1 mx-1"></i> {{'Delete Pet' | translate}}</a>
+                            <a (click)="OpenProfilePhoto(item, true, payloadData._id, item._id)" style="cursor: pointer;" class="dropdown-item p-2"><i class="feather icon-edit mt-1 mx-1"></i> {{'Change profile photo' | translate}}</a>
                         </div>
                     </div>
                 </div>
@@ -134,6 +136,44 @@
                     [payloadData]="payloadData"
                     (refreshUserData)="refreshUserData($event)">
                 </app-register-form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="openPhotoProfileModal" tabindex="-1" aria-labelledby="openPhotoProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-top modal-search modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2 justify-content-end">
+                <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div *ngIf="payloadData" class="modal-body">
+                <ng-container *ngIf="isEditProfilePhoto; else elseTemplate">
+                    <p-fileUpload name="myfile[]" [maxFileSize]="maxSizeInBytes" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
+                        [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"  invalidFileSizeMessageDetail="El archivo excede el tamaño máximo permitido de 6MB"
+                        [chooseStyleClass]="'p-1'"  allowTypes="*.jpg;*.png;*.jpeg;" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
+
+                        <ng-template pTemplate="toolbar">
+                            <div *ngIf="!Media.IsMobile" class="py-3">Arrastra y suelta la imagen a esta zona <i class="feather icon-arrow-down"></i> </div>
+                        </ng-template>
+                        <ng-template pTemplate="content">
+                            <ng-template pTemplate="content">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                                </ul>
+                            </ng-template>
+                        </ng-template>
+                    </p-fileUpload>
+                    <div class="w-100 text-center pt-3">
+                        <button class="btn btn-outline-success" (click)="saveProfilePhoto()">
+                            <i class="feather icon-save"> </i> <span class="ps-3">{{'Edit Profile' | translate }}</span>
+                        </button>    
+                    </div>
+
+                </ng-container>
+                <ng-template #elseTemplate>
+                    <img *ngIf="itemPetSelected" class="w-100" src="{{itemPetSelected.photo}}" alt="Photo Profile" srcset="">
+                </ng-template>
             </div>
         </div>
     </div>

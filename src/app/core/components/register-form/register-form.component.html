@@ -92,9 +92,9 @@
             <i class="feather icon-image"></i> Seleccione una foto de {{ ( f.petName.value == '') ? 'tu mascota' : f.petName.value }}
         </label>
 
-        <p-fileUpload name="myfile[]" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
-            [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"
-            [chooseStyleClass]="'p-1'" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
+        <p-fileUpload name="myfile[]" [maxFileSize]="maxSizeInBytes" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
+            [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"  invalidFileSizeMessageDetail="El archivo excede el tamaño máximo permitido de 6MB"
+            [chooseStyleClass]="'p-1'"  allowTypes="*.jpg;*.png;*.jpeg;" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
 
             <ng-template pTemplate="toolbar">
                 <div *ngIf="!Media.IsMobile" class="py-3">Arrastra y suelta la imagen a esta zona <i class="feather icon-arrow-down"></i> </div>

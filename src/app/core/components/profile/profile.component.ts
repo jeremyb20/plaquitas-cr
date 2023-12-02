@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { GetMethods, UpdateMethods, calcularEdadPerro, calcularEdadPerroDesdeHumano, calculateAge, responseError, transformDate } from '@methods/methods';
+import { GetMethods, PutMethods, calcularEdadPerro, calcularEdadPerroDesdeHumano, calculateAge, responseError, transformDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { ApiService } from '@services/api.service';
@@ -109,8 +109,8 @@ export class ProfileComponent implements OnInit {
             address: this.f.address.value,
             _id: this.userLogin.id
         }
-        const URL = `${environment.WebApiUrl + UpdateMethods.USER_UPDATE_PROFILE }`;
-        this._apiService.apiUpdateMethod(URL, data).subscribe({
+        const URL = `${environment.WebApiUrl + PutMethods.USER_UPDATE_PROFILE }`;
+        this._apiService.apiPutMethod(URL, data).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
                     this.isProfileEdition = false;

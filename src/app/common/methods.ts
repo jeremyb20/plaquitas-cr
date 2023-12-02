@@ -313,11 +313,12 @@ export enum DeleteMethods {
 
 }
 
-export enum UpdateMethods {
+export enum PutMethods {
     ADMIN_UPDATE_USER_PROFILE = 'api/admin/editUser',
     ADMIN_UPDATE_QR_STATUS = 'api/admin/updateStateActivationCode',
     USER_UPDATE_PROFILE = 'api/user/editProfileInfo',
     USER_UPDATE_SECONDARY_PROFILE = 'api/user/editProfileSecondaryInfo',
+    USER_UPDATE_PHOTO_PROFILE = 'api/user/editPhotoProfile'
 }
 
 export enum GetMethods {

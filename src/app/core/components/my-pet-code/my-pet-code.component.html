@@ -3,20 +3,23 @@
         <div class="col-12 col-md-12 col-lg-6 mb-5 d-flex justify-content-center ">
             <div class="img-custom p-3 card-custom card-identity">
                 <div class="row">
-                    <div class="col-1 col-md-1 col-lg-1">
+                    <div class="col-1 col-md-1 col-lg-1" [ngClass]="{'mb-3': Media.IsMobile}">
                         <img height="20px" width="25px" src="assets/images/flag-costa-rica.png" alt="CostaricaFlag" srcset="">
                     </div>
-                    <div class="col-8 col-md-5 col-lg-7 text-end d-grid">
-                        <span style="font-family: 'Times New Roman', Times, serif;">REPÚBLICA DE COSTA RICA</span>
-                        <small class="fw-bold">Tribunal Supremo Canino</small>
-                        <small class="fw-bold" [ngClass]="{'pb-5': !Media.IsMobile, 'pb-2': Media.IsMobile}">Cédula de identidad</small>
+                    <div class="col-7 col-md-5 col-lg-7 text-end">
+                        <div class="d-grid">
+                            <span style="font-family: 'Times New Roman', Times, serif;" [ngStyle]="{'font-size': Media.IsMobile ? '14px' : ''}">REPÚBLICA DE COSTA RICA</span>
+                            <small class="fw-bold" [ngStyle]="{'font-size': Media.IsMobile ? '12px' : ''}">Tribunal Supremo Canino</small>
+                            <small class="fw-bold" [ngStyle]="{'font-size': Media.IsMobile ? '12px' : ''}" [ngClass]="{'pb-5': !Media.IsMobile, 'pb-2': Media.IsMobile}">Cédula de identidad</small>
+                        </div>
 
-                        <span class="mt-2 fs-6 fw-bold">{{payloadData._id}}</span>
+                        <span *ngIf="Media.IsMobile" class="mt-2 fs-6 fw-bold d-inline-block text-truncate" style="max-width: 150px;">{{payloadData._id}}</span>
+                        <span *ngIf="!Media.IsMobile" class="mt-2 fs-6 fw-bold">{{payloadData._id}}</span>
                         <div class="text-end">
                             <img height="200" width="200" style="opacity: 0.4;" src="assets/images/paw-cedula-identidad.png" alt="" srcset="">
                         </div>
                     </div>
-                    <div class="col-3 col-md-6 col-lg-4 text-end">
+                    <div class="col-4 col-md-6 col-lg-4 text-end" style="padding: 0px 4px 0px 0px;">
                         <div class="banner">
                             <img class="rounded-custom image-profile" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
                         </div>
@@ -50,75 +53,75 @@
         </div>
         <div class="col-12 col-md-12 col-lg-6 mb-5 d-flex justify-content-center">
             <div class="img-custom p-3 card-custom card-identity">
-                <div class="row">
+                <div class="row d-flex align-items-center">
                     <div class="col-12 text-end d-grid">
                         <div class="row g-2 d-flex align-items-center">
-                            <div class="col-4 text-end">
+                            <div class="col-5 col-md-4 col-lg-4 text-end">
                                 <small>Número de cédula:</small><br>
                             </div>
-                            <div class="col-8 text-start">
+                            <div class="col-7 col-md-8 col-lg-8 text-start">
                                 <span class="fw-bold d-inline-block text-truncate" style="max-width: 200px;">{{payloadData._id}}</span><br>
                             </div>
 
                             <ng-container *ngIf="payloadData.birthDate != ''">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Fecha de Nacimiento:</small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{transformDate(payloadData.birthDate) }}</span><br>
                                 </div>
                             </ng-container>
                             
                             <ng-container *ngIf="payloadData.ownerPetName != ''">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Nombre del padre o madre:</small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{ payloadData.ownerPetName }}</span><br>
                                 </div>
                             </ng-container>
 
                             <ng-container *ngIf="payloadData.veterinarianContact && payloadData.phoneVeterinarian">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Contacto de Veterinaria:</small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{ payloadData.veterinarianContact }} al ( {{payloadData.phoneVeterinarian}} )</span><br>
                                 </div>
                             </ng-container>
 
                             <ng-container *ngIf="payloadData.favoriteActivities != ''">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Actividades Favoritas: </small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{ payloadData.favoriteActivities }}</span><br>
                                 </div>
                             </ng-container>
 
                             <ng-container *ngIf="payloadData.favoriteActivities != ''">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Salud y requerimientos: </small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{ payloadData.healthAndRequirements }}</span><br>
                                 </div>
                             </ng-container>
 
                             <ng-container *ngIf="payloadData.address != ''">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Direccion:</small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{ payloadData.address }}</span><br>
                                 </div>
                             </ng-container>
 
                             <ng-container *ngIf="payloadData.genderSelected != ''">
-                                <div class="col-4 text-end">
+                                <div class="col-5 col-md-4 col-lg-4 text-end">
                                     <small>Sexo:</small><br>
                                 </div>
-                                <div class="col-8 text-start">
+                                <div class="col-7 col-md-8 col-lg-8 text-start">
                                     <span class="fw-bold">{{ (payloadData.genderSelected == '2')? 'H': 'M' }}</span><br>
                                 </div>
                             </ng-container>

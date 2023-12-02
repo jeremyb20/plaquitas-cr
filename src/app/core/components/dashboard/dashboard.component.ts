@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { DeleteMethods, GetMethods, PostMethods, responseError, transformDate } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, responseError, transformDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,9 +29,19 @@ export class DashboardComponent implements OnInit {
     registerModal: any;
     itemPetSelected: any;
     profileForm: FormGroup;
+    primaryId: number = 0;
     secondaryId: number = 0;
     formValidateInputs: any;
     formShowInputs: any;
+    openPhotoProfileModal: any;
+    itemPhotoSelected: any;
+    isEditProfilePhoto: boolean = false;
+    isPrincipalProfile: boolean = false;
+
+    maxSizeInBytes = 6 * 1024 * 1024; // 6MB
+    file: File;
+    photoSelected: any | ArrayBuffer;
+    uploadedFiles: any[] = [];
 
     constructor(private _apiService: ApiService, 
         private _notificationService: NotificationService,
@@ -144,7 +154,83 @@ export class DashboardComponent implements OnInit {
         this.editProfileModal.hide()
         this.getUserProfile();
     }
+
+    OpenProfilePhoto(item: any, isEditProfilePhoto: boolean, primaryId: any, secondaryId:any){
+        this.isEditProfilePhoto = isEditProfilePhoto;
+        this.primaryId = primaryId;
+        this.secondaryId = secondaryId;
+        this.itemPetSelected = item;
+        this.openPhotoProfileModal = new bootstrap.Modal(document.getElementById('openPhotoProfileModal'), {
+            keyboard: false,
+        });
+        this.openPhotoProfileModal.show();
+    }
+
+
+    processFile(event: any): void {
+        for (let file of event.currentFiles) {
+            this.uploadedFiles = file;
+            if (this.uploadedFiles) {
+                this.file = <File>event.files[0];
+                if (this.file.type == String('image/png') || this.file.type == String('image/jpg') || this.file.type == String('image/jpeg')) {
+                    const reader = new FileReader();
+                    reader.onload = e => this.photoSelected = reader.result;
+                    reader.readAsDataURL(this.file);
+                } else {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Solo se permite formatos JPG, PNG, JPEG',
+                        confirmButtonText: 'OK',
+                    })
+                }
+            }
+        }
+    }
     
+    saveProfilePhoto(){
+        if(this.file != undefined){
+            const URL = `${environment.WebApiUrl + PutMethods.USER_UPDATE_PHOTO_PROFILE}`;
+
+            const fd = new FormData();
+            const data: any = {
+                photo: this.file,
+                idPrincipal: this.primaryId,
+                idSecondary: this.secondaryId,
+                idPhoto: this.itemPetSelected.photo_id
+            }
+            fd.append('image', data.photo);
+            fd.append('idPrincipal', data.idPrincipal);
+            fd.append('idSecondary', data.idSecondary);
+            fd.append('idPhoto', data.idPhoto);
+    
+    
+            this._apiService.apiPutMethod(URL, fd).subscribe({
+                next: (result: ResponseData) => {
+                    if (result.success) {
+                        this.getUserProfile();
+                        this.openPhotoProfileModal.hide();
+                        this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                    }else{
+                        this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                    }
+                },
+                error: (err: any) => {
+                    console.log(err);
+                }
+            });
+        }else{
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Favor de ingresar una imagen',
+                confirmButtonText: 'OK',
+            })
+        }
+    }
+
     registerNewPet(){
         this.registerModal = new bootstrap.Modal(document.getElementById('registerModal'), {
             keyboard: false,

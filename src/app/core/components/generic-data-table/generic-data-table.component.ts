@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ColumHeader, UserTypeList } from '@methods/constants';
-import { DeleteMethods, DeleteUserById, PostMethods, UpdateMethods, getStatusType, transformDate } from '@methods/methods';
+import { DeleteMethods, DeleteUserById, PostMethods, PutMethods, getStatusType, transformDate } from '@methods/methods';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
@@ -100,8 +100,8 @@ export class GenericDataTableComponent {
     }
 
     onRowEditSave(product: any) {
-        const URL = `${environment.WebApiUrl + UpdateMethods.ADMIN_UPDATE_USER_PROFILE }`;
-        this._apiService.apiUpdateMethod(URL, product).subscribe({
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_USER_PROFILE }`;
+        this._apiService.apiPutMethod(URL, product).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
                     delete this.clonedProfile[product.id as string];
