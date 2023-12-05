@@ -1,0 +1,69 @@
+<zxing-scanner [ngClass]="{'d-none': !hasPermission || payloadData , 'd-block' : hasPermission }" [torch]="torchEnabled"
+    [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled" [tryHarder]="tryHarder"
+    (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)"
+    (torchCompatible)="onTorchCompatible($event)">
+</zxing-scanner>
+
+<ng-container *ngIf="hasPermission === undefined">
+    <div class="container text-center">
+        <p class="notfound-title">{{'Waiting for permissions.' | translate}}</p>
+        <i class="feather icon-camera" style="font-size: 10rem"> </i>
+        <blockquote>
+            {{'If your device does not has cameras, no permissions will be asked.' | translate}}
+        </blockquote>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="hasPermission === false">
+    <div class="container text-center">
+        <img [ngClass]="{'w-100': Media.IsMobile}" src="assets/images/accessdenied.png">
+        <p class="notfound-title">{{'You denied the camera permission' | translate}}😪</p>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="hasDevices === undefined">
+
+    <h2>Couldn't check for devices.</h2>
+
+    <blockquote>
+        This may be caused by some security error.
+    </blockquote>
+
+</ng-container>
+
+<ng-container *ngIf="hasDevices === false">
+
+    <h2>No devices were found.</h2>
+
+    <blockquote>
+        I believe your device has no media devices attached to.
+    </blockquote>
+
+</ng-container>
+
+<div class="modal fade" id="petProfileScanner" tabindex="-1" aria-labelledby="petProfileScannerLabel" aria-hidden="true"
+    data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-search">
+        <div class="modal-content" *ngIf="payloadData">
+            <div class="modal-header px-3 py-2 justify-content-end">
+                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0 text-center">
+                 <div *ngIf="qrResultString" class="p-4 bg-info my-3 rounded text-truncate">
+                    <span style="cursor: pointer;" (click)="copy(qrResultString)" ><i class="feather icon-copy"></i> {{qrResultString}}</span>
+                </div>
+
+                <div class="p-4 text-center">
+                    <img class="rounded-circle" height="200" width="200" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
+                </div>
+                
+                <span class="fs-4 text-primary">{{payloadData.petName}}</span>
+
+                <button (click)="openExternalProfile(primaryId, secondaryId)" type="submit" class="btn btn-custom w-100 mt-4">
+                    <div class="me-3 text-dark" role="status">
+                    </div> {{'View public profile' | translate}} <i class="feather icon-external-link"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

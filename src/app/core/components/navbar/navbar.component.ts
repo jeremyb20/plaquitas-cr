@@ -56,6 +56,7 @@ export class NavbarComponent {
     private _media: MediaService, 
     private _apiService: ApiService, 
     private _formBuilder: FormBuilder,
+    private _router: Router,
     private _themeService: ThemeService,
     private _notificationService: NotificationService, private _translationService: TranslationService) {
     this.mediaSubscription = this._media.subscribeMedia().subscribe(media => {
@@ -111,7 +112,7 @@ export class NavbarComponent {
   }
 
   scanQRCode(){
-    
+    this._router.navigate(['/scanner']);
   }
 
   GeneralSearch() {

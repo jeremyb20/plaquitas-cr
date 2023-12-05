@@ -26,6 +26,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import { ClipboardModule } from 'ngx-clipboard';
 import { NgChartsModule } from 'ng2-charts';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 /**
   PRIME MODULES
 */ 
@@ -94,6 +95,7 @@ import { ExportAsComponent } from '@components/export-as/export-as.component';
 import { EditComponentComponent } from './core/components/edit-component/edit-component.component';
 import { ForgotComponent } from './core/views/user-views/forgot/forgot.component';
 import { ResetPasswordComponent } from './core/views/user-views/reset-password/reset-password.component';
+import { ScannerComponent } from './core/views/user-views/scanner/scanner.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -133,7 +135,8 @@ export function tokenGetter() {
     ExportAsComponent,
     EditComponentComponent,
     ForgotComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    ScannerComponent
   ],
   imports: [
     BrowserModule,
@@ -168,6 +171,7 @@ export function tokenGetter() {
     ClipboardModule,
     NgChartsModule,
     ScrollTopModule,
+    ZXingScannerModule,
     NgxEditorModule.forRoot({
       locals: {
         // menu

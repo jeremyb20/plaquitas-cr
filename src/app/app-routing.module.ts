@@ -23,6 +23,7 @@ import { RegisterComponent } from '@views/user-views/register/register.component
 import { MyPetCodeComponent } from '@components/my-pet-code/my-pet-code.component';
 import { ForgotComponent } from '@views/user-views/forgot/forgot.component';
 import { ResetPasswordComponent } from '@views/user-views/reset-password/reset-password.component';
+import { ScannerComponent } from '@views/user-views/scanner/scanner.component';
 
 
 
@@ -55,6 +56,7 @@ const routes: Routes = [
       { path: 'code-generator', component: CodeGeneratorComponent, canActivate: [AdminGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] },
       { path: 'myPetCode', component: MyPetCodeComponent},
+      { path: 'scanner', component: ScannerComponent},
     ]
   },
   { path: '404', component: NotFoundComponent },

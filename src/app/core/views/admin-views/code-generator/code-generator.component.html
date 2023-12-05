@@ -44,13 +44,13 @@
         <ng-template pTemplate="caption">
             <div class="row g-2 my-2">
                 <div class="col-sm-4 col-md-4 col-lg">
-                    <input pInputText type="text" id="filterid" (input)="dt.filter($any($event.target).value, 'id', 'contains')" placeholder="{{'Filter By Id' | translate}}" class="p-column-filter w-100">
+                    <input pInputText type="text" id="filterid" (input)="dt.filter($any($event.target) .value, 'id', 'contains')" placeholder="{{'Filter By Id' | translate}}" class="p-column-filter w-100">
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg">
-                    <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target).value, 'randomCode', 'contains')" placeholder="{{'Filter By Code' | translate}}" class="p-column-filter w-100">
+                    <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target) .value, 'randomCode', 'contains')" placeholder="{{'Filter By Code' | translate}}" class="p-column-filter w-100">
                 </div>
                 <div class="col-sm-4 col-md-4 col-lg">
-                    <input pInputText type="text" id="filteremail" (input)="dt.filter($any($event.target).value, 'email', 'contains')" placeholder="{{'Filter By Link' | translate}}" class="p-column-filter w-100">
+                    <input pInputText type="text" id="filteremail" (input)="dt.filter($any($event.target) .value, 'email', 'contains')" placeholder="{{'Filter By Link' | translate}}" class="p-column-filter w-100">
                 </div>
 
                 <div class="col-sm-4 col-md-4 col-lg">

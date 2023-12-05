@@ -109,6 +109,9 @@
   "Password change successfully": "Cambio de contraseña exitoso",
   "Your password has been successfully updated.": "Su contraseña ha sido actualizada satisfactoriamente.",
   "Update Password": "Actualizar Contraseña",
-  "Change profile photo": "Cambiar foto de perfil"
-
+  "Change profile photo": "Cambiar foto de perfil",
+  "Waiting for permissions.": "Esperando permisos.", 
+  "If your device does not has cameras, no permissions will be asked.": "Si su dispositivo no tiene cámaras, no se le pedirán permisos.",
+  "You denied the camera permission": "Le negaste el permiso a la cámara, no podemos escanear nada sin él.",
+  "User Not Found": "Usuario no encontrado"
 }
