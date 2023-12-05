@@ -96,6 +96,8 @@ import { EditComponentComponent } from './core/components/edit-component/edit-co
 import { ForgotComponent } from './core/views/user-views/forgot/forgot.component';
 import { ResetPasswordComponent } from './core/views/user-views/reset-password/reset-password.component';
 import { ScannerComponent } from './core/views/user-views/scanner/scanner.component';
+import { DigitalIdentificationComponent } from './core/components/digital-identification/digital-identification.component';
+import { PublicProfileComponent } from './core/components/public-profile/public-profile.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -136,7 +138,9 @@ export function tokenGetter() {
     EditComponentComponent,
     ForgotComponent,
     ResetPasswordComponent,
-    ScannerComponent
+    ScannerComponent,
+    DigitalIdentificationComponent,
+    PublicProfileComponent
   ],
   imports: [
     BrowserModule,

@@ -11,9 +11,9 @@
     [showCurrentPageReport]="true" 
     [loading]="loading" 
     [paginator]="true" 
-    [id]="'test'"
+    [id]="'userList'"
     responsiveLayout="stack" 
-    [tableStyle]="{'min-width': '60rem', 'height': '550px'}"
+    [tableStyle]="{'min-width': '130rem', 'height': '550px'}"
     currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}" 
     [filterDelay]="0"
     [globalFilterFields]="['id','petName', 'email', 'phone', 'userState']">
@@ -119,7 +119,7 @@
                         <input pInputText type="text" id="birthDate" [(ngModel)]="payloadData.birthDate">
                     </ng-template>
                     <ng-template pTemplate="output">
-                        <span>{{payloadData.birthDate | translate}}</span>
+                        <span>{{payloadData.birthDate | date}}</span>
                     </ng-template>
                 </p-cellEditor>
             </td>
@@ -177,6 +177,17 @@
                     <ng-template pTemplate="output">
                         <span *ngIf="payloadData.userState === 0" >{{ 'Administrator' | translate}}</span>
                         <span *ngIf="payloadData.userState === 3" >{{ 'Customer' | translate}}</span>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+
+            <td>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <p-inputSwitch [(ngModel)]="payloadData.isDigitalIdentificationActive"></p-inputSwitch>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <span>{{(payloadData.isDigitalIdentificationActive) ? 'Active' : 'Inactive' | translate}}</span>
                     </ng-template>
                 </p-cellEditor>
             </td>

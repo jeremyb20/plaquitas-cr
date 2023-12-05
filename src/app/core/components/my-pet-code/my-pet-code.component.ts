@@ -100,7 +100,6 @@ export class MyPetCodeComponent implements OnInit{
                             const head = document.head || document.getElementsByTagName('head')[0];
                             head.appendChild(nuevaMetaTag);
                         }
-                    console.log(this.payloadData)
                 }else{
                     if(result.msg == 'User not found'){
                         let timerInterval;

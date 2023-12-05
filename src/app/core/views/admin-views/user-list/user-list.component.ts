@@ -22,7 +22,7 @@ export class UserListComponent implements OnInit {
         this.columsData = [
             { field: 'moreOptions', header: '+', title: '+', showInPrimaryHeader: true, showInSecondaryHeader: false},
             { field: 'id', header: 'Id', title: 'Id', showInPrimaryHeader: true, showInSecondaryHeader: true},
-            { field: 'nameCan', header: 'Pet Name', title: 'Pet Name', showInPrimaryHeader: true, showInSecondaryHeader: true},
+            { field: 'petName', header: 'Pet Name', title: 'Pet Name', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'email', header: 'Email', title: 'Email', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'phone', header: 'Phone', title: 'Phone', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'age', header: 'Age', title: 'Age', showInPrimaryHeader: true, showInSecondaryHeader: true},
@@ -33,6 +33,7 @@ export class UserListComponent implements OnInit {
             { field: 'dateUpdated', header: 'Date Updated', title: 'Date Updated', showInPrimaryHeader: true, showInSecondaryHeader: false},
             { field: 'dateCreated', header: 'Date Created', title: 'Date Created', showInPrimaryHeader: true, showInSecondaryHeader: false},
             { field: 'userType', header: 'User Type', title: 'User Type', showInPrimaryHeader: true, showInSecondaryHeader: false},
+            { field: 'isDigitalIdentificationActive', header: 'Digital Identification', title: 'Digital Identification', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'action', header: 'Action', title: 'Action', showInPrimaryHeader: true, showInSecondaryHeader: true},
         ]
 

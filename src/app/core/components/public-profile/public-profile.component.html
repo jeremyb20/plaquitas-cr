@@ -1,0 +1,105 @@
+<div *ngIf="payloadData" class="container-fluid pt-4">
+    <div class="row">
+        <div class="col-12 col-md-7 col-lg-7 col-xl-5 d-flex justify-content-center">
+            <div class="card-profile mb-4 text-center" [ngClass]="{'w-100': Media.IsMobile}">
+                <div class="banner">
+                    <img class="rounded-circle" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
+                </div>
+                <div class="menu">
+                    <div class="dropdown">
+                        <div class="opener" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                            aria-expanded="false">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div class="dropdown-menu test" aria-labelledby="dropdownMenuButton">
+                            <a (click)="copy()" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-external-link mt-1 mx-1 fs-5"></i> Copiar enlace</a>
+                        </div>
+                    </div>
+                </div>
+                <span class="fs-4 text-primary">{{payloadData.petName}}</span>
+
+                <span class="fw-bold">{{payloadData.phone}}</span>
+
+                <hr class="mx-5">
+
+                <!-- <span class="fs-6">{{'Email' | translate}}</span>
+
+                <span>{{payloadData.email}}</span>
+
+                <div class="actions p-4">
+                    <div class="follow-btn">
+                        <button *ngIf="showEditBtnEvent" type="submit" class="btn btn-custom w-100 ">
+                            <div class="me-3 text-dark" role="status">
+                            </div> {{'View public profile' | translate}}
+                        </button>
+                    </div>
+                </div>
+                <div class="desc p-4">
+                    <div class="text-sm text-decoration-none text-dim text-center">
+                        {{'Last Modification' | translate}} : {{transformDate(payloadData.updatedAt)}}
+                    </div>
+                </div>  -->
+            </div>
+        </div>
+        <div class="col-12 col-md-5 col-lg-5 col-xl-6 mb-5">
+           <p-card styleClass="card-custom">
+            
+                <div class="row">
+                    <div class="p-2">
+                        <div *ngIf="payloadData.ownerPetName && payloadData.ownerPetName != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold"> {{ 'Owner Pet Name' | translate }} </h5>
+                            <span>{{payloadData.ownerPetName}}</span>
+                        </div>
+                        
+                        <div *ngIf="payloadData.petName && payloadData.petName != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Pet Name' | translate }} </h5> 
+                            <span>{{payloadData.petName}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.phone && payloadData.phone != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{'Phone Number' | translate}} </h5> 
+                            <span>{{payloadData.phone}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.birthDate && payloadData.birthDate != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Birthdate' | translate }} </h5> 
+                            <span>{{payloadData.birthDate | date }}  | {{ payloadData.petName }} {{'have' | translate}} {{calculateAge(payloadData.birthDate)}} {{'years' | translate }} humanos y en años canino aproximadamente: {{calcularEdadPerroDesdeHumano()}} </span>
+                        </div>
+
+                        <div *ngIf="payloadData.veterinarianContact && payloadData.veterinarianContact != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Veterinarian Name' | translate }} </h5> 
+                            <span>{{payloadData.veterinarianContact}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.phoneVeterinarian && payloadData.phoneVeterinarian != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{'Phone Veterinarian' | translate}} </h5> 
+                            <span>{{payloadData.phoneVeterinarian}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.favoriteActivities && payloadData.favoriteActivities != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Favorite Activities' | translate }} </h5> 
+                            <span>{{payloadData.favoriteActivities}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.healthAndRequirements && payloadData.healthAndRequirements != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Health and Requirements' | translate }} </h5>
+                            <span>{{payloadData.healthAndRequirements}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.address && payloadData.address != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Address' | translate }} </h5> 
+                            <span>{{payloadData.address}}</span>
+                        </div>
+
+
+                        <div class="w-100 text-center">
+                            <qrcode [qrdata]="AngularxQrCode" size="200" [allowEmptyString]="true" [width]="156" [errorCorrectionLevel]="'L'"></qrcode>
+                        </div>
+                    </div>
+                </div>
+           </p-card>
+        </div>
+    </div>
+</div>
