@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { ColumHeader, UserTypeList } from '@methods/constants';
+import { ColumHeader, UserActivationTypeList, UserTypeList } from '@methods/constants';
 import { DeleteMethods, DeleteUserById, PostMethods, PutMethods, getStatusType, transformDate } from '@methods/methods';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,6 +32,7 @@ export class GenericDataTableComponent {
     clonedProfile: { [s: string]: any } = {};
     themeSelected: string = '';
     userTypeFilter: Filters[];
+    userTypeIdActivateFilter: Filters[];
 
     constructor(
         private _apiService: ApiService, 
@@ -42,7 +43,8 @@ export class GenericDataTableComponent {
     ){
         this.AngularxQrCode = 'Initial QR code data string';
         this.themeSelected = this._themeService.getThemeSelected();
-        this.userTypeFilter = UserTypeList
+        this.userTypeFilter = UserTypeList;
+        this.userTypeIdActivateFilter = UserActivationTypeList;
     }
 
     getStatusType(status: string) {

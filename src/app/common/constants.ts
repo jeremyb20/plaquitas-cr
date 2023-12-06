@@ -127,6 +127,11 @@ export const UserTypeList: Filters[]  = [
     { label: 'Customer', value: 3 }
 ];
 
+export const UserActivationTypeList: Filters[]  = [ 
+    { label: 'Active', value: true },
+    { label: 'Inactive', value: false }
+];
+
 export const FilterLogs: Filters[] = [
     { label: 'Tickets', value: 'TicketLog' },
     { label: 'Users', value: 'userLog' },

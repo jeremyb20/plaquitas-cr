@@ -16,7 +16,7 @@
     [tableStyle]="{'min-width': '130rem', 'height': '550px'}"
     currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}" 
     [filterDelay]="0"
-    [globalFilterFields]="['id','petName', 'email', 'phone', 'userState']">
+    [globalFilterFields]="['id','petName', 'email', 'phone', 'userState', 'isDigitalIdentificationActive']">
 
     <ng-template pTemplate="caption">
         <div class="row g-2 my-2">
@@ -48,6 +48,24 @@
                     </ng-template>
                 </p-dropdown>
             </div>
+
+            <div class="col-sm-4 col-md-4 col-lg-2">
+                <p-dropdown 
+                    [options]="userTypeIdActivateFilter" 
+                    (onChange)="dt.filter($event.value, 'isDigitalIdentificationActive', 'equals')" 
+                    [autoDisplayFirst]="false"
+                    [showClear]="true"
+                    styleClass="p-column-filter d-flex w-100"
+                    placeholder="{{'Filter By Identification Active' | translate}}">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'customer-badge status-' + option.value">{{option.label | translate}}</span>
+                    </ng-template>
+                    <ng-template let-selectedItem pTemplate="selectedItem">
+                        {{selectedItem.label | translate}}
+                    </ng-template>
+                </p-dropdown>
+            </div>
+
             <div class="col-sm-12 col-md-4 col-lg-2 d-none d-lg-flex">
                 <p-button (onClick)="refresh()"  styleClass="p-button-secondary mx-1" icon="feather icon-refresh-cw" ngbTooltip="{{'Refresh' | translate }}" label=""></p-button>
                 <div *ngIf="payloadData">
