@@ -40,6 +40,7 @@ export class ScannerComponent {
 
     hasDevices: boolean = true;
     hasPermission: boolean;
+    showScanner: boolean = true;
 
     qrResultString: any;
 
@@ -81,17 +82,23 @@ export class ScannerComponent {
                 next: (result: ResponseData) => {
                     if (result.success) {
                         this.payloadData = result.payload;
+                        this.showScanner = true;
                         this.petProfileScanner = new bootstrap.Modal(document.getElementById('petProfileScanner'), {
                             keyboard: false
                         })
                         this.petProfileScanner.show()
                     }else{
+                        this.showScanner = false;
                         Swal.fire({
                             position: 'center',
                             icon: 'error',
                             title: 'Oops...',
                             text: result.msg,
                             confirmButtonText: 'OK',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.showScanner = true;
+                            }
                         })
                     }
                 },
@@ -102,12 +109,17 @@ export class ScannerComponent {
                 }
             });
         }else{
+            this.showScanner = false;
             Swal.fire({
                 position: 'center',
                 icon: 'error',
                 title: 'Oops...',
                 text: this.TranslateText('User Not Found'),
                 confirmButtonText: 'OK',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.showScanner = true;
+                }
             })
         }
     }
@@ -128,7 +140,7 @@ export class ScannerComponent {
     }
 
     cancel(){
-        this.payloadData = false;
+        this.showScanner = true;
         this.petProfileScanner.hide();
     }
 

@@ -59,7 +59,7 @@ export class MyPetCodeComponent implements OnInit{
 
     getMyPetCode(){
         const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_CODE_BY_ID + '?id=' + this.primaryId + '&idSecond=' + this.secondaryId }`;
-        this.AngularxQrCode = 'https://www.localpetsandfamily.com/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;
+        this.AngularxQrCode = 'https://www.localpetsandfamily.com/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){

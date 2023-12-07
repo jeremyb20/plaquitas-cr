@@ -1,4 +1,4 @@
-<zxing-scanner [ngClass]="{'d-none': !hasPermission || payloadData , 'd-block' : hasPermission }" [torch]="torchEnabled"
+<zxing-scanner [ngClass]="{'d-none': !hasPermission || !showScanner  , 'd-block' : hasPermission && showScanner}" [torch]="torchEnabled"
     [(device)]="currentDevice" (scanSuccess)="onCodeResult($event)" [formats]="formatsEnabled" [tryHarder]="tryHarder"
     (permissionResponse)="onHasPermission($event)" (camerasFound)="onCamerasFound($event)"
     (torchCompatible)="onTorchCompatible($event)">
