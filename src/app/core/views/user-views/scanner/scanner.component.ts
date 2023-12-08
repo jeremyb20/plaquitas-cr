@@ -40,7 +40,7 @@ export class ScannerComponent {
 
     hasDevices: boolean = true;
     hasPermission: boolean;
-    showScanner: boolean = true;
+    showScanner: boolean = false;
 
     qrResultString: any;
 
@@ -82,7 +82,7 @@ export class ScannerComponent {
                 next: (result: ResponseData) => {
                     if (result.success) {
                         this.payloadData = result.payload;
-                        this.showScanner = true;
+                        this.showScanner = false;
                         this.petProfileScanner = new bootstrap.Modal(document.getElementById('petProfileScanner'), {
                             keyboard: false
                         })
@@ -149,6 +149,7 @@ export class ScannerComponent {
         this.currentDevice = device || null;
     }
     onHasPermission(has: boolean) {
+        this.showScanner = ( !has ) ? false : true;
         this.hasPermission = has;
     }
 
