@@ -118,5 +118,6 @@
   "Waiting for permissions.": "Esperando permisos.", 
   "If your device does not has cameras, no permissions will be asked.": "Si su dispositivo no tiene cámaras, no se le pedirán permisos.",
   "You denied the camera permission": "Le negaste el permiso a la cámara, no podemos escanear nada sin él.",
-  "User Not Found": "Usuario no encontrado"
+  "User Not Found": "Usuario no encontrado",
+  "Owner Father Name" : "Nombre del padre o madre"
 }

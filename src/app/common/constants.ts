@@ -180,17 +180,17 @@ export const NAVIGATION: Navigation[] = [
         isNew: false,
         SubMenu: []
     },
-    {
-        Id: 13,
-        url: '/profile',
-        icon: 'feather icon-user',
-        title: 'Profile',
-        hasPermission: true,
-        showInToolbar: false,
-        showInNavBar: true,
-        isNew: false,
-        SubMenu: []
-    },
+    // {
+    //     Id: 13,
+    //     url: '/profile',
+    //     icon: 'feather icon-user',
+    //     title: 'Profile',
+    //     hasPermission: true,
+    //     showInToolbar: false,
+    //     showInNavBar: true,
+    //     isNew: false,
+    //     SubMenu: []
+    // },
     {
         Id: 12,
         url: '/configuration',

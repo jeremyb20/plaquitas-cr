@@ -148,6 +148,11 @@ export class ProfileComponent implements OnInit {
         return calcularEdadPerroDesdeHumano(this.humanAge)
     }
 
+    openExternalProfile(idPrimary: any, idSecondary: any) {
+        const url = this._router.createUrlTree(['/myPetCode/'],{ queryParams: { id: idPrimary, idSecond: idSecondary }})
+        window.open(url.toString(), '_blank')
+    }
+
     copy(){
         var text: string = '';
         if(this.primaryId != undefined){

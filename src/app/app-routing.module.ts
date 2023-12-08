@@ -24,6 +24,7 @@ import { MyPetCodeComponent } from '@components/my-pet-code/my-pet-code.componen
 import { ForgotComponent } from '@views/user-views/forgot/forgot.component';
 import { ResetPasswordComponent } from '@views/user-views/reset-password/reset-password.component';
 import { ScannerComponent } from '@views/user-views/scanner/scanner.component';
+import { TermsAndConditionsComponent } from '@components/terms-and-conditions/terms-and-conditions.component';
 
 
 
@@ -40,7 +41,8 @@ const routes: Routes = [
       { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
       { path: 'myPetCode', component: MyPetCodeComponent},
       { path: 'forgot', component: ForgotComponent },
-      { path: 'reset-password/:token', component: ResetPasswordComponent }
+      { path: 'reset-password/:token', component: ResetPasswordComponent },
+      { path: 'terms-and-condition', component: TermsAndConditionsComponent },
     ]
   },
   {

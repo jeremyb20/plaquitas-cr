@@ -118,5 +118,6 @@
   "Waiting for permissions.": "Waiting for permissions.", 
   "If your device does not has cameras, no permissions will be asked.": "If your device does not has cameras, no permissions will be asked.",
   "You denied the camera permission": "You denied the camera permission, we can't scan anything without it.",
-  "User Not Found": "User Not Found"
+  "User Not Found": "User Not Found",
+  "Owner Father Name" : "Owner Father or Mother Name"
 }
