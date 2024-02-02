@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { calcularEdadPerroDesdeHumano, calculateAge } from '@methods/methods';
 import { MediaResponse, MediaService } from '@services/media.service';
 import { NotificationService } from '@services/notification.service';
@@ -23,6 +24,7 @@ export class PublicProfileComponent implements OnInit {
         private _media: MediaService,
         private _clipboardService: ClipboardService, 
         private _notificationService: NotificationService, 
+        private _metaTags: Meta
         ){
         this.mediaSubscription = this._media.subscribeMedia().subscribe(media => {
             this.Media = media;
@@ -30,6 +32,7 @@ export class PublicProfileComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this._metaTags.updateTag
     }
 
     copy(){

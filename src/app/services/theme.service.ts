@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { Inject, Injectable } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ApiService } from './api.service';
 @Injectable({
@@ -16,7 +17,7 @@ export class ThemeService {
     private _actualTheme = new BehaviorSubject<any>(null);
     _ActualTheme = this._actualTheme.asObservable();
 
-    constructor(@Inject(DOCUMENT) private document: Document, private _apiService: ApiService) {
+    constructor(@Inject(DOCUMENT) private document: Document, private _apiService: ApiService, private _meta: Meta) {
         this.bodyClass = this.availableClasses[this.currentClassIdx];
     }
 
@@ -51,6 +52,7 @@ export class ThemeService {
         switch (theme) {
             case 'theme-default-light': return 'lara-light-blue.css';
             case 'theme-default-dark': return 'lara-dark-blue.css';
+            case 'theme-atlantis-dark': return 'indigo-dark.css';
             default: return 'lara-light-blue.css'
         }
     }
@@ -60,6 +62,7 @@ export class ThemeService {
             case 'theme-default-light':
             case 'theme-ctsadmin': return '#236877';
             case 'theme-default-dark': return '#060811';
+            case 'theme-atlantis-dark': return '#2E323F';
             default: return '#236877'
         }
     }

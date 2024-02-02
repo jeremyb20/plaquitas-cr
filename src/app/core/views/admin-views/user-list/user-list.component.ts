@@ -25,7 +25,6 @@ export class UserListComponent implements OnInit {
             { field: 'petName', header: 'Pet Name', title: 'Pet Name', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'email', header: 'Email', title: 'Email', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'phone', header: 'Phone', title: 'Phone', showInPrimaryHeader: true, showInSecondaryHeader: true},
-            { field: 'age', header: 'Age', title: 'Age', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'birthdate', header: 'Birthdate', title: 'Birthdate', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'owner	', header: 'Owner', title: 'Owner', showInPrimaryHeader: true, showInSecondaryHeader: true},
             { field: 'qrcode', header: 'QR Code', title: 'QR Code', showInPrimaryHeader: true, showInSecondaryHeader: true},

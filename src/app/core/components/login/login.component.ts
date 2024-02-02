@@ -10,6 +10,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ResponseData } from '@models/models';
 import { DOCUMENT } from '@angular/common';
 import packageJson from '../../../../../package.json';
+import { ThemeService } from '@services/theme.service';
 
 @Component({
     selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _mediaService: MediaService,
+        private _themeService: ThemeService,
         private _cookieService: CookieService) {
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
@@ -69,6 +71,7 @@ export class LoginComponent implements OnInit {
             next: (result: ResponseData) => {
                 if (result.success) {
                     this.loading = false;
+                    this._themeService.setTheme(result.payload.theme)
                     this._apiService.storeUserData(result);
                     switch (result.payload.userState) {
                         case 0:

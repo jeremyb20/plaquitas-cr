@@ -220,6 +220,7 @@ export function getThemeFilter(type: any) {
 
         case 'theme-default-light': return 'theme-default-light';
         case 'theme-default-dark': return 'theme-default-dark';
+        case 'theme-atlantis-dark': return 'theme-atlantis-dark';
 
         default: return 'theme-default-light';
     }
@@ -305,7 +306,8 @@ export enum PostMethods {
     USER_REGISTER_NEW_PET = 'api/user/registerNewPet',
     USER_REGISTER_NEW_PET_FROM_USER_PROFILE = 'api/user/registerNewPetfromUserProfile',
     USER_REGISTER_NEW_PET_FOR_QR_CODE = 'api/user/registerNewPetByQRcode',
-    USER_DELETE_PET_BY_ID = 'api/user/deletePetById'
+    USER_DELETE_PET_BY_ID = 'api/user/deletePetById',
+    ADMIN_DELETE_PET_BY_ID = 'api/admin/deletePetByIdForAdmin'
 }
 
 export enum DeleteMethods {
@@ -315,9 +317,11 @@ export enum DeleteMethods {
 
 export enum PutMethods {
     ADMIN_UPDATE_USER_PROFILE = 'api/admin/editUser',
+    ADMIN_UPDATE_USER_PROFILE_SECOND_LEVEL = 'api/admin/editUserSecondLevel',
     ADMIN_UPDATE_QR_STATUS = 'api/admin/updateStateActivationCode',
     USER_UPDATE_PROFILE = 'api/user/editProfileInfo',
     USER_UPDATE_SECONDARY_PROFILE = 'api/user/editProfileSecondaryInfo',
+    USER_UPDATE_USER_THEME = 'api/user/editThemeProfile',
     USER_UPDATE_PHOTO_PROFILE = 'api/user/editPhotoProfile'
 }
 

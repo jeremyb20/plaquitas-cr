@@ -89,7 +89,7 @@
                 <button [disabled]="!payloadData.newPetProfile" type="button" pButton pRipple [pRowToggler]="payloadData" class="p-button-rounded" [ngClass]="{'p-button-text p-button-success': !payloadData.newPetProfile}" [icon]="expanded ? 'feather icon-chevron-down' : 'feather icon-chevron-right'"></button>
             </td>
             <td>
-                <span ngbTooltip="{{payloadData.id}}" class="d-inline-block text-truncate" style="max-width: 50px;">{{payloadData.id | translate}}</span>
+                <span (click)="copy(payloadData.id)" ngbTooltip="{{payloadData.id}}" class="d-inline-block text-truncate" style="max-width: 50px;">{{payloadData.id | translate}}</span>
             </td>
             <td>
                 <p-cellEditor>
@@ -118,16 +118,6 @@
                     </ng-template>
                     <ng-template pTemplate="output">
                         <span>{{payloadData.phone | translate}}</span>
-                    </ng-template>
-                </p-cellEditor>
-            </td>
-            <td>
-                <p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input pInputText type="text" id="age" [(ngModel)]="payloadData.age">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                        <span>{{payloadData.age | translate}}</span>
                     </ng-template>
                 </p-cellEditor>
             </td>
@@ -212,10 +202,10 @@
 
             <td>
                 <div class="d-flex">
-                    <button *ngIf="!editing" type="button" pInitEditableRow  (click)="onRowEditInit(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-edit"></i> </button>
-                    <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-save"></i> </button>
-                    <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(payloadData, ri)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-x"></i> </button>
-                    <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteUser(payloadData)" class="btn btn-icon" [ngClass]="{'text-light': themeSelected === 'theme-default-dark'}"> <i class="feather icon-trash-2"></i> </button>
+                    <button *ngIf="!editing" type="button" pInitEditableRow  (click)="onRowEditInit(payloadData)" class="btn btn-icon"> <i class="feather icon-edit"></i> </button>
+                    <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(payloadData)" class="btn btn-icon"> <i class="feather icon-save"></i> </button>
+                    <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(payloadData, ri)" class="btn btn-icon"> <i class="feather icon-x"></i> </button>
+                    <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteUser(payloadData)" class="btn btn-icon"> <i class="feather icon-trash-2"></i> </button>
                 </div>
             </td>
         </tr>
@@ -227,8 +217,10 @@
                 <div class="p-3">
                     <p-table 
                         responsiveLayout="stack" 
-                        dataKey="_id" 
-                        [tableStyle]="{'min-width': '90rem'}"
+                        dataKey="idParental" 
+                        editMode="row" 
+                        responsiveLayout="stack" 
+                        [tableStyle]="{'min-width': '130rem'}"
                         [value]="payload.newPetProfile"
                         [columns]="columsData">
 
@@ -240,8 +232,8 @@
                             </tr>
                         </ng-template>
 
-                        <ng-template pTemplate="body" let-payloadData>
-                            <tr class="p-selectable-row">
+                        <ng-template pTemplate="body" let-payloadData let-editing="editing" let-ri="rowIndex">
+                            <tr class="p-selectable-row" [pEditableRow]="payloadData">
                                 <td>
                                     <span>{{payloadData.idParental | translate}}</span>
                                 </td>
@@ -255,10 +247,7 @@
                                     <span>{{payloadData.phone | translate}}</span>
                                 </td>
                                 <td>
-                                    <span>{{payloadData.age | translate}}</span>
-                                </td>
-                                <td>
-                                    <span>{{payloadData.birthDate | translate}}</span>
+                                    <span>{{payloadData.birthDate | date}}</span>
                                 </td>
                                 <td>
                                     <span>{{payloadData.ownerPetName | translate}}</span>
@@ -272,7 +261,22 @@
                                     <span>{{payloadData.petStatus | translate}}</span>
                                 </td>
                                 <td>
-                                    <button pButton pRipple type="button" icon="feather icon-trash-2" (click)="deleteUser(payloadData)" class="p-button-rounded p-button-text p-button-danger"></button>
+                                    <!-- <span>{{(payloadData.isDigitalIdentificationActive) ? 'Active' : 'Inactive' | translate}}</span> -->
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputSwitch [(ngModel)]="payloadData.isDigitalIdentificationActive"></p-inputSwitch>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            <span>{{(payloadData.isDigitalIdentificationActive) ? 'Active' : 'Inactive' | translate}}</span>
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <button type="button" (click)="deletePetByAdmin(payloadData, payloadData._id, payloadData.idParental)" class="btn btn-icon"> <i class="feather icon-trash-2"></i> </button>
+                                    <button *ngIf="!editing" type="button" pInitEditableRow (click)="onRowSecondEditInit(payload, ri)" class="btn btn-icon"> <i class="feather icon-edit"></i> </button>
+                                    <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSaveSecondLevel(payloadData)" class="btn btn-icon"> <i class="feather icon-save"></i> </button>
+                                    <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancelSecond(payload, ri)" class="btn btn-icon"> <i class="feather icon-x"></i> </button>
+
                                 </td>
                             </tr>
                         </ng-template>

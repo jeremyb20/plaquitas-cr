@@ -51,7 +51,13 @@
                 "input": "src/scss/themes/theme-lara-dark-blue.scss",
                 "bundleName": "lara-dark-blue",
                 "inject": false
+              },
+              {
+                "input": "src/scss/themes/theme-indigo-dark.scss",
+                "bundleName": "indigo-dark",
+                "inject": false
               }
+
             ],
             "scripts": [
               "node_modules/@popperjs/core/dist/umd/popper.min.js",

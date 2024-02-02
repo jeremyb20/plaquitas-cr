@@ -31,7 +31,7 @@
                 <span class="fw-bold mt-3">{{payloadData.phone}}</span>
         
                 <hr class="mx-5">
-                <span class="fs-4 text-primary">{{payloadData.petName}} <button (click)="editProfile(payloadData, 0)" class="btn icon"><i class="feather icon-edit"></i></button></span>
+                <span class="fs-4 text-primary">{{payloadData.petName}} <button (click)="editProfile(payloadData, 0)" class="btn icon icon-banner"><i class="feather icon-edit"></i></button></span>
                 <div class="actions p-4">
                     <div class="follow-btn">
                         <button (click)="openExternalProfile(payloadData._id, 0)" type="submit" class="btn btn-custom w-100 ">
@@ -74,7 +74,7 @@
                 <span class="fw-bold mt-3">{{item.phone}}</span>
     
                 <hr class="mx-5">
-                <span class="fs-4 text-primary">{{item.petName}} <button (click)="editProfile(item, item._id)" class="btn icon"><i class="feather icon-edit"></i></button> </span>
+                <span class="fs-4 text-primary">{{item.petName}} <button (click)="editProfile(item, item._id)" class="btn icon icon-banner"><i class="feather icon-edit"></i></button> </span>
     
                 <div class="actions p-4">
                     <div class="follow-btn">

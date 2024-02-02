@@ -26,8 +26,8 @@ export class EditComponentComponent implements OnInit {
 
     ngOnInit(): void {
         this.genderType = [
-            { Id: '1', gender: 'Macho' },
-            { Id: '2', gender: 'Hembra' }
+            { Id: 1, gender: 'Macho' },
+            { Id: 2, gender: 'Hembra' }
         ];
     }
 

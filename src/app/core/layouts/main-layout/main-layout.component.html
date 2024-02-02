@@ -5,7 +5,7 @@
             <app-navbar [isExpanded]="sidebarExpanded"></app-navbar>
         </div>
     </ng-container>
-    <div class="pb-5" [ngClass]="{ 'sidebarExpanded': sidebarExpanded, 'content': this.routeState !== '/login' && this.routeState !== '/404', 'sidebarDesktopExpanded': Media.IsMobile}">
+    <div class="pb-5" style="height: 100vh;" [ngClass]="{ 'sidebarExpanded': sidebarExpanded, 'content': this.routeState !== '/login' && this.routeState !== '/404', 'sidebarDesktopExpanded': Media.IsMobile}">
         <ng-http-loader 
             [backdrop]="true" 
             [backgroundColor]="this.themeList.spinerLoaderColor" 

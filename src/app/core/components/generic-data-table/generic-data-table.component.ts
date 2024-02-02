@@ -30,6 +30,7 @@ export class GenericDataTableComponent {
     elem: any;
     itemSelected: any;
     clonedProfile: { [s: string]: any } = {};
+    clonedSecondProfile: { [s: string]: any } = {};
     themeSelected: string = '';
     userTypeFilter: Filters[];
     userTypeIdActivateFilter: Filters[];
@@ -97,8 +98,47 @@ export class GenericDataTableComponent {
         })
     }
 
+    deletePetByAdmin(item: any, idParental: any, idSecond: any){
+        Swal.fire({
+            text: this.TranslateText('Are you sure?'),
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: this.TranslateText('No'),
+            confirmButtonText: this.TranslateText('Yes'),
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const URL = `${environment.WebApiUrl + PostMethods.ADMIN_DELETE_PET_BY_ID}`;
+                const data = {
+                    photo_id: item.photo_id,
+                    idPrimary: idParental,
+                    idSecond: idSecond
+                }
+                this._apiService.apiPostMethod(URL, data).subscribe({
+                    next: (result: ResponseData) => {
+                        if(result.success){
+                            this.refresh();
+                            this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                        }else{
+                            this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                        }
+                    },
+                    error: (err: any) => {
+                        console.log(err);
+                        this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+                    }
+                });
+            }
+        })
+    }
+
     onRowEditInit(product: any) {
         this.clonedProfile[product.id as string] = { ...product };
+    }
+
+    onRowSecondEditInit(profile: any, petIndex: number) {
+        // Clonar el objeto principal es decir el id con el clone
+        this.clonedSecondProfile[profile.id as string]  = { ...profile.newPetProfile[petIndex]};
     }
 
     onRowEditSave(product: any) {
@@ -119,9 +159,33 @@ export class GenericDataTableComponent {
         });
     }
 
+    onRowEditSaveSecondLevel(product: any) {
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_USER_PROFILE_SECOND_LEVEL }`;
+        this._apiService.apiPutMethod(URL, product).subscribe({
+            next: (result: ResponseData) => {
+                if(result.success){
+                    delete this.clonedSecondProfile[product._id  as string];
+
+                    this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                }else{
+                    this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                }
+            },
+            error: (err: any) => {
+                console.log(err);
+                this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
+    }
+
     onRowEditCancel(product: any, index: number) {
         this.payloadData[index] = this.clonedProfile[product.id as string];
         delete this.clonedProfile[product.id as string];
+    }
+
+    onRowEditCancelSecond(product: any, index: number) {
+        // product.newPetProfile[index] = this.clonedSecondProfile[product.newPetProfile[index]._id as string];
+        delete this.clonedSecondProfile[product.newPetProfile[index]._id  as string];
     }
 
     TranslateText(text: string) {

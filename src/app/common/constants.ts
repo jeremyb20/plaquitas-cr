@@ -165,6 +165,15 @@ export const ThemesOptions: Filters[] = [
         spinerBgColor: '#000000bf',
         spiner: Spinkit.skThreeBounce,
         primengTheme: 'lara-light-blue.css'
+    },
+    { 
+        label: 'Theme Atlantis Dark',
+        value: 'theme-atlantis-dark',
+        metaThemeColor: '#303944',
+        spinerLoaderColor: '#ff0000',
+        spinerBgColor: '#000000bf',
+        spiner: Spinkit.skThreeBounce,
+        primengTheme: 'lara-light-blue.css'
     }
 ]
 

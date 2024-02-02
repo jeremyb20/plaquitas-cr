@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LanguageFilter, ThemesOptions } from '@methods/constants';
+import { PutMethods } from '@methods/methods';
 import { User } from '@models/auth-model';
+import { ResponseData } from '@models/models';
 import { ApiService } from '@services/api.service';
 import { NotificationService } from '@services/notification.service';
 import { ThemeService } from '@services/theme.service';
 import { TranslationService } from '@services/translate.service';
 import { CookieService } from 'ngx-cookie-service';
+import { environment } from 'src/environments/environment';
 interface City {
   name: string;
   code: string;
@@ -53,7 +56,24 @@ export class ConfigurationComponent implements OnInit {
   }
 
   onSetTheme(item) {
-    this._themeService.setTheme(item.value);
-    this._notificationService.success('The process was successfully completed.', 'bg-success', 'animate__backInUp', 6000);
+    const URL = `${environment.WebApiUrl + PutMethods.USER_UPDATE_USER_THEME }`;
+    const data = {
+        _id: this.userLogin.id,
+        theme: item.value
+    }
+    this._apiService.apiPutMethod(URL, data).subscribe({
+        next: (result: ResponseData) => {
+            if(result.success){
+                this._themeService.setTheme(item.value);
+                this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+            }else{
+                this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+            }
+        },
+        error: (err: any) => {
+            console.log(err);
+            this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+        }
+    });
   }
 }
