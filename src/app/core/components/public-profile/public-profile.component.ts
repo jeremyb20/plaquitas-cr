@@ -33,6 +33,7 @@ export class PublicProfileComponent implements OnInit {
 
     ngOnInit(): void {
         this._metaTags.updateTag({ property: 'og:title', content: '¡Hola! Soy ' + this.payloadData.petName +'.' }); 
+        this._metaTags.updateTag({ property: 'og:url', content: 'https://' + window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId }); 
         this._metaTags.updateTag({ property: 'og:image', content: this.payloadData.photo });
         this._metaTags.updateTag({ property: 'og:description', content:'¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi perfil, visita el link que esta abajo. 👇' });
     }
