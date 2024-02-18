@@ -1,6 +1,6 @@
 <p-card *ngIf="payloadData" class="card" header="{{'My Pets' | translate}}">
     <span>Total Registrados: {{payloadData.newPetProfile.length + 1}}  |  {{'Last Modification' | translate }} : {{transformDate(payloadData.updatedAt)}}</span>
-    <button (click)="registerNewPet()" class="btn btn-primary ms-4">
+    <button (click)="registerNewPet()" class="btn btn-secondary ms-4">
         <i class="fa fa-paw mt-1 mx-1"></i> Añadir Mascota
     </button>
 </p-card>

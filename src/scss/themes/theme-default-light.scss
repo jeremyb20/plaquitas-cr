@@ -32,8 +32,8 @@
     --btn-primary-bg-color-hover: rgb(19, 126, 104);
     --btn-primary-text-color: #fff;
 
-    --btn-secondary-bg-color: #55b3ae;
-    --btn-secondary-bg-color-hover: #499c98;
+    --btn-secondary-bg-color: #29859ef0;
+    --btn-secondary-bg-color-hover: #257288f0;
     --btn-secondary-text-color: #fff;
 
     --btn-danger-bg-color: #e74c3c;
@@ -242,10 +242,10 @@
     }
 
     .btn-custom {
-        color: inherit;
+        color: #fff;
         font: inherit;
         font-weight: 700;
-        background-color: #ffd01a;
+        background-color: var(--btn-secondary-bg-color);
         border: none;
         padding: 1rem;
         outline: none;
@@ -255,7 +255,7 @@
     }
 
     .btn-custom:hover {
-        background-color: #e2ba19;
+        background-color: var(--btn-secondary-bg-color-hover);
     }
 
     .card {
@@ -1491,10 +1491,10 @@
 
     /* Estilos del botón de seguimiento */
     .card-profile .actions .follow-btn button {
-        color: inherit;
+        color: #fff;
         font: inherit;
         font-weight: bold;
-        background-color: #ffd01a;
+        background-color: var(--btn-secondary-bg-color);
         width: 100%;
         border: none;
         padding: 1rem;
@@ -1505,7 +1505,7 @@
     }
 
     .card-profile .actions .follow-btn button:hover {
-        background-color: #efb10a;
+        background-color: var(--btn-secondary-bg-color);
         transform: scale(1.1);
     }
 

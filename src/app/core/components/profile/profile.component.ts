@@ -156,9 +156,9 @@ export class ProfileComponent implements OnInit {
     copy(){
         var text: string = '';
         if(this.primaryId != undefined){
-            text = 'https://www.localpetsandfamily.com/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;
+            text = 'https://' + window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;
         }else{
-            text = 'https://www.localpetsandfamily.com/myPetCode?id=' + this.userLogin.id +'&idSecond='+ 0;
+            text = 'https://' + window.location.hostname + '/myPetCode?id=' + this.userLogin.id +'&idSecond='+ 0;
         }
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
