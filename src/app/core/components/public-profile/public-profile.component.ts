@@ -36,9 +36,10 @@ export class PublicProfileComponent implements OnInit {
         this._metaTags.updateTag({ property: 'og:url', content: 'https://' + window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId }); 
         this._metaTags.updateTag({ property: 'og:image', content: this.payloadData.photo });
         this._metaTags.updateTag({ property: 'og:image:secure_url', content: this.payloadData.photo });
-        this._metaTags.updateTag({ property: 'og:image:width', content: '1280' });
-        this._metaTags.updateTag({ property: 'og:image:height', content: '720' });
-        this._metaTags.updateTag({ property: 'og:description', content:'¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi perfil, visita el link que esta abajo. 👇' });
+        this._metaTags.updateTag({ property: 'og:image:type', content: 'image/png' });
+        this._metaTags.updateTag({ property: 'og:image:width', content: '300' });
+        this._metaTags.updateTag({ property: 'og:image:height', content: '300' });
+        this._metaTags.updateTag({ property: 'og:description', content:'¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi perfil, visita el link que esta abajo.' });
     }
 
     copy(){
