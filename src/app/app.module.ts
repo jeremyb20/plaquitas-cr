@@ -1,13 +1,15 @@
 /**
 Internal Modules
 */
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, isDevMode, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from 'src/environments/environment';
+import { registerLocaleData } from '@angular/common';
+import localeEsCR from '@angular/common/locales/es-CR';
 /**
 External Modules
 */
@@ -49,6 +51,10 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputMaskModule } from 'primeng/inputmask';
 import { FileUploadModule } from 'primeng/fileupload';
 import { ScrollTopModule } from 'primeng/scrolltop';
+import { RatingModule } from 'primeng/rating';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { SidebarModule } from 'primeng/sidebar';
 
 
 /**
@@ -98,6 +104,7 @@ import { ResetPasswordComponent } from './core/views/user-views/reset-password/r
 import { ScannerComponent } from './core/views/user-views/scanner/scanner.component';
 import { DigitalIdentificationComponent } from './core/components/digital-identification/digital-identification.component';
 import { PublicProfileComponent } from './core/components/public-profile/public-profile.component';
+import { CatalogPanelComponent } from './core/views/admin-views/catalog-panel/catalog-panel.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -111,6 +118,8 @@ export function getLang(){
 export function tokenGetter() {
   return sessionStorage.getItem("token");
 }
+
+registerLocaleData(localeEsCR);
 @NgModule({
   declarations: [
     AppComponent,
@@ -140,7 +149,8 @@ export function tokenGetter() {
     ResetPasswordComponent,
     ScannerComponent,
     DigitalIdentificationComponent,
-    PublicProfileComponent
+    PublicProfileComponent,
+    CatalogPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -175,7 +185,11 @@ export function tokenGetter() {
     ClipboardModule,
     NgChartsModule,
     ScrollTopModule,
+    RatingModule,
+    InputNumberModule,
+    InputTextareaModule,
     ZXingScannerModule,
+    SidebarModule,
     NgxEditorModule.forRoot({
       locals: {
         // menu
@@ -250,6 +264,10 @@ export function tokenGetter() {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
+    },
+    {
+        provide: LOCALE_ID,
+        useValue: 'es-CR'
     }
   ],
   bootstrap: [AppComponent]

@@ -60,13 +60,51 @@ export interface Navigation {
 }
 
 export interface ColumHeader {
-    field: string;
-    header: string;
-    title: string;
+    field?: string;
+    header?: string;
+    title?: string;
     showInPrimaryHeader?: boolean;
     showInSecondaryHeader?: boolean;
 }
 
+export interface Product {
+    id?: string;
+    code?: string;
+    productName?: string;
+    description?: string;
+    price?: number;
+    quantity?: number;
+    inventoryStatus?: string;
+    category?: string;
+    images?: Images;
+    rating?: number;
+}
+
+interface Images {
+    image_id: string;
+    imageURL: string;
+}
+
+export const CategoryList: Filters[] = [
+    { label: 'Pet accessories', value: 'Pet accessories' },
+    { label: 'Medicines', value: 'Medicines' },
+    { label: 'Food', value: 'Food' },
+    { label: 'Grooming', value: 'Grooming' },
+    { label: 'Adopt pets', value: 'Adopt pets' },
+    { label: 'Wanted', value: 'Wanted' },
+    { label: 'Pet stores & services', value: 'Pet stores & services' },
+    { label: 'Horses & Livestock', value: 'Horses & Livestock' },
+    { label: 'Fish & Reptiles', value: 'Fish & Reptiles' },
+    { label: 'General', value: 'General' },
+    { label: 'Others', value: 'Others' }
+]
+
+export const CatalogStatusList: Filters[] = [
+    { label: 'INSTOCK', value: 'INSTOCK' },
+    { label: 'LOWSTOCK', value: 'LOWSTOCK' },
+    { label: 'OUTOFSTOCK', value: 'OUTOFSTOCK' },
+    { label: 'PROMOTION', value: 'PROMOTION' },
+]
 
 export const StatusFilter: Filters[] = [
     { label: 'Ordenando', value: 'Ordenando' },
@@ -151,8 +189,8 @@ export const ThemesOptions: Filters[] = [
     { 
         label: 'Theme Default Light',
         value: 'theme-default-light',
-        metaThemeColor: '#236877',
-        spinerLoaderColor: '#236877',
+        metaThemeColor: '#29859ef0',
+        spinerLoaderColor: '#29859ef0',
         spinerBgColor: '#fff',
         spiner: Spinkit.skThreeBounce,
         primengTheme: 'lara-light-blue.css'
@@ -237,6 +275,17 @@ export const NAVIGATIONADMIN: Navigation[] = [
         SubMenu: []
     },
     {
+        Id: 133,
+        url: '/catalog-panel',
+        icon: 'feather icon-box',
+        title: 'Catalog Panel',
+        hasPermission: true,
+        showInToolbar: false,
+        showInNavBar: true,
+        isNew: false,
+        SubMenu: []
+    },
+    {
         Id: 13,
         url: '/profile',
         icon: 'feather icon-user',
@@ -258,7 +307,6 @@ export const NAVIGATIONADMIN: Navigation[] = [
         isNew: false,
         SubMenu: []
     },
-
     {
         Id: 15,
         url: '/code-generator',

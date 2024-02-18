@@ -1,0 +1,257 @@
+<div class="card p-4">
+    <p-table 
+        [value]="products" 
+        [columns]="columsData" 
+        [scrollable]="true" 
+        [paginator]="true"
+        [rows]="5" 
+        [rowsPerPageOptions]="[5,10,25,50]"
+        [showCurrentPageReport]="true" 
+        [tableStyle]="{'min-width': '130rem'}"
+        dataKey="_id"
+        editMode="row"
+        currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}"  >
+        <ng-template pTemplate="caption">
+            <div class="d-flex align-items-center justify-content-between">
+                <span>{{'Catalog Panel' | translate}}</span>
+                <div>
+                    <p-button (onClick)="getAllInventory()" class="mr-2" styleClass="mx-1" icon="feather icon-refresh-cw"></p-button>
+                    <p-button type="button" class="mr-2" styleClass="mx-1 p-button-success" (click)="sidebarVisible = true" icon="feather icon-plus"></p-button>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns">
+                    <span> {{ col.title | translate }} </span>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product let-expanded="expanded" let-editing="editing" let-ri="rowIndex">
+            <tr class="p-selectable-row" [pEditableRow]="product">
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <input pInputText type="text" id="productName" [(ngModel)]="product.productName">
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <span>{{product.productName | translate}}</span>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+                    {{product.code}}
+                </td>
+                <td>
+                    <ng-container *ngIf="product.images.length > 0 ; else elseTemplate">
+                        <img [src]="product.images[0].imageURL" [alt]="product.productName" width="100" class="shadow-4" />
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <span>No fotos</span>
+                    </ng-template>
+                </td>
+                <td style="width: 350px;">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="product.description"></textarea>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <div [innerHTML]="transform(product.description)"></div>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td>
+
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-inputNumber [(ngModel)]="product.price" inputId="locale-cr" mode="decimal" locale="es-CR" [minFractionDigits]="0"> </p-inputNumber>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            {{product.price | currency:'CRC':'symbol':'1.0-0'}}
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+
+
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-dropdown  
+                                styleClass="d-flex w-100" 
+                                [options]="categoryList"
+                                optionLabel="label"
+                                [filter]="true" filterBy="label" [showClear]="true"
+                                [(ngModel)]="product.category"
+                                optionValue="value">
+                                <ng-template let-option pTemplate="item">
+                                    <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                                </ng-template>
+                                <ng-template let-selectedItem pTemplate="selectedItem">
+                                    {{selectedItem.label | translate}}
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <span> {{product.category | translate }}</span> 
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+                <td><p-rating [ngModel]="product.rating" [readonly]="!editing" [cancel]="false"></p-rating></td>
+                <td>
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <p-dropdown  
+                                styleClass="d-flex w-100" 
+                                [options]="catalogStatusList"
+                                optionLabel="label"
+                                [(ngModel)]="product.inventoryStatus"
+                                optionValue="value">
+                                <ng-template let-option pTemplate="item">
+                                    <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                                </ng-template>
+                                <ng-template let-selectedItem pTemplate="selectedItem">
+                                    {{selectedItem.label | translate}}
+                                </ng-template>
+                            </p-dropdown>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <p-tag [value]="TranslateText(product.inventoryStatus)" [severity]="getSeverity(product.inventoryStatus)"></p-tag>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+
+                <td>
+                    <div class="d-flex">
+                        <button *ngIf="!editing" type="button" pInitEditableRow  (click)="onRowEditInit(product)" class="btn btn-icon"> <i class="feather icon-edit"></i> </button>
+                        <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(product)" class="btn btn-icon"> <i class="feather icon-save"></i> </button>
+                        <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(product, ri)" class="btn btn-icon"> <i class="feather icon-x"></i> </button>
+                        <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteProduct(product)" class="btn btn-icon"> <i class="feather icon-trash-2"></i> </button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
+
+<p-sidebar [(visible)]="sidebarVisible" position="{{Media.IsMobile? 'bottom' : 'right' }}" styleClass="w-30rem">
+    <h3 class="mb-3">{{'New Catalog' | translate}}</h3>
+
+    <form [formGroup]="registerForm" (ngSubmit)="createProduct()">
+
+        <div class="forms-inputs mb-4">
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.productName.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Article name' | translate }}</span>
+            <input type="text" formControlName="productName"  [ngClass]="{ 'is-invalid': submitted && f.productName.errors }" class="form-control">
+            <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.productName.errors.required">{{'Article name' | translate}} {{'is required' | translate}}</small>
+            </div>
+        </div>
+
+        <div class="forms-inputs mb-4">
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.price.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Price' | translate }}</span>
+            <p-inputNumber styleClass="w-100"  formControlName="price" inputId="locale-cr" mode="decimal" locale="es-CR" [ngClass]="{ 'is-invalid': submitted && f.price.errors }" [minFractionDigits]="0"> </p-inputNumber>
+            <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.price.errors.required">{{'Price' | translate}} {{'is required' | translate}}</small>
+            </div>
+        </div>
+
+        <div class="forms-inputs mb-4">
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.quantity.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Quantity' | translate }}</span>
+            <p-inputNumber styleClass="w-100" formControlName="quantity" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"> </p-inputNumber>
+            <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.quantity.errors.required">{{'Quantity' | translate}} {{'is required' | translate}}</small>
+            </div>
+        </div>
+
+
+        <div class="forms-inputs mb-4">
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.description.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Description' | translate }}</span>
+            <textarea rows="5" cols="30" class="form-control" pInputTextarea formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.description.errors.required">{{'Description' | translate}} {{'is required' | translate}}</small>
+            </div>
+        </div>
+
+        <div  class="forms-inputs mb-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.inventoryStatus.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Status' | translate }}</span>
+            
+            <p-dropdown  
+                styleClass="d-flex w-100" 
+                [options]="catalogStatusList"
+                optionLabel="label"
+                formControlName="inventoryStatus"
+                [autoDisplayFirst]="false"
+                [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.inventoryStatus.errors }"
+                optionValue="value">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                </ng-template>
+                <ng-template let-selectedItem pTemplate="selectedItem">
+                    {{selectedItem.label | translate}}
+                </ng-template>
+            </p-dropdown>
+    
+            <div *ngIf="submitted && f.inventoryStatus.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.inventoryStatus.errors.required">{{'Status' | translate }} {{'is required' | translate}}</small>
+            </div>
+        </div>      
+        
+        <div  class="forms-inputs mb-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.category.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Category' | translate }}</span>
+            
+            <p-dropdown  
+                styleClass="d-flex w-100" 
+                [options]="categoryList"
+                optionLabel="label"
+                formControlName="category"
+                [filter]="true" filterBy="label" [showClear]="true"
+                [autoDisplayFirst]="false"
+                [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.category.errors }"
+                optionValue="value">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                </ng-template>
+                <ng-template let-selectedItem pTemplate="selectedItem">
+                    {{selectedItem.label | translate}}
+                </ng-template>
+            </p-dropdown>
+    
+            <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.category.errors.required">{{'Category' | translate }} {{'is required' | translate}}</small>
+            </div>
+        </div>  
+    
+        <div class="forms-inputs mb-4">
+            <label htmlFor="confirmPassword" [ngClass]="{ 'text-danger': submitted && uploadedFiles.length == 0 }">
+                <i class="feather icon-image"></i> Seleccione una foto
+            </label>
+    
+            <p-fileUpload #fileUpload name="myfile[]" [maxFileSize]="maxSizeInBytes" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
+                [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"  invalidFileSizeMessageDetail="El archivo excede el tamaño máximo permitido de 6MB"
+                [chooseStyleClass]="'p-1'"  allowTypes="*.jpg;*.png;*.jpeg;" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
+
+                <ng-template pTemplate="toolbar">
+                    <div *ngIf="!Media.IsMobile" class="py-3">Arrastra y suelta la imagen a esta zona <i class="feather icon-arrow-down"></i> </div>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </p-fileUpload>
+    
+        </div>
+    
+     
+
+        <div class="follow-btn" type="submit">
+            <button [disabled]="loading" type="submit" (click)="createProduct();" class="btn btn-custom w-100 ">
+                <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div> Registrar
+            </button>
+        </div>
+    </form>
+    
+</p-sidebar>

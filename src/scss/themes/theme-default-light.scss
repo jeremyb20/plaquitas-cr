@@ -46,6 +46,8 @@
     --btn-outline-primary-text-color-hover: #fff;
     --btn-outline-primary-background-color: #1abc9c;
 
+    --bg-secondary: #29859ef0;
+
     --card-shadow: -1px 5px 6px 1px rgba(0, 0, 0, 0.05);
     // --card-shadow-custom: -1px 5px 6px 1px rgb(0 0 0 / 17%);
     --card-shadow-custom: 0 1rem 1.5rem #00000080;
@@ -57,7 +59,7 @@
     --bs-secondary-color: #868e96;
 
     --border-radius: 25px;
-    --dp-size: 8rem;
+    --dp-size: 10rem;
 
     background: var(--background-color);
 
@@ -151,6 +153,10 @@
         border-color: var(--btn-outline-primary);
     }
 
+    // .bg-secondary{
+    //     background-color: var(--bg-secondary) !important;
+    // }
+
     .custom-bg {
         background-color: var(--background-color);
     }
@@ -195,7 +201,7 @@
         min-width: 100%;
         min-height: 100vh;
         // background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../src/assets/images/login-bg.png');
-        background: linear-gradient(to bottom right, #ff9eaa 0% 65%, #e860ff 95% 100%);
+        background: linear-gradient(0deg, rgb(247 247 247 / 17%), rgb(41 133 158 / 94%));
         background-repeat: no-repeat;
         background-size: cover;
         background-attachment: fixed;
@@ -992,32 +998,32 @@
         border-color: cadetblue;
     }
 
-    .carousel-inner {
-        padding: 1em;
-    }
+    // .carousel-inner {
+    //     padding: 1em;
+    // }
 
 
-    .carousel-control-prev,
-    .carousel-control-next {
-        background-color: #e1e1e1;
-        width: 6vh;
-        height: 6vh;
-        border-radius: 50%;
-        top: 50%;
-        transform: translateY(-50%);
-    }
+    // .carousel-control-prev,
+    // .carousel-control-next {
+    //     background-color: #e1e1e1;
+    //     width: 6vh;
+    //     height: 6vh;
+    //     border-radius: 50%;
+    //     top: 50%;
+    //     transform: translateY(-50%);
+    // }
 
-    @media (min-width: 768px) {
-        .carousel-item {
-            margin-right: 0;
-            flex: 0 0 33.333333%;
-            display: block;
-        }
+    // @media (min-width: 768px) {
+    //     .carousel-item {
+    //         margin-right: 0;
+    //         flex: 0 0 33.333333%;
+    //         display: block;
+    //     }
 
-        .carousel-inner {
-            display: flex;
-        }
-    }
+    //     .carousel-inner {
+    //         display: flex;
+    //     }
+    // }
 
     .card .img-wrapper {
         max-width: 100%;
@@ -1125,6 +1131,16 @@
     .p-component {
         font-size: var(--normal-font-size);
         border-radius: var(--border-radius);
+    }
+
+    .p-sidebar-bottom{
+        height: 90%;
+        border-radius: var(--border-radius) var(--border-radius) 0 0 ;
+
+    }
+    
+    .p-sidebar-right{
+        width: 30rem;
     }
 
     /* The container */
@@ -1316,8 +1332,12 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        border-radius: 2rem;
+        // border-radius: 2rem;
         box-shadow: 0px 1rem 1.5rem rgba(0, 0, 0, 0.5);
+
+        &.dashboard {
+            border-radius: 2rem;
+        }
 
         @include media-breakpoint-up(lg) {
             &.dashboard {
@@ -1326,16 +1346,17 @@
 
             width: 23rem;
             height: fit-content;
+            border-radius: 2rem;
         }
     }
 
     /* Estilos del banner */
-    .card-profile .banner {
-        background-image: url(https://images.unsplash.com/photo-1545703549-7bdb1d01b734?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
-        background-position: center;
+    .public .banner {
+        background:linear-gradient(0deg, rgb(247 247 247 / 17%), rgb(41 133 158 / 94%)), url('../../assets/images/plaquitascr.png');
+        background-position: left;
         background-repeat: no-repeat;
-        background-size: cover;
-        height: 11rem;
+        background-size: auto;
+        height: 31rem;
         display: flex;
         align-items: flex-end;
         justify-content: center;

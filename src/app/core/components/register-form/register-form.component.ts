@@ -134,7 +134,7 @@ export class RegisterFormComponent implements OnInit {
             fd.append('petName', data.petName);
             fd.append('phone', data.phone);
             fd.append('userState', data.userState);
-            fd.append('email', data.email);
+            fd.append('email', data.email.toLowerCase());
             fd.append('password', data.password);
             fd.append('image', data.photo);
             fd.append('petStatus', data.petStatus);
@@ -249,7 +249,7 @@ export class RegisterFormComponent implements OnInit {
                 genderSelected: this.f.genderSelected.value,
                 petName: this.f.petName.value,
                 phone: this.f.phone.value,
-                email: this.userLogin.email,
+                email: this.userLogin.email.toLowerCase(),
                 userState: 3,
                 petStatus: 'No-Perdido',
                 isActivated: false,

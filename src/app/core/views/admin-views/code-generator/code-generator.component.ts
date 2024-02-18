@@ -280,7 +280,8 @@ export class CodeGeneratorComponent implements OnInit {
         const data = {
             isActivated: true,
             stateActivation: 'Ordenando',
-            randomCode: generateCodeRandom(6)
+            randomCode: generateCodeRandom(6),
+            hostname: window.location.hostname
         }
         this._apiService.apiPostMethod(URL, data).subscribe({
             next: (result: ResponseData) => {

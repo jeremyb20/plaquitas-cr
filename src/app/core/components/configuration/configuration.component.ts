@@ -44,7 +44,7 @@ export class ConfigurationComponent implements OnInit {
 
   ngOnInit() {
     this.userLogin = JSON.parse(localStorage.getItem('user')!);
-    this.idUser = localStorage.getItem('IdUser');
+    this.idUser = localStorage.getItem('idUser');
     this.themeSelected = this._themeService.getThemeSelected();
     this.langSelected = this._translationService.currentLang();
     this.languageItems = LanguageFilter

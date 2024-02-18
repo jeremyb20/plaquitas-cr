@@ -39,7 +39,7 @@ export class ThemeService {
             const currentRoute = this._apiService.getRouterLink();
 
             let metaTheme = this.document.getElementById('meta-color') as HTMLMetaElement;
-            metaTheme.content = currentRoute == '/login' ? '#ff9eaa' : this.getMetaColor(theme);
+            metaTheme.content = currentRoute == '/login' ? '#29859ef0' : this.getMetaColor(theme);
 
             this.bodyClass = nextClass;
             localStorage.setItem('theme', this.bodyClass);

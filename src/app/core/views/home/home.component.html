@@ -1,0 +1,454 @@
+<nav [ngClass]="{'navbar-transparent text-light': isNavbarTransparent, 'bg-secondary text-light': !isNavbarTransparent}"
+    class="navbar navbar-expand-lg fixed-top">
+    <div class="container" id="pills-tab" role="tablist">
+        <a class="navbar-brand" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button"
+            role="tab" aria-controls="pills-home" aria-selected="false">
+            <img src="assets/images/plaquitascr.png" alt="Plaquitas CR Logo Principal Plaquitas Costa Rica Plaquitas cr"
+                title="Plaquitas CR" class="img-fluid" height="80px" width="80px">
+        </a>
+        <button (click)="showMovileNav()" class="btn btn-light"
+            [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent, 'navbar-toggler': !Media.IsMobile}"
+            type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item" role="presentation">
+                    <button [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                        class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+                        type="button" role="tab" aria-controls="pills-home" aria-selected="true">Inicio</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                        class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+                        type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Nosotros</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                        class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact"
+                        type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Contacto</button>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto ">
+                <li class="nav-item active">
+                    <a class="nav-link" [routerLink]="'/login'"
+                        [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                        href="#">Iniciar Sesión</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" [routerLink]="'/register-pets'"
+                        [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                        href="#">Registrarme</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div style="margin-top: 150px;">
+            <div class="container mt-5">
+                <div class="row"
+                    [ngClass]="{'d-flex flex-column-reverse ': Media.IsMobile, 'd-flex align-items-center': !Media.IsMobile}">
+                    <div class="col-md-12 col-lg-6">
+                        <div class="text-center bg-body-tertiary rounded-5"
+                            [ngClass]="{'p-5': !Media.IsMobile, 'p-1': Media.IsMobile}">
+                            <h1 class="text-body-emphasis mt-4">Plaquitas para mascotas Inteligentes con código QR</h1>
+
+                            <p class="col-lg-8 mx-auto py-4 text-muted">
+                                "Centraliza la información de tu mascota en un perfil digital para asegurar su
+                                protección en caso de pérdida."
+                            </p>
+                            <div class="d-inline-flex gap-2 mb-5">
+                                <button
+                                    class="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill"
+                                    [routerLink]="'/login'" type="button">
+                                    Iniciar Sesión
+                                </button>
+                                <button class="btn btn-outline-secondary btn-lg px-4 rounded-pill"
+                                    [routerLink]="'/register-pets'" type="button">
+                                    Registrarme
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 col-lg-6" [ngClass]="{'mb-5': Media.IsMobile}">
+                        <div class="row g-0">
+                            <div class="col-7">
+                                <img src="assets/images/iphone.png"
+                                    alt="Plaquitas CR Logo Principal Plaquitas Costa Rica Plaquitas cr"
+                                    title="Plaquitas CR" class="img-fluid">
+                            </div>
+                            <div class="col-5">
+                                <img src="assets/images/plaquita.png"
+                                    alt="Plaquitas CR Logo Principal Plaquitas Costa Rica Plaquitas cr"
+                                    title="Plaquitas CR" class="img-fluid img-paw">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <section class="py-5">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-6">
+                        <a href="https://www.facebook.com/profile.php?id=100064041162056" class="nav-link"
+                            target="_blank" rel="noopener noreferrer">
+                            <i class="feather icon-facebook fs-1"></i>
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="https://www.instagram.com/plaquitas_cr/" class="nav-link" target="_blank"
+                            rel="noopener noreferrer">
+                            <i class="feather icon-instagram fs-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="my-5">
+            <div class="p-5 text-center bg-body-tertiary">
+                <div class="container py-5">
+                    <img src="assets/images/perrito-scan.png" class="dog-paw mb-5" alt="Mascota Plaquitas CR">
+                    <p class="col-lg-8 mx-auto lead">
+                        Optimiza la seguridad de tu mascota centralizando toda su información en un perfil digital. En
+                        caso de extravío, contar con estos datos consolidados garantiza su pronta localización y retorno
+                        seguro.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-none">
+            <iframe src="https://plaquitascr.com/myPetCode?id=6008be8b89b577251b25e4a6&idSecond=0" frameborder="0"
+                class="iframe-pet"></iframe>
+        </div>
+
+        <!-- Page Content -->
+        <section class="py-5">
+            <div class="container bg-body-tertiary rounded-3 p-3">
+                <section>
+
+                    <h2 class="my-5 h3 text-center">No es suficiente?</h2>
+
+                    <!--First row-->
+                    <div class="row features-small mb-5 mt-3 wow fadeIn">
+
+                        <!--First column-->
+                        <div class="col-md-4">
+                            <!--First row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Gratis para uso personal y comercial</h6>
+                                    <p class="grey-text">Nuestro sitio es fácil de usar. Con registro gratuito sin
+                                        subscripción.
+                                    </p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/First row-->
+
+                            <!--Second row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Carrito de compras</h6>
+                                    <p class="grey-text">
+                                        Una impresionante colección de productos con la mayor calidad y durabilidad para
+                                        el can o familiar.
+                                    </p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/Second row-->
+
+                            <!--Third row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Añada permisos</h6>
+                                    <p class="grey-text">Al registrar tu can o familiar podrás administrar tu
+                                        información personal.</p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/Third row-->
+
+                            <!--Fourth row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Completamente responsivo</h6>
+                                    <p class="grey-text">No importa si el sitio se mostrará en una computadora de
+                                        escritorio, computadora portátil o tableta
+                                        o teléfono móvil. Localpets&family
+                                        se ve muy bien en cada pantalla.
+                                    <p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/Fourth row-->
+                        </div>
+                        <!--/First column-->
+
+                        <!--Second column-->
+                        <div class="col-md-4 flex-center">
+                            <img src="https://i.pinimg.com/564x/08/71/66/087166ec928cb1e2fec2947044cb75ca.jpg"
+                                alt="MDB Magazine Template displayed on iPhone"
+                                class="z-depth-0 mb-5 img-fluid rounded-3">
+                        </div>
+                        <!--/Second column-->
+
+                        <!--Third column-->
+                        <div class="col-md-4 mt-2">
+                            <!--First row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">No necesitas descargar ninguna aplicación</h6>
+                                    <p class="grey-text">
+                                        La idea principal es no tener que utilizar almacenamiento de las distintas
+                                        tiendas (App Store, Play Store)
+                                    </p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/First row-->
+
+                            <!--Second row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Que necesitas?</h6>
+                                    <p class="grey-text">Lector de QR, son gratuitas y fácil de usar</p>
+                                    <p class="grey-text">Algunas cámaras de tu celular tienen lector de QR</p>
+                                    <p class="grey-text">Si no tienes puedes descargar uno por medio de la tienda de tu
+                                        celular</p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/Second row-->
+
+                            <!--Third row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Como ubicar mi mascota si se pierde?</h6>
+                                    <p class="grey-text">
+                                        Cuando la persona se encuentra al mascota por medio del lector QR enviará un
+                                        link en el cual verá toda la información del can o familiar.
+                                    </p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/Third row-->
+
+                            <!--Fourth row-->
+                            <div class="row">
+                                <div class="col-2">
+                                    <i class="fas fa-check-circle fa-2x indigo-text"></i>
+                                </div>
+                                <div class="col-10">
+                                    <h6 class="feature-title">Navegadores de mapas disponibles</h6>
+                                    <p class="grey-text">Tienes la opción de usar Google Maps o Waze, si deseas ir a la
+                                        vivienda del can.</p>
+                                    <div style="height:15px"></div>
+                                </div>
+                            </div>
+                            <!--/Fourth row-->
+                        </div>
+                        <!--/Third column-->
+
+                    </div>
+                    <!--/First row-->
+
+                </section>
+            </div>
+        </section>
+
+        <!-- <header>
+            <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                        aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                        aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                        aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="100000"
+                        style="background-image: url('https://res.cloudinary.com/ensamble/image/upload/v1615498557/petbg-01-min_ksil2y_1_50_wta6aw.jpg')">
+                        <div class="carousel-caption">
+                            <h5>First slide label</h5>
+                            <p>Some representative placeholder content for the first slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url('assets/images/Plaquitas-Para-Mascotas-1.jpg')">
+                        <div class="carousel-caption">
+                            <h5>Second slide label</h5>
+                            <p>Some representative placeholder content for the second slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url('https://res.cloudinary.com/ensamble/image/upload/v1613162479/petbg-03-min_t89guj.jpg')">
+                        <div class="carousel-caption">
+                            <h5>Third slide label</h5>
+                            <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </header>
+
+        <div class="container my-5">
+            <div class="p-5 text-center bg-body-tertiary rounded-3">
+                <div id="carouselExample2" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExample2" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExample2" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExample2" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active" data-bs-interval="100000"
+                            style="background-image: url('https://res.cloudinary.com/ensamble/image/upload/v1615498557/petbg-01-min_ksil2y_1_50_wta6aw.jpg')">
+                            <div class="carousel-caption">
+                                <h5>First slide label</h5>
+                                <p>Some representative placeholder content for the first slide.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item"
+                            style="background-image: url('https://res.cloudinary.com/ensamble/image/upload/v1615497696/second_usjeck.jpg')">
+                            <div class="carousel-caption">
+                                <h5>Second slide label</h5>
+                                <p>Some representative placeholder content for the second slide.</p>
+                            </div>
+                        </div>
+                        <div class="carousel-item"
+                            style="background-image: url('https://res.cloudinary.com/ensamble/image/upload/v1613162479/petbg-03-min_t89guj.jpg')">
+                            <div class="carousel-caption">
+                                <h5>Third slide label</h5>
+                                <p>Some representative placeholder content for the third slide.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample2"
+                        data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample2"
+                        data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+        <div style="margin-top: 150px;">
+            <div class="my-5">
+                <div class="p-5 text-center bg-body-tertiary">
+                    <div class="container py-5">
+                        <h1>¿De dónde sale Plaquitas CR?</h1>
+                        <img src="assets/images/perrito-scan.png" class="dog-paw mb-5" alt="Mascota Plaquitas CR">
+                        <p class="col-lg-8 mx-auto lead">
+                            Desde febrero de 2021, en Plaquitas CR trabajamos por el bienestar animal.
+                        </p>
+
+                        <p class="col-lg-8 mx-auto lead">
+                            Somos una empresa familiar costarricense que nació por una necesidad y con la idea y
+                            creatividad de una pareja que vieron un problema y se
+
+                            comprometieron a crear nuevas posibilidades.
+                        </p>
+                        <p class="col-lg-8 mx-auto lead">
+                            Nos tocó ver a nuestras mascotas perderse, así como a las de nuestra gente cercana, y sentir
+                            esa mezcla de emociones inexplicable. No podía ser que en 2021 la identificación sea escasa,
+                            tediosa y con vencimiento.
+                        </p>
+
+                        <p class="col-lg-8 mx-auto lead">
+                            Veíamos que una identificación de mascotas más completa y actualizada era posible y más
+                            que necesaria. Con la tecnología, podíamos dar una solución, y así fue que empezamos a
+                            reunir al pequeño pero gran equipo que, a día de hoy no cambió, y dio todo durante meses
+
+                            para lanzar Plaquitas CR con su primer producto, las Plaquitas Inteligentes.
+                        </p>
+
+                        <p class="col-lg-8 mx-auto lead">
+                            Gracias a la hermosa comunidad que confió en nosotros, seguimos creciendo y trabajamos
+                            con mucho entusiasmo para seguir evolucionando y poder dar más y mejores soluciones
+                            tanto a la pérdida de mascotas como a su bienestar en general.
+                        </p>
+                        <p class="col-lg-8 mx-auto lead">
+                            Tenemos muchos desafíos
+
+                            por delante y muchas ganas de superarlos. ¿Nos acompañás?
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+
+        <div style="margin-top: 150px;">
+            <div class="card mx-auto mx-5" style="width: 18rem;" >
+                <div class="card-body">
+                    <p>Para más información, contáctanos a través del siguiente formulario:</p>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" class="form-control" id="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea class="form-control" id="message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-4">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -19,6 +19,10 @@
 //     margin-bottom: 0px;
 // }
 
+p-inputnumber {
+    width: 100%;
+}
+
 .notifications {
     position: fixed;
     bottom: 0;
@@ -122,6 +126,14 @@ input:-webkit-autofill:focus {
 
 .text-dim {
     color: #BDBDBD;
+}
+
+.goHome{
+    width: 100%;
+    text-align: left;
+    padding-left: 12px;
+    padding-top: 10px;
+    text-decoration: none;
 }
 
 @media (min-width : 992px) {

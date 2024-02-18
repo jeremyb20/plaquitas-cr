@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ThemeService } from 'src/app/services/theme.service';
 import { FormControl } from '@angular/forms';
@@ -13,7 +13,7 @@ import { ThemesOptions } from '@methods/constants';
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
-export class MainLayoutComponent implements OnDestroy {
+export class MainLayoutComponent implements OnInit, OnDestroy {
   Media!: MediaResponse;
   private mediaSubscription: Subscription;
   title: string = '';
@@ -31,21 +31,25 @@ export class MainLayoutComponent implements OnDestroy {
       this.Media = media;
       this.sidebarExpanded = media.IsMobile ? false : true;
     });
+  }
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
     this._themeService._ActualTheme.subscribe(data => {
-      this.themeList = ThemesOptions.find( theme => theme.value == data );
-    });
-
-    let themeSelected = this._themeService.getThemeSelected();
-    if (themeSelected) {
-      this._themeService.setTheme(themeSelected);
-      this.selectTheme = new FormControl(themeSelected);
-    } else {
-      this._themeService.setTheme('theme-default-light');
-    }
-    this.selectTheme.valueChanges.subscribe((value) => {
-      this._themeService.setTheme(value);
-    });
+        this.themeList = ThemesOptions.find( theme => theme.value == data );
+      });
+  
+      let themeSelected = this._themeService.getThemeSelected();
+      if (themeSelected) {
+        this._themeService.setTheme(themeSelected);
+        this.selectTheme = new FormControl(themeSelected);
+      } else {
+        this._themeService.setTheme('theme-default-light');
+      }
+      this.selectTheme.valueChanges.subscribe((value) => {
+        this._themeService.setTheme(value);
+      });
   }
 
   ngOnDestroy() {

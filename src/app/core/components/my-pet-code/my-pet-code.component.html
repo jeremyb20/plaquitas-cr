@@ -1,4 +1,4 @@
-<div *ngIf="payloadData" class="container-fluid pt-4">
+<div *ngIf="payloadData" class="container-fluid" [ngClass]="{'p-0': Media.IsMobile, 'pt-4': !Media.IsMobile}">
     <ng-container *ngIf="payloadData.isDigitalIdentificationActive; else elseTemplateNormalProfile">
         <app-digital-identification
             [payloadData]="payloadData"

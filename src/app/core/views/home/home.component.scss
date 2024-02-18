@@ -1,0 +1,35 @@
+@import "../../../../scss/partials/bootstrap-breakpoints";
+
+.carousel-item {
+    height: 50vh;
+    min-height: 350px;
+    background: no-repeat center center scroll;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.iframe-pet{
+    height: 75vh;
+    width: 100%;
+}
+
+.dog-paw {
+    @include media-breakpoint-down(md){
+        width: 100%;
+    }
+
+}
+
+.navbar-transparent,
+.bg-light,
+.bg-dark {
+    transition: 0.6s;
+}
+
+.navbar-transparent{
+    .nav-link {
+        color: #fff;
+    }
+}

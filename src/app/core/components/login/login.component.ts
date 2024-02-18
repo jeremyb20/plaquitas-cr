@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         });
 
         let metaTheme =  this.document.getElementById('meta-color') as HTMLMetaElement;
-        metaTheme.content = '#ff9eaa';
+        metaTheme.content = '#29859ef0';
     }
 
     ngOnInit() {
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
         const URL = `${environment.WebApiUrl + PostMethods.POST_LOGIN_USER}`;
 
         const data = {
-            email: this.f.email.value,
+            email: this.f.email.value.toLowerCase(),
             password: this.f.password.value
         }
 
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit {
             next: (result: ResponseData) => {
                 if (result.success) {
                     this.loading = false;
-                    this._themeService.setTheme(result.payload.theme)
+                    this._themeService.setTheme(result.payload.theme ? result.payload.theme : 'theme-default-light')
                     this._apiService.storeUserData(result);
                     switch (result.payload.userState) {
                         case 0:

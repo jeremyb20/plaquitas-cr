@@ -246,7 +246,7 @@ export function DeleteUserById(arr: any, IdUser: number) {
 
 export function generateCodeRandom(length: number) {
     var result:any = [];
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghjkmnopqrstuvwxyz0123456789';
+    var characters = 'ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghjkmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
       result.push(characters.charAt(Math.floor(Math.random() *
@@ -302,16 +302,21 @@ export enum PostMethods {
     POST_FORGOT_PASSWORD = 'api/user/forgot',
     POST_RESET_PASSWORD = 'api/user/reset-password',
     POST_UPDATE_LANGUAGE_BY_USER = '',
+
     ADMIN_POST_CREATE_NEW_QR_CODE = 'api/admin/createNewCode',
     USER_REGISTER_NEW_PET = 'api/user/registerNewPet',
     USER_REGISTER_NEW_PET_FROM_USER_PROFILE = 'api/user/registerNewPetfromUserProfile',
     USER_REGISTER_NEW_PET_FOR_QR_CODE = 'api/user/registerNewPetByQRcode',
     USER_DELETE_PET_BY_ID = 'api/user/deletePetById',
-    ADMIN_DELETE_PET_BY_ID = 'api/admin/deletePetByIdForAdmin'
+
+    ADMIN_DELETE_PET_BY_ID = 'api/admin/deletePetByIdForAdmin',
+    CATALOG_CREATE_NEW_ARTICLE = 'api/catalog/createCatalog',
 }
 
 export enum DeleteMethods {
     ADMIN_DELETE_USER_BY_ID = 'api/admin/deleteUserById',
+
+    CATALOG_DELETE_CATALOG_BY_ID = 'api/catalog/deleteCatalog',
 
 }
 
@@ -319,6 +324,8 @@ export enum PutMethods {
     ADMIN_UPDATE_USER_PROFILE = 'api/admin/editUser',
     ADMIN_UPDATE_USER_PROFILE_SECOND_LEVEL = 'api/admin/editUserSecondLevel',
     ADMIN_UPDATE_QR_STATUS = 'api/admin/updateStateActivationCode',
+    ADMIN_UPDATE_INVENTORY_LIST = 'api/catalog/editCatalog',
+
     USER_UPDATE_PROFILE = 'api/user/editProfileInfo',
     USER_UPDATE_SECONDARY_PROFILE = 'api/user/editProfileSecondaryInfo',
     USER_UPDATE_USER_THEME = 'api/user/editThemeProfile',
@@ -330,7 +337,9 @@ export enum GetMethods {
     GET_USER_PROFILE_BY_ID = 'api/user/getUserProfileById',
     GET_USR_PROFILE_BY_SCANNER = 'api/user/getUserProfileByIdScanner/',
     GET_MY_PET_CODE_BY_ID = 'api/user/getMyPetCode',
+
     ADMIN_GET_ALL_LOCATION_PETS = 'api/admin/getLocationAllPets',
     ADMIN_GET_ALL_REGISTERED_USERS = 'api/admin/getAllUsers',
+    ADMIN_GET_ALL_INVENTORY_LIST = 'api/catalog/getAllInventoryList',
     ADMIN_GET_CODES = 'api/admin/getNewCodes',
 }

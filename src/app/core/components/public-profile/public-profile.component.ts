@@ -46,6 +46,9 @@ export class PublicProfileComponent implements OnInit {
         return this.humanAge;
     }
 
+    removeRegex(phoneNumber){
+        return phoneNumber.replace(/-/g, '');
+    }
 
     calcularEdadPerroDesdeHumano(){
         return calcularEdadPerroDesdeHumano(this.humanAge)
