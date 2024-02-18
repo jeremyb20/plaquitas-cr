@@ -65,6 +65,8 @@ export class DashboardComponent implements OnInit {
             ownerPetName: [''],
             genderSelected: [''],
             petName: [''],
+            race: [''],
+            weight: [''],
             phone: [''],
             birthDate: [''],
             veterinarianContact: [''],
@@ -77,6 +79,8 @@ export class DashboardComponent implements OnInit {
         this.formValidateInputs = [
             { control: 'genderSelected', show: true},
             { control: 'petName', show: true },
+            { control: 'race', show: true },
+            { control: 'weight', show: true },
             { control: 'phone', show: true },
             { control: 'codeGenerator', show: false },
             { control: 'email', show: false },
@@ -88,6 +92,8 @@ export class DashboardComponent implements OnInit {
         this.formShowInputs = {
             showGenderSelected: true,
             showPetName: true,
+            showRace: true,
+            showWeight: true,
             showPhone: true,
             showCodeGenerator: false,
             showEmail: false,
@@ -136,6 +142,8 @@ export class DashboardComponent implements OnInit {
         this.profileForm.get('ownerPetName')?.setValue(this.itemPetSelected.ownerPetName);
         this.profileForm.get('genderSelected')?.setValue(this.itemPetSelected.genderSelected);
         this.profileForm.get('petName')?.setValue(this.itemPetSelected.petName);
+        this.profileForm.get('race')?.setValue(this.itemPetSelected.race);
+        this.profileForm.get('weight')?.setValue(this.itemPetSelected.weight);
         this.profileForm.get('phone')?.setValue(this.itemPetSelected.phone);
         this.profileForm.get('birthDate')?.setValue(this.itemPetSelected.birthDate != undefined ? new Date(this.itemPetSelected.birthDate): new Date());
         this.profileForm.get('veterinarianContact')?.setValue(this.itemPetSelected.veterinarianContact);

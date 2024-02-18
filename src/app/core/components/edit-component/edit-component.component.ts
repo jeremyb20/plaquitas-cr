@@ -38,6 +38,8 @@ export class EditComponentComponent implements OnInit {
             ownerPetName: this.f.ownerPetName.value,
             genderSelected: this.f.genderSelected.value,
             petName: this.f.petName.value,
+            race: this.f.race.value,
+            weight: this.f.weight.value,
             phone: this.f.phone.value,
             birthDate: this.f.birthDate.value,
             veterinarianContact: this.f.veterinarianContact.value,

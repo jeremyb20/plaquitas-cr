@@ -55,24 +55,29 @@
             
                 <div class="row">
                     <div class="p-2">
-                        <div *ngIf="payloadData.ownerPetName && payloadData.ownerPetName != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold"> {{ 'Owner Father Name' | translate }} </h5>
-                            <span>{{payloadData.ownerPetName}}</span>
+                        <div *ngIf="payloadData.race && payloadData.race != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Race' | translate }} </h5>
+                            <span>{{payloadData.race}}</span>
                         </div>
-                        
-                        <!-- <div *ngIf="payloadData.petName && payloadData.petName != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Pet Name' | translate }} </h5> 
-                            <span>{{payloadData.petName}}</span>
-                        </div> -->
 
-                        <div *ngIf="payloadData.phone && payloadData.phone != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{'Phone Number' | translate}} </h5> 
-                            <span>{{payloadData.phone}}</span>
+                        <div *ngIf="payloadData.weight && payloadData.weight != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{ 'Weight' | translate }} </h5>
+                            <span>{{payloadData.weight}}</span>
                         </div>
 
                         <div *ngIf="payloadData.birthDate && payloadData.birthDate != ''" class="forms-inputs mt-4">
                             <h5 class="fw-bold">{{ 'Birthdate' | translate }} </h5> 
                             <span>{{payloadData.birthDate | date }}  | {{ payloadData.petName }} {{'have' | translate}} {{calculateAge(payloadData.birthDate)}} {{'years' | translate }} humanos y en años canino aproximadamente: {{calcularEdadPerroDesdeHumano()}} </span>
+                        </div>
+
+                        <div *ngIf="payloadData.ownerPetName && payloadData.ownerPetName != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold"> {{ 'Owner Father Name' | translate }} </h5>
+                            <span>{{payloadData.ownerPetName}}</span>
+                        </div>
+
+                        <div *ngIf="payloadData.phone && payloadData.phone != ''" class="forms-inputs mt-4">
+                            <h5 class="fw-bold">{{'Phone Number' | translate}} </h5> 
+                            <span>{{payloadData.phone}}</span>
                         </div>
 
                         <div *ngIf="payloadData.veterinarianContact && payloadData.veterinarianContact != ''" class="forms-inputs mt-4">

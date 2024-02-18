@@ -30,6 +30,22 @@
                 <div *ngIf="f.petName.errors.required">{{'Pet Name' | translate}} {{'is required' | translate}}</div>
             </div>
         </div>
+
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.race.errors }">{{ 'Race' | translate }}</span>
+            <input type="text" formControlName="race"  [ngClass]="{ 'is-invalid': submitted && f.race.errors }" class="form-control">
+            <div *ngIf="submitted && f.race.errors" class="invalid-feedback">
+                <div *ngIf="f.race.errors.required">{{'Race' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
+    
+        <div class="forms-inputs mt-4">
+            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.weight.errors }">{{ 'Weight' | translate }}</span>
+            <input type="text" formControlName="weight"  [ngClass]="{ 'is-invalid': submitted && f.weight.errors }" class="form-control">
+            <div *ngIf="submitted && f.weight.errors" class="invalid-feedback">
+                <div *ngIf="f.weight.errors.required">{{'Weight' | translate}} {{'is required' | translate}}</div>
+            </div>
+        </div>
     
         <div class="forms-inputs mt-4">
             <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phone.errors }">{{ 'Phone Number' | translate }}</span>
