@@ -126,7 +126,7 @@ export class DashboardComponent implements OnInit {
     }
 
     copy(primaryId: any, secondaryId: any){
-        var text: string = 'https://www.localpetsandfamily.com/myPetCode?id=' + primaryId +'&idSecond='+ secondaryId;
+        var text: string = 'https://' + window.location.hostname + '/myPetCode?id=' + primaryId +'&idSecond='+ secondaryId;
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
     }

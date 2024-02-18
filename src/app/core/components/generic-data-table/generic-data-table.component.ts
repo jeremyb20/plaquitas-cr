@@ -202,7 +202,7 @@ export class GenericDataTableComponent {
 
     checkQrCode(item: any, idParental: any, idSecond: any){
         this.itemSelected = item;
-        const codeUrl = `https://www.localpetsandfamily.com/myPetCode/${idParental}/${idSecond}`;
+        const codeUrl = `https://${window.location.hostname}/myPetCode/${idParental}/${idSecond}`;
         this.AngularxQrCode = codeUrl;
 
         setTimeout(() => { this.elem =  this.qrCode.qrcElement.nativeElement.children[0]; 

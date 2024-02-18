@@ -59,7 +59,7 @@ export class MyPetCodeComponent implements OnInit{
 
     getMyPetCode(){
         const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_CODE_BY_ID + '?id=' + this.primaryId + '&idSecond=' + this.secondaryId }`;
-        this.AngularxQrCode = 'https://www.localpetsandfamily.com/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
+        this.AngularxQrCode = 'https://' + window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
@@ -154,7 +154,7 @@ export class MyPetCodeComponent implements OnInit{
     }
 
     copy(){
-        var text: string = 'https://www.localpetsandfamily.com/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;;
+        var text: string = 'https://'+ window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;;
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
     }
