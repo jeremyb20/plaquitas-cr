@@ -11,6 +11,7 @@ import { ResponseData } from '@models/models';
 import { DOCUMENT } from '@angular/common';
 import packageJson from '../../../../../package.json';
 import { ThemeService } from '@services/theme.service';
+import { SwUpdate } from '@angular/service-worker';
 
 @Component({
     selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
     loading: boolean = false;
     timeSeconds: number = 6000;
     messageResult: string = "";
-
+    showInstallButton = false;
+    deferredPrompt: any;
 
     constructor(
         @Inject(DOCUMENT) private document: Document,
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
         private _router: Router,
         private _mediaService: MediaService,
         private _themeService: ThemeService,
+        private _swUpdate: SwUpdate,
         private _cookieService: CookieService) {
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
@@ -51,6 +54,26 @@ export class LoginComponent implements OnInit {
             email: ['', [Validators.required]],
             password: ['', [Validators.required]]
         });
+
+        if (this._swUpdate.isEnabled) {
+            this._swUpdate.versionUpdates.subscribe((info) => {
+              // Actualización disponible, mostrar el botón de instalación
+              console.log(info)
+              this.showInstallButton = true;
+            });
+
+            // Escuchar el evento beforeinstallprompt
+            window.addEventListener('beforeinstallprompt', (event: Event) => {
+                // Prevenir la instalación automática
+                event.preventDefault();
+
+                // Guardar el evento para usarlo posteriormente
+                this.deferredPrompt = event;
+
+                // Mostrar el botón de instalación
+                this.showInstallButton = true;
+            });
+        }
     }
     get f() { return this.loginForm.controls; }
 
@@ -99,6 +122,25 @@ export class LoginComponent implements OnInit {
 
     goToRegisterPets(){
         this._router.navigate(['/register-pets/'],{ queryParams: {id: 0, idSecond: 0, isActivated: false}}); 
+    }
+
+    installPWA(){
+        if (this.deferredPrompt) {
+            // Lanzar la instalación cuando se hace clic en el botón
+            this.deferredPrompt.prompt();
+      
+            // Esperar a que el usuario responda a la instalación
+            this.deferredPrompt.userChoice.then((choiceResult: any) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('Usuario aceptó la instalación');
+              } else {
+                console.log('Usuario canceló la instalación');
+              }
+      
+              // Restablecer deferredPrompt después de la instalación
+              this.deferredPrompt = null;
+            });
+        }
     }
 
     getMessageInfo(message: string, time: number) {

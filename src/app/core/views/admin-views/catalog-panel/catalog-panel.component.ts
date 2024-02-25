@@ -2,16 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CatalogStatusList, CategoryList, ColumHeader, Product } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateCodeRandom, responseError } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateCodeRandom, getSeverity, responseError } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
 import { MediaResponse, MediaService } from '@services/media.service';
 import { NotificationService } from '@services/notification.service';
+import { Editor, Toolbar } from 'ngx-editor';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-catalog-panel',
@@ -38,6 +40,19 @@ export class CatalogPanelComponent implements OnInit {
     submitted: boolean = false;
 
     clonedProduct: { [s: string]: any } = {};
+    openDescription: any;
+    editProfileModal: any;
+    editor: Editor;
+    toolbar: Toolbar = [
+        ['bold', 'italic'],
+        ['underline', 'strike'],
+        ['blockquote'],
+        ['ordered_list', 'bullet_list'],
+        [{ heading: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }],
+        ['link'],
+        ['text_color', 'background_color'],
+        ['align_left', 'align_center', 'align_right', 'align_justify'],
+    ];
 
     constructor(
         private _apiService: ApiService, 
@@ -63,6 +78,7 @@ export class CatalogPanelComponent implements OnInit {
             { title: 'Status'},
             { title: 'Actions'},
         ]
+        this.editor = new Editor();
         this.registerForm = this.formBuilder.group({
             productName: ['', Validators.required],
             description: ['', Validators.required],
@@ -117,20 +133,33 @@ export class CatalogPanelComponent implements OnInit {
         });
     }
 
-    
-    getSeverity(status: string) {
-        switch (status) {
-            case 'INSTOCK':
-                return 'success';
-            case 'LOWSTOCK':
-                return 'warning';
-            case 'OUTOFSTOCK':
-                return 'danger';
-            case 'PROMO':
-                return 'info';
+    onChange(html: string) {
+        if (html == '<p></p>') {
+            this.registerForm.get('description')?.setValue('');
+        } else {
+            const expresionRegular = /data:image\/png;base64/g;
+            const coincidencias = expresionRegular.test(html);
 
-            default: return;
+            if (coincidencias) {
+                console.log('se econtro imagen')
+            }
         }
+    }
+
+    openModalDescription(pDescription: any){
+        this.openDescription = pDescription;
+        this.editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'), {
+            keyboard: false
+        })
+        this.editProfileModal.show()
+    }
+
+    cancel(){
+        this.openDescription = null;
+    }
+    
+    getSeverity(statusProduct: any){
+        return getSeverity(statusProduct)
     }
 
     onRowEditInit(product: any) {

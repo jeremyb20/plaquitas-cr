@@ -35,6 +35,8 @@ import { ConfigurationComponent } from '@components/configuration/configuration.
 import { MyPetCodeComponent } from '@components/my-pet-code/my-pet-code.component';
 import { ProfileComponent } from '@components/profile/profile.component';
 import { TermsAndConditionsComponent } from '@components/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
+import { MarketplaceComponent } from '@components/marketplace/marketplace.component';
 
 
 
@@ -51,9 +53,11 @@ const routes: Routes = [
       { path: 'register-pets', component: RegisterComponent },
       { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
       { path: 'myPetCode', component: MyPetCodeComponent},
+      { path: 'marketplace', component: MarketplaceComponent},
       { path: 'forgot', component: ForgotComponent },
       { path: 'reset-password/:token', component: ResetPasswordComponent },
       { path: 'terms-and-condition', component: TermsAndConditionsComponent },
+      { path: 'privacy-policy', component: PrivacyPolicyComponent },
     ]
   },
   {
@@ -69,6 +73,7 @@ const routes: Routes = [
       { path: 'code-generator', component: CodeGeneratorComponent, canActivate: [AdminGuard] },
       { path: 'catalog-panel', component: CatalogPanelComponent, canActivate: [AdminGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] },
+      { path: 'marketplace-admin', component: MarketplaceComponent, canActivate: [AdminGuard]},
       { path: 'myPetCode', component: MyPetCodeComponent},
       { path: 'scanner', component: ScannerComponent},
     ]

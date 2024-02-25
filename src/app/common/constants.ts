@@ -71,13 +71,16 @@ export interface Product {
     id?: string;
     code?: string;
     productName?: string;
-    description?: string;
+    description: string;
     price?: number;
     quantity?: number;
-    inventoryStatus?: string;
-    category?: string;
-    images?: Images;
+    inventoryStatus?: any;
+    category: string;
+    images?: Images[];
     rating?: number;
+    updatedAt? : string;
+    createdAt? : string;
+    phone? : string;
 }
 
 interface Images {
@@ -312,6 +315,17 @@ export const NAVIGATIONADMIN: Navigation[] = [
         url: '/code-generator',
         icon: 'fas fa-qrcode',
         title: 'QR Code Generator',
+        hasPermission: true,
+        showInToolbar: false,
+        showInNavBar: true,
+        isNew: false,
+        SubMenu: []
+    },
+    {
+        Id: 17,
+        url: '/marketplace-admin',
+        icon: 'fas fa-shopping-bag',
+        title: 'Marketplace',
         hasPermission: true,
         showInToolbar: false,
         showInNavBar: true,

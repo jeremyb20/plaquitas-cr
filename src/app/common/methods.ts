@@ -235,6 +235,21 @@ export function responseError(type: any) {
     }
 }
 
+export function getSeverity(status: string) {
+    switch (status) {
+        case 'INSTOCK':
+            return 'success';
+        case 'LOWSTOCK':
+            return 'warning';
+        case 'OUTOFSTOCK':
+            return 'danger';
+        case 'PROMO':
+            return 'info';
+
+        default: return;
+    }
+}
+
 export function DeleteUserById(arr: any, IdUser: number) {
     const objWithIdIndex = arr.findIndex((obj: any) => obj.id === IdUser);
     if (objWithIdIndex > -1) {
@@ -341,5 +356,7 @@ export enum GetMethods {
     ADMIN_GET_ALL_LOCATION_PETS = 'api/admin/getLocationAllPets',
     ADMIN_GET_ALL_REGISTERED_USERS = 'api/admin/getAllUsers',
     ADMIN_GET_ALL_INVENTORY_LIST = 'api/catalog/getAllInventoryList',
+    GET_ALL_CATALOG_LIST = 'api/catalog/getCatalogList',
+    GET_ALL_PROMO_LIST = 'api/catalog/getPromoList',
     ADMIN_GET_CODES = 'api/admin/getNewCodes',
 }

@@ -41,6 +41,7 @@
               "node_modules/bootstrap/scss/bootstrap.scss",
               "node_modules/animate.css/animate.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
+              "node_modules/primeflex/primeflex.css",
               "src/styles.scss",
               {
                 "input": "src/scss/themes/theme-lara-light-blue.scss",
@@ -72,7 +73,8 @@
               "raf",
               "rgbcolor",
               "exceljs",
-              "qrcode"
+              "qrcode",
+              "moment"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"

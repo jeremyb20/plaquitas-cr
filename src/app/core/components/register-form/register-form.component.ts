@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { COUNTRYFLAG, CountryFlag, getCountry } from '@methods/countrycode';
 import { MustMatch, PostMethods } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
@@ -20,6 +21,9 @@ declare const bootstrap: any;
 export class RegisterFormComponent implements OnInit {
     mediaSubscription: Subscription;
     Media: MediaResponse;
+    country: any;
+    countryCode: any;
+    countryFlag: any = CountryFlag;
 
     @Input() primaryId: any;
     @Input() secondaryId: any;
@@ -67,10 +71,15 @@ export class RegisterFormComponent implements OnInit {
             { Id: 1, gender: 'Macho' },
             { Id: 2, gender: 'Hembra' }
         ];
+        this.country = getCountry(); 
+        console.log(this.countryFlag)
+        this.countryCode = CountryFlag.find(element => this.country == element.name); 
+        console.log(this.countryCode)
 
         this.registerForm = this.formBuilder.group({
             petName: ['', Validators.required],
             genderSelected: ['', Validators.required],
+            country: [this.countryCode.name],
             phone: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/\d/)]),
             email: ['', [Validators.required, Validators.email]],
             password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -93,8 +102,8 @@ export class RegisterFormComponent implements OnInit {
                 }
             });
         });
-
     }
+    
     get f() { return this.registerForm.controls; }
 
     processFile(event: any): void {

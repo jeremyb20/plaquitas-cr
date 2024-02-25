@@ -29,33 +29,36 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { NgChartsModule } from 'ng2-charts';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
+
 /**
   PRIME MODULES
 */ 
 
-import { TableModule } from 'primeng/table';
-import { CalendarModule } from 'primeng/calendar';
-import { SliderModule } from 'primeng/slider';
-import { DialogModule } from 'primeng/dialog';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { ContextMenuModule } from 'primeng/contextmenu';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { ProgressBarModule } from 'primeng/progressbar';
-import { DropdownModule } from 'primeng/dropdown';
+import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
+import { CarouselModule } from 'primeng/carousel';
+import { CheckboxModule } from 'primeng/checkbox';
+import { ContextMenuModule } from 'primeng/contextmenu';
+import { DialogModule } from 'primeng/dialog';
+import { DataViewModule } from 'primeng/dataview';
+import { DropdownModule } from 'primeng/dropdown';
+import { FileUploadModule } from 'primeng/fileupload';
+import { GalleriaModule } from 'primeng/galleria';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputTextModule } from 'primeng/inputtext';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ProgressBarModule } from 'primeng/progressbar';
+import { RatingModule } from 'primeng/rating';
+import { SidebarModule } from 'primeng/sidebar';
+import { ScrollTopModule } from 'primeng/scrolltop';
+import { SliderModule } from 'primeng/slider';
 import { TabViewModule } from 'primeng/tabview';
 import { TagModule } from 'primeng/tag';
-import { CheckboxModule } from 'primeng/checkbox';
-import { InputMaskModule } from 'primeng/inputmask';
-import { FileUploadModule } from 'primeng/fileupload';
-import { ScrollTopModule } from 'primeng/scrolltop';
-import { RatingModule } from 'primeng/rating';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { SidebarModule } from 'primeng/sidebar';
-
+import { TableModule } from 'primeng/table';
 
 /**
 Services
@@ -105,6 +108,9 @@ import { ScannerComponent } from './core/views/user-views/scanner/scanner.compon
 import { DigitalIdentificationComponent } from './core/components/digital-identification/digital-identification.component';
 import { PublicProfileComponent } from './core/components/public-profile/public-profile.component';
 import { CatalogPanelComponent } from './core/views/admin-views/catalog-panel/catalog-panel.component';
+import { PrivacyPolicyComponent } from './core/components/privacy-policy/privacy-policy.component';
+import { MarketplaceComponent } from './core/components/marketplace/marketplace.component';
+import { MarketItemComponent } from './core/components/market-item/market-item.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -150,7 +156,10 @@ registerLocaleData(localeEsCR);
     ScannerComponent,
     DigitalIdentificationComponent,
     PublicProfileComponent,
-    CatalogPanelComponent
+    CatalogPanelComponent,
+    PrivacyPolicyComponent,
+    MarketplaceComponent,
+    MarketItemComponent
   ],
   imports: [
     BrowserModule,
@@ -164,6 +173,7 @@ registerLocaleData(localeEsCR);
     CalendarModule,
     SliderModule,
     DialogModule,
+    DataViewModule,
     MultiSelectModule,
     ContextMenuModule,
     DropdownModule,
@@ -190,6 +200,8 @@ registerLocaleData(localeEsCR);
     InputTextareaModule,
     ZXingScannerModule,
     SidebarModule,
+    CarouselModule,
+    GalleriaModule,
     NgxEditorModule.forRoot({
       locals: {
         // menu

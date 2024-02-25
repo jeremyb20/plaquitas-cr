@@ -32,6 +32,8 @@
     --btn-primary-bg-color-hover: rgb(19, 126, 104);
     --btn-primary-text-color: #fff;
 
+    --btn-info-text-color: #fff;
+
     --btn-secondary-bg-color: #29859ef0;
     --btn-secondary-bg-color-hover: #257288f0;
     --btn-secondary-text-color: #fff;
@@ -102,6 +104,10 @@
         background-color: var(--btn-primary-bg-color);
         border-color: var(--btn-primary-bg-color);
         border-radius: var(--border-radius);
+    }
+
+    .btn-info{
+        color: var(--btn-info-text-color);
     }
 
     .p-button.p-button-primary,
@@ -239,6 +245,16 @@
         outline: none;
         border: 2px solid #000;
         border-radius: var(--border-radius);
+    }
+
+    .p-inputmask:focus,
+    .p-inputgroup input, 
+    .p-inputgroup input:focus {
+        border-radius: 0px  var(--border-radius) var(--border-radius) 0px !important;
+    }
+
+    .custom-dropdown{
+        border-radius: var(--border-radius) 0px 0px var(--border-radius) !important;
     }
 
     .btn-custom {
@@ -1128,10 +1144,26 @@
         padding: 1.25rem 0rem;
     }
 
+    .catalog-image {
+        object-fit: cover;
+        width: 200px;
+        height: 200px;
+    }
+
     .p-component {
         font-size: var(--normal-font-size);
         border-radius: var(--border-radius);
+
+        .ptag-severity {
+            position: absolute;
+            margin: 10px;
+            font-size: 12px;
+        }
     }
+
+    // .p-carousel-items-container {
+    //     width: 55rem !important;
+    // }
 
     .p-sidebar-bottom{
         height: 90%;

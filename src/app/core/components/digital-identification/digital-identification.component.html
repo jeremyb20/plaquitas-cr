@@ -1,8 +1,8 @@
 <div *ngIf="payloadData" class="container-fluid pt-4">
-    <div class="row g-2">
-        <div class="col-12 col-md-12 col-lg-6 mb-5 d-flex justify-content-center ">
+    <div class="grid g-2">
+        <div class="col-12 md:col-6 lg:col-6 d-flex justify-content-center ">
             <div class="img-custom p-3 card-custom card-identity">
-                <div class="row">
+                <div class="row g-3">
                     <div class="col-1 col-md-1 col-lg-1" [ngClass]="{'mb-3': Media.IsMobile}">
                         <img height="20px" width="25px" src="assets/images/flag-costa-rica.png" alt="CostaricaFlag" srcset="">
                     </div>
@@ -13,13 +13,13 @@
                             <small class="fw-bold" [ngStyle]="{'font-size': Media.IsMobile ? '12px' : ''}" [ngClass]="{'pb-5': !Media.IsMobile, 'pb-2': Media.IsMobile}">Cédula de identidad</small>
                         </div>
 
-                        <span *ngIf="Media.IsMobile" class="mt-2 fs-6 fw-bold d-inline-block text-truncate" style="max-width: 150px;">{{payloadData._id}}</span>
-                        <span *ngIf="!Media.IsMobile" class="mt-2 fs-6 fw-bold">{{payloadData._id}}</span>
+                        <span *ngIf="Media.IsMobile" class="mt-2 fs-6 fw-bold d-inline-block text-truncate" style="max-width: 100px;">{{payloadData._id}}</span>
+                        <span *ngIf="!Media.IsMobile" class="mt-2 fs-6 fw-bold  d-inline-block text-truncate" style="max-width: 150px;">{{payloadData._id}}</span>
                         <div class="text-end">
-                            <img height="200" width="200" style="opacity: 0.4;" src="assets/images/paw-cedula-identidad.png" alt="" srcset="">
+                            <img height="100" width="100" style="opacity: 0.4;" src="assets/images/paw-cedula-identidad.png" alt="" srcset="">
                         </div>
                     </div>
-                    <div class="col-4 col-md-6 col-lg-4 text-end" style="padding: 0px 4px 0px 0px;">
+                    <div class="col-4 col-md-6 col-lg-4 text-end" style="padding: 0px 0px 0px 0px;">
                         <div class="banner">
                             <img class="rounded-custom image-profile" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
                         </div>
@@ -51,7 +51,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-12 col-lg-6 mb-5 d-flex justify-content-center">
+        <div class="col-12 md:col-6 lg:col-6 d-flex justify-content-center">
             <div class="img-custom p-3 card-custom card-identity">
                 <div class="row d-flex align-items-center">
                     <div class="col-12 text-end d-grid">

@@ -53,10 +53,15 @@
                 <td style="width: 350px;">
                     <p-cellEditor>
                         <ng-template pTemplate="input">
-                            <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="product.description"></textarea>
+                            <!-- <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="product.description"></textarea> -->
+                            <div class="editor">
+                                <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+                                <ngx-editor multiple [editor]="editor" [(ngModel)]="product.description" placeholder="{{'Type here...' | translate}}"  (ngModelChange)="onChange($event)"></ngx-editor>
+                            </div>
                         </ng-template>
                         <ng-template pTemplate="output">
-                            <div [innerHTML]="transform(product.description)"></div>
+                            <!-- <div [innerHTML]="transform(product.description)"></div> -->
+                            <button class="btn btn-warning" (click)="openModalDescription(product.description)"> <i class="feather icon-eye"></i></button>
                         </ng-template>
                     </p-cellEditor>
                 </td>
@@ -165,7 +170,11 @@
 
         <div class="forms-inputs mb-4">
             <span class="span-login" [ngClass]="{'text-danger': submitted && f.description.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Description' | translate }}</span>
-            <textarea rows="5" cols="30" class="form-control" pInputTextarea formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea>
+            <!-- <textarea rows="5" cols="30" class="form-control" pInputTextarea formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea> -->
+            <div class="editor" [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.description.errors }">
+				<ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+				<ngx-editor multiple [editor]="editor" formControlName="description" placeholder="{{'Type here...' | translate}}"  (ngModelChange)="onChange($event)"></ngx-editor>
+			</div>
             <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
                 <small class="small-msg" *ngIf="f.description.errors.required">{{'Description' | translate}} {{'is required' | translate}}</small>
             </div>
@@ -255,3 +264,17 @@
     </form>
     
 </p-sidebar>
+
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog modal-dialog-top modal-search">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="editProfileModalLabel"></h5>
+                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0">
+                <div [innerHTML]="transform(openDescription)"></div>
+            </div>
+        </div>
+    </div>
+</div>
