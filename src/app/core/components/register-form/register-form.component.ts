@@ -72,9 +72,7 @@ export class RegisterFormComponent implements OnInit {
             { Id: 2, gender: 'Hembra' }
         ];
         this.country = getCountry(); 
-        console.log(this.countryFlag)
-        this.countryCode = CountryFlag.find(element => this.country == element.name); 
-        console.log(this.countryCode)
+        this.countryCode = CountryFlag.find(element => this.country == element.name);
 
         this.registerForm = this.formBuilder.group({
             petName: ['', Validators.required],
@@ -128,6 +126,10 @@ export class RegisterFormComponent implements OnInit {
         }
     }
 
+    onChangeCountry(country:any){  
+        this.registerForm.get('country')?.setValue(country.value);
+    }
+
     onSubmit() {
         this.submitted = true;
         // stop here if form is invalid
@@ -145,6 +147,7 @@ export class RegisterFormComponent implements OnInit {
             fd.append('userState', data.userState);
             fd.append('email', data.email.toLowerCase());
             fd.append('password', data.password);
+            fd.append('country', data.country);
             fd.append('image', data.photo);
             fd.append('petStatus', data.petStatus);
             fd.append('genderSelected', data.genderSelected);
@@ -240,6 +243,7 @@ export class RegisterFormComponent implements OnInit {
                 password: this.f.password.value,
                 acceptTerms: this.f.acceptTerms.value,
                 genderSelected: this.f.genderSelected.value,
+                country: this.f.country.value,
                 userState: 3,
                 petStatus: 'No-Perdido',
                 isActivated: false,
@@ -262,6 +266,7 @@ export class RegisterFormComponent implements OnInit {
                 userState: 3,
                 petStatus: 'No-Perdido',
                 isActivated: false,
+                country: this.f.country.value,
                 photo: this.file,
                 _id: this.payloadData._id,
                 ownerPetName: this.payloadData.ownerPetName,
@@ -284,6 +289,7 @@ export class RegisterFormComponent implements OnInit {
                 password: this.f.password.value,
                 acceptTerms: this.f.acceptTerms.value,
                 genderSelected: this.f.genderSelected.value,
+                country: this.f.country.value,
                 birthDate: new Date(),
                 userState: 3,
                 petStatus: 'No-Perdido',

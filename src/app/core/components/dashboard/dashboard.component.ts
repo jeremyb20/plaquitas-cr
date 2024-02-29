@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CountryFlag, getCountry } from '@methods/countrycode';
 import { DeleteMethods, GetMethods, PostMethods, PutMethods, responseError, transformDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
@@ -42,6 +43,9 @@ export class DashboardComponent implements OnInit {
     file: File;
     photoSelected: any | ArrayBuffer;
     uploadedFiles: any[] = [];
+    country: any;
+    countryCode: any;
+    countryFlag: any = CountryFlag;
 
     constructor(private _apiService: ApiService, 
         private _notificationService: NotificationService,
@@ -61,10 +65,14 @@ export class DashboardComponent implements OnInit {
             this.getUserProfile();
         }
 
+        this.country = getCountry(); 
+        this.countryCode = CountryFlag.find(element => this.country == element.name);
+
         this.profileForm =  this._formBuilder.group({
             ownerPetName: [''],
             genderSelected: [''],
             petName: [''],
+            country: [this.countryCode.name],
             race: [''],
             weight: [''],
             phone: [''],
@@ -145,6 +153,7 @@ export class DashboardComponent implements OnInit {
         this.profileForm.get('race')?.setValue(this.itemPetSelected.race);
         this.profileForm.get('weight')?.setValue(this.itemPetSelected.weight);
         this.profileForm.get('phone')?.setValue(this.itemPetSelected.phone);
+        this.profileForm.get('country')?.setValue(this.itemPetSelected.country);
         this.profileForm.get('birthDate')?.setValue(this.itemPetSelected.birthDate != undefined ? new Date(this.itemPetSelected.birthDate): new Date());
         this.profileForm.get('veterinarianContact')?.setValue(this.itemPetSelected.veterinarianContact);
         this.profileForm.get('phoneVeterinarian')?.setValue(this.itemPetSelected.phoneVeterinarian);

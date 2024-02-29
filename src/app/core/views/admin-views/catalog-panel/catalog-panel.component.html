@@ -44,7 +44,9 @@
                 </td>
                 <td>
                     <ng-container *ngIf="product.images.length > 0 ; else elseTemplate">
-                        <img [src]="product.images[0].imageURL" [alt]="product.productName" width="100" class="shadow-4" />
+                        <div class="p-5" [ngStyle]="{'background-image': ' url(' + product.images[0].imageURL  + ')','background-size': 'cover', 'background-color':'rgba(0, 0, 0, 0.25)', 'background-blend-mode':'multiply', 'background-position': 'center', 'height': '135px'}">
+                            <button (click)="openModalGallery(product)" class="btn btn-outline-light"> <i class="feather icon-maximize-2"></i> </button>
+                        </div>
                     </ng-container>
                     <ng-template #elseTemplate>
                         <span>No fotos</span>
@@ -278,3 +280,83 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="addPhotoModal" tabindex="-1" aria-labelledby="addPhotoModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog modal-dialog-top modal-search">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="addPhotoModalLabel"></h5>
+                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0">
+                <section>
+                    <button (click)="compressFile()">Upload and compress Image</button>
+                    <img *ngIf="imgResultBeforeCompress" [src]="imgResultBeforeCompress" alt="" />
+                    <img *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="" />
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-sidebar [blockScroll]="true" [(visible)]="sidebarFullScreenVisible" [fullScreen]="true" (onHide)="closeSidebar()">
+    <ng-template pTemplate="header">
+        <button pButton type="button" icon="feather icon-maximize-2" (click)="displayBasic = true"></button> 
+    </ng-template>
+    <div *ngIf="productSelected">
+        <div class="grid">
+            <div class="col-12 md:col-8 lg:col-8">
+                <p-galleria [value]="productSelected.images" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px', 'margin-top': '2em' }">
+                    <ng-template pTemplate="item" let-item>
+                        <img [src]="item.imageURL" style="display: block; width: 100%; height: 22rem; object-fit: cover;" />
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                        <div class="grid grid-nogutter justify-content-center">
+                            <img [src]="item.imageURL" style="display: block;" />
+                        </div>
+                    </ng-template>
+                </p-galleria>
+
+                <p-galleria [value]="productSelected.images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
+                    [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+                    <ng-template pTemplate="item" let-item>
+                        <img [src]="item.imageURL" style="width: 100%; display: block;"/>
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                        <div class="grid grid-nogutter justify-content-center">
+                            <img height="40px" width="40px" [src]="item.imageURL" style="display: block;"/>
+                        </div>
+                    </ng-template>
+                </p-galleria>
+            </div>
+            <div class="col-12 md:col-4 lg:col-4">
+                <button class="btn btn-success m-2 rounded-5" (click)="updatePhotoList(productSelected)">Actualizar Lista </button>
+                <button class="btn btn-primary m-2" (click)="compressFile()">Nueva imagen</button>
+                <section class="col-12"> 
+                    <button *ngIf="imgResultAfterCompress" class="btn btn-warning position-absolute m-2" (click)="deletePhoto()"><i class="feather icon-trash-2"></i> </button>
+                    <img style="height: 200px; width: 200px; object-fit: cover;" *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="" />
+                    <div *ngIf="imgResultAfterCompress" class="col-12">
+                        <button (click)="addNewPhoto()" class="btn btn-success">Agregar foto</button>
+                    </div>
+                </section>
+        
+                <div #dropListContainer class="example-container" cdkDropListGroup>
+                    <div  cdkDropList class="example-list" (cdkDropListDropped)="dropImages($event)">
+                        <div class="col-12 px-3 m-2 example-box" *ngFor="let item of productSelected.images let i = index " cdkDrag>
+                            <div class="d-flex justify-content-between align-items-center example-custom-placeholder rounded-2" *cdkDragPlaceholder>
+                                <span class="p-5 fs-5">{{i + 1}}</span>
+                                <img [src]="item.imageURL" style="height: 100px; width: 100px; object-fit: cover;">
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="p-5 fs-5">{{i + 1}}</span>
+                                <button class="btn btn-danger" (click)="deletePhotoById(productSelected._id, item._id, item.image_id)"> <i class="feather icon-trash-2"></i> </button>
+                                <img [src]="item.imageURL" style="height: 100px; width: 100px; object-fit: cover;">
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</p-sidebar>

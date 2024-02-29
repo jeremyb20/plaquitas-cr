@@ -30,6 +30,7 @@
                 [options]="countryFlag"
                 optionLabel="flag"
                 formControlName="country"
+                (onChange)="onChangeCountry($event)"
                 [autoDisplayFirst]="false"
                 [filter]="true" filterBy="name"
                 optionValue="name">

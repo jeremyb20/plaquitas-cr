@@ -135,6 +135,12 @@ export function PreviousImage(item: FileItem, uploader: FileUploader) {
     }
 }
 
+// funcion que convierte imagen base 64 a file
+export function base64toFile(base64: string, fileName: string): File { 
+    const blob = base64ToBlob(base64.split(',')[1], 'image/png');
+    return new File([blob], fileName, { type: 'image/png', lastModified: Date.now() }); 
+}
+
 export function onErrorItem(
     item: FileItem,
     response: string,
@@ -310,6 +316,15 @@ export function calcularEdadPerroDesdeHumano(edadHumana: number): number {
   
     return edadPerro;
 }
+
+export function removeObjectWithId(arr: any, _id: string) {
+    const objWithIdIndex = arr.findIndex((obj: any) => obj._id === _id);
+    if (objWithIdIndex > -1) {
+        arr.splice(objWithIdIndex, 1);
+    }
+
+    return arr;
+}
   
 
 export enum PostMethods {
@@ -326,12 +341,14 @@ export enum PostMethods {
 
     ADMIN_DELETE_PET_BY_ID = 'api/admin/deletePetByIdForAdmin',
     CATALOG_CREATE_NEW_ARTICLE = 'api/catalog/createCatalog',
+    CATALOG_ADD_NEW_IMAGE = 'api/catalog/addCatalogImages',
+    CATALOG_DELETE_IMAGE_BY_ID = 'api/catalog/deleteImageCatalog'
 }
 
 export enum DeleteMethods {
     ADMIN_DELETE_USER_BY_ID = 'api/admin/deleteUserById',
 
-    CATALOG_DELETE_CATALOG_BY_ID = 'api/catalog/deleteCatalog',
+    CATALOG_DELETE_CATALOG_BY_ID = 'api/catalog/deleteCatalog'
 
 }
 
@@ -356,6 +373,7 @@ export enum GetMethods {
     ADMIN_GET_ALL_LOCATION_PETS = 'api/admin/getLocationAllPets',
     ADMIN_GET_ALL_REGISTERED_USERS = 'api/admin/getAllUsers',
     ADMIN_GET_ALL_INVENTORY_LIST = 'api/catalog/getAllInventoryList',
+    ADMIN_GET_CATALOG_BY_ID = 'api/catalog/getCatalogById?id=',
     GET_ALL_CATALOG_LIST = 'api/catalog/getCatalogList',
     GET_ALL_PROMO_LIST = 'api/catalog/getPromoList',
     ADMIN_GET_CODES = 'api/admin/getNewCodes',

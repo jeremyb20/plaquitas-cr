@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CountryFlag } from '@methods/countrycode';
 import { PutMethods } from '@methods/methods';
 import { ResponseData } from '@models/models';
 import { ApiService } from '@services/api.service';
@@ -14,6 +15,7 @@ export class EditComponentComponent implements OnInit {
     @Input() profileForm: FormGroup;
     submitted: boolean = false;
     loading: boolean = false;
+    countryFlag: any = CountryFlag;
 
     @Input() payloadData: any;
     @Input() primaryId: any;
@@ -41,6 +43,7 @@ export class EditComponentComponent implements OnInit {
             race: this.f.race.value,
             weight: this.f.weight.value,
             phone: this.f.phone.value,
+            country: this.f.country.value, 
             birthDate: this.f.birthDate.value,
             veterinarianContact: this.f.veterinarianContact.value,
             phoneVeterinarian: this.f.phoneVeterinarian.value,
@@ -67,4 +70,7 @@ export class EditComponentComponent implements OnInit {
         });
     }
 
+    onChangeCountry(country:any){ 
+        this.profileForm.get('country')?.setValue(country.value);
+    }
 }

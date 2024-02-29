@@ -48,10 +48,34 @@
         </div>
     
         <div class="forms-inputs mt-4">
-            <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phone.errors }">{{ 'Phone Number' | translate }}</span>
+            <!-- <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.phone.errors }">{{ 'Phone Number' | translate }}</span>
             <p-inputMask mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
             <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
                 <div *ngIf="f.phone.errors.required">{{'Phone Number' | translate}} {{'is required' | translate}}</div>
+            </div> -->
+            <div class="p-inputgroup">
+                <p-dropdown  
+                    styleClass="d-flex w-100 custom-dropdown" 
+                    [options]="countryFlag"
+                    optionLabel="flag"
+                    formControlName="country"
+                    (onChange)="onChangeCountry($event)"
+                    [autoDisplayFirst]="false"
+                    [filter]="true" filterBy="name"
+                    optionValue="name">
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'customer-badge status-' + option.dial_code">{{option.flag}} - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                    </ng-template>
+                </p-dropdown>
+                <span class="span-login" [ngClass]="{'text-danger': submitted && f.phone.errors }">
+                    <i  class="feather icon-phone"></i> Número telefónico {{ ( f.petName.value == '') ? ' ' : 'para ' + f.petName.value }}
+                </span>
+                <p-inputMask styleClass="w-100" mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+                <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                    <small class="small-msg" *ngIf="f.phone.errors.required">Teléfono es requerido</small>
+                    <small class="small-msg" *ngIf="f.phone.errors.minlength">Teléfono debe ser al menos 8 digitos</small>
+                    <small class="small-msg" *ngIf="f.phone.errors.pattern">Solo se permiten números</small>
+                </div>
             </div>
         </div>
     

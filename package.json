@@ -1,6 +1,6 @@
 {
   "name": "plaquitas-cr",
-  "version": "3.10.1-250224",
+  "version": "3.11.1-290224",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -49,6 +49,7 @@
     "ngx-clipboard": "^16.0.0",
     "ngx-cookie-service": "^16.0.0",
     "ngx-editor": "^16.0.1",
+    "ngx-image-compress": "^15.1.6",
     "ngx-online-status": "^2.0.0",
     "node-sass": "^9.0.0",
     "primeflex": "^3.3.1",

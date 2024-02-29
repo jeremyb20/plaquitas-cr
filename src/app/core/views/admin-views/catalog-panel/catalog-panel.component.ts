@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CatalogStatusList, CategoryList, ColumHeader, Product } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateCodeRandom, getSeverity, responseError } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, getSeverity, removeObjectWithId, responseError } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,6 +12,8 @@ import { NotificationService } from '@services/notification.service';
 import { Editor, Toolbar } from 'ngx-editor';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from 'src/environments/environment';
+import { DataUrl, DOC_ORIENTATION, NgxImageCompressService, UploadResponse } from 'ngx-image-compress';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import Swal from 'sweetalert2';
 declare var bootstrap: any;
 
@@ -22,6 +24,7 @@ declare var bootstrap: any;
 export class CatalogPanelComponent implements OnInit {
     @ViewChild('fileUpload') fileUpload: any;
     sidebarVisible: boolean = false;
+    sidebarFullScreenVisible: boolean = false;
     user: User;
     products!: Product[];
     columsData: ColumHeader[];
@@ -33,6 +36,7 @@ export class CatalogPanelComponent implements OnInit {
     registerForm: FormGroup;
     maxSizeInBytes = 6 * 1024 * 1024; // 5MB
     file: File;
+    newGalery: File;
     photoSelected: any | ArrayBuffer;
     uploadedFiles: any[] = [];
 
@@ -42,6 +46,15 @@ export class CatalogPanelComponent implements OnInit {
     clonedProduct: { [s: string]: any } = {};
     openDescription: any;
     editProfileModal: any;
+
+    imgResultBeforeCompress: DataUrl = '';
+    imgResultAfterCompress: DataUrl = '';
+    imgResultBeforeMsg: string = '';
+    imgResultAfterMsg: string = '';
+    displayBasic: boolean = false;
+    productSelected: any;
+
+
     editor: Editor;
     toolbar: Toolbar = [
         ['bold', 'italic'],
@@ -53,6 +66,20 @@ export class CatalogPanelComponent implements OnInit {
         ['text_color', 'background_color'],
         ['align_left', 'align_center', 'align_right', 'align_justify'],
     ];
+    responsiveOptions: any[] = [
+        {
+            breakpoint: '1024px',
+            numVisible: 5
+        },
+        {
+            breakpoint: '768px',
+            numVisible: 3
+        },
+        {
+            breakpoint: '560px',
+            numVisible: 1
+        }
+    ];
 
     constructor(
         private _apiService: ApiService, 
@@ -60,6 +87,7 @@ export class CatalogPanelComponent implements OnInit {
         private _translateService: TranslateService,
         private _mediaService: MediaService, 
         private formBuilder: FormBuilder,
+        private imageCompress: NgxImageCompressService,
         private _sanitizer: DomSanitizer){
             this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
                 this.Media = media;
@@ -95,6 +123,30 @@ export class CatalogPanelComponent implements OnInit {
 
     get f() { return this.registerForm.controls; }
 
+    compressFile() {
+        return this.imageCompress.uploadFile().then(({ image, orientation, fileName }: UploadResponse) => {
+            this.imgResultBeforeCompress = image;
+            const convertToFileImageBefore = base64toFile(this.imgResultBeforeCompress, fileName);
+            var maxSize = 3 * 1024 * 1024; // 3 megabytes en bytes
+
+            if(convertToFileImageBefore.size > maxSize){
+                console.warn( `Original: ${image.substring(0, 50)}... (${image.length} characters)`);
+                console.warn('Size in bytes was:', this.imageCompress.byteCount(image));
+    
+                this.imgResultBeforeMsg = `Original: ${this.imageCompress.byteCount(image)}... (${image.length} characters)`;
+    
+                this.imageCompress.compressFile(image, orientation, 50, 50)
+                .then((result: DataUrl) => {
+                    this.imgResultAfterCompress = result;
+                    this.imgResultAfterMsg =  `Compressed: ${this.imageCompress.byteCount(result)}... (${ result.length } characters)`
+                    this.newGalery = base64toFile(this.imgResultAfterCompress, fileName);
+                });
+            }else{
+                this.newGalery = convertToFileImageBefore;
+                this.imgResultAfterCompress = image;
+            }
+        });
+    }
 
     processFile(event: any): void {
         for (let file of event.currentFiles) {
@@ -118,6 +170,9 @@ export class CatalogPanelComponent implements OnInit {
         }
     }
 
+    dropImages(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.productSelected.images, event.previousIndex, event.currentIndex);
+    }
 
     getAllInventory(){
         const URL = `${environment.WebApiUrl + GetMethods.ADMIN_GET_ALL_INVENTORY_LIST }`;
@@ -154,6 +209,27 @@ export class CatalogPanelComponent implements OnInit {
         this.editProfileModal.show()
     }
 
+    openModalGallery(pProduct: any){
+        this.productSelected = [];
+        const URL = `${environment.WebApiUrl + GetMethods.ADMIN_GET_CATALOG_BY_ID + pProduct._id }`;
+        this._apiService.apiGetMethod(URL).subscribe({
+            next: (result: ResponseData) => {
+                this.productSelected = result.payload;
+                this.sidebarFullScreenVisible = true;
+            },
+            error: (err: any) => {
+                console.log(err);
+                const messageTypeErrorText = responseError(err.status);
+                this._notificationService.error(messageTypeErrorText, 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
+    }
+    
+    closeSidebar(){
+        this.productSelected = null;
+        this.displayBasic = false;
+        this.sidebarFullScreenVisible = false;
+    }
     cancel(){
         this.openDescription = null;
     }
@@ -263,6 +339,50 @@ export class CatalogPanelComponent implements OnInit {
         }
     }
 
+    addNewPhoto(){
+        const URL = `${environment.WebApiUrl + PostMethods.CATALOG_ADD_NEW_IMAGE }`;
+        const fd = new FormData();
+        fd.append('_id', this.productSelected._id);
+        fd.append('image', this.newGalery);
+
+        this._apiService.apiPostMethod(URL, fd).subscribe({
+            next: (result: ResponseData) => {
+                if (result.success) { 
+                    this.productSelected.images.push(result.payload);
+                    this.loading = false;
+                    this.deletePhoto();
+                    this.getAllInventory();
+                    this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                }else{
+                    this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                }
+            },
+            error: (err: any) => {
+                console.log(err);
+                this.loading = false;
+                this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
+    }
+
+    updatePhotoList(pProduct:any){ 
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_INVENTORY_LIST }`;
+        this._apiService.apiPutMethod(URL, pProduct).subscribe({
+            next: (result: ResponseData) => {
+                if(result.success){
+                    this.getAllInventory();
+                    this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                }else{
+                    this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                }
+            },
+            error: (err: any) => {
+                console.log(err);
+                this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
+    }
+
     deleteProduct(catalog: any){
         Swal.fire({
             text: this.TranslateText('Are you sure?'),
@@ -277,7 +397,6 @@ export class CatalogPanelComponent implements OnInit {
                 this._apiService.apiDeleteMethod(URL, []).subscribe({
                     next: (result: ResponseData) => {
                         if(result.success){
-                            // DeleteUserById(this.payloadData, user.id);
                             this.getAllInventory();
                             this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
                         }else{
@@ -293,6 +412,44 @@ export class CatalogPanelComponent implements OnInit {
         })
     }
 
+    deletePhoto(){
+        this.imgResultAfterCompress = '';
+    }
+
+    deletePhotoById(idPrincipal: string, imageID: string , image_id: string ){
+        Swal.fire({
+            text: this.TranslateText('Are you sure?'),
+            icon: 'warning',
+            showCancelButton: true,
+            cancelButtonText: this.TranslateText('No'),
+            confirmButtonText: this.TranslateText('Yes'),
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const URL = `${environment.WebApiUrl + PostMethods.CATALOG_DELETE_IMAGE_BY_ID }`;
+                const data ={
+                    _id:idPrincipal,
+                    imageID: imageID,
+                    imageCloud: image_id
+                }
+                this._apiService.apiPostMethod(URL, data).subscribe({
+                    next: (result: ResponseData) => {
+                        if(result.success){
+                            removeObjectWithId(this.productSelected.images, imageID);
+                            this.getAllInventory();
+                            this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                        }else{
+                            this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                        }
+                    },
+                    error: (err: any) => {
+                        console.log(err);
+                        this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+                    }
+                });
+            }
+        })
+    }
 
     TranslateText(text: string) {
         return this._translateService.instant(text);
