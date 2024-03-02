@@ -81,6 +81,7 @@ export interface Product {
     updatedAt? : string;
     createdAt? : string;
     phone? : string;
+    country :string;
 }
 
 interface Images {

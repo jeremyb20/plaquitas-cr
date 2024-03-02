@@ -35,7 +35,7 @@
                             <input pInputText type="text" id="productName" [(ngModel)]="product.productName">
                         </ng-template>
                         <ng-template pTemplate="output">
-                            <span>{{product.productName | translate}}</span>
+                            <span class="text-truncate">{{product.productName | translate}}</span>
                         </ng-template>
                     </p-cellEditor>
                 </td>
@@ -44,7 +44,7 @@
                 </td>
                 <td>
                     <ng-container *ngIf="product.images.length > 0 ; else elseTemplate">
-                        <div class="p-5" [ngStyle]="{'background-image': ' url(' + product.images[0].imageURL  + ')','background-size': 'cover', 'background-color':'rgba(0, 0, 0, 0.25)', 'background-blend-mode':'multiply', 'background-position': 'center', 'height': '135px'}">
+                        <div class="p-5 rounded-2" [ngStyle]="{'background-image': ' url(' + product.images[0].imageURL  + ')','background-size': 'cover', 'background-color':'rgba(0, 0, 0, 0.25)', 'background-blend-mode':'multiply', 'background-position': 'center', 'height': '135px'}">
                             <button (click)="openModalGallery(product)" class="btn btn-outline-light"> <i class="feather icon-maximize-2"></i> </button>
                         </div>
                     </ng-container>
@@ -52,7 +52,7 @@
                         <span>No fotos</span>
                     </ng-template>
                 </td>
-                <td style="width: 350px;">
+                <td [ngStyle]="{'width': editing ?  '350px' : '150px' }">
                     <p-cellEditor>
                         <ng-template pTemplate="input">
                             <!-- <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="product.description"></textarea> -->
@@ -67,8 +67,41 @@
                         </ng-template>
                     </p-cellEditor>
                 </td>
-                <td>
 
+                <td [ngStyle]="{'width': editing ?  '415px' : '150px' }">
+                    <p-cellEditor>
+                        <ng-template pTemplate="input">
+                            <div class="forms-inputs">
+                                <div class="p-inputgroup">
+                                    <p-dropdown  
+                                        styleClass="d-flex w-100 custom-dropdown" 
+                                        [options]="countryFlag"
+                                        optionLabel="flag"
+                                        [(ngModel)]="product.country"
+                                        (onChange)="onChangeCountry($event)"
+                                        [autoDisplayFirst]="false"
+                                        [filter]="true" filterBy="name"
+                                        optionValue="name">
+                                        <ng-template let-option pTemplate="item">
+                                            <span [class]="'customer-badge status-' + option.dial_code">{{option.flag}} - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                                        </ng-template>
+                                    </p-dropdown> 
+                                    <p-inputMask styleClass="w-75" mask="9999-9999" [(ngModel)]="product.phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                            <ng-container *ngIf="product.phone; else elseTemplate">
+                                {{getFlag(product.country)}} {{product.phone }}
+                            </ng-container>
+                            <ng-template #elseTemplate>
+                                <span>{{'Phone Number' | translate}} no registrado</span>
+                            </ng-template>
+                        </ng-template>
+                    </p-cellEditor>
+                </td>
+
+                <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
                             <p-inputNumber [(ngModel)]="product.price" inputId="locale-cr" mode="decimal" locale="es-CR" [minFractionDigits]="0"> </p-inputNumber>

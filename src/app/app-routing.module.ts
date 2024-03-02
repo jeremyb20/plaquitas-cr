@@ -37,6 +37,7 @@ import { ProfileComponent } from '@components/profile/profile.component';
 import { TermsAndConditionsComponent } from '@components/terms-and-conditions/terms-and-conditions.component';
 import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
 import { MarketplaceComponent } from '@components/marketplace/marketplace.component';
+import { MarketItemComponent } from '@components/market-item/market-item.component';
 
 
 
@@ -54,6 +55,7 @@ const routes: Routes = [
       { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
       { path: 'myPetCode', component: MyPetCodeComponent},
       { path: 'marketplace', component: MarketplaceComponent},
+      { path: 'marketplace/item/:id', component: MarketItemComponent},
       { path: 'forgot', component: ForgotComponent },
       { path: 'reset-password/:token', component: ResetPasswordComponent },
       { path: 'terms-and-condition', component: TermsAndConditionsComponent },

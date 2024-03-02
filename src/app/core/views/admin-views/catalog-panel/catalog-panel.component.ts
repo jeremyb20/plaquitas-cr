@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CatalogStatusList, CategoryList, ColumHeader, Product } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, getSeverity, removeObjectWithId, responseError } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, getFlag, getSeverity, removeObjectWithId, responseError } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,13 +15,14 @@ import { environment } from 'src/environments/environment';
 import { DataUrl, DOC_ORIENTATION, NgxImageCompressService, UploadResponse } from 'ngx-image-compress';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import Swal from 'sweetalert2';
+import { CountryFlag, getCountry } from '@methods/countrycode';
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-catalog-panel',
   templateUrl: './catalog-panel.component.html',
 })
-export class CatalogPanelComponent implements OnInit {
+export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     @ViewChild('fileUpload') fileUpload: any;
     sidebarVisible: boolean = false;
     sidebarFullScreenVisible: boolean = false;
@@ -54,6 +55,10 @@ export class CatalogPanelComponent implements OnInit {
     displayBasic: boolean = false;
     productSelected: any;
 
+    country: any;
+    countryCode: any;
+    countryFlag: any = CountryFlag;
+
 
     editor: Editor;
     toolbar: Toolbar = [
@@ -82,6 +87,7 @@ export class CatalogPanelComponent implements OnInit {
     ];
 
     constructor(
+        private readonly changeDetectorRef: ChangeDetectorRef,
         private _apiService: ApiService, 
         private _notificationService: NotificationService, 
         private _translateService: TranslateService,
@@ -94,18 +100,26 @@ export class CatalogPanelComponent implements OnInit {
             });
         }
 
+    ngAfterViewChecked(): void {
+        this.changeDetectorRef.detectChanges();
+    }
+        
+
     ngOnInit(): void {
         this.columsData = [
             { title: 'Name'},
             { title: 'Code'},
             { title: 'Image'},
             { title: 'Description'},
+            { title: 'Phone Number'},
             { title: 'Price'},
             { title: 'Category'},
             { title: 'Reviews'},
             { title: 'Status'},
             { title: 'Actions'},
         ]
+        this.country = getCountry(); 
+        this.countryCode = CountryFlag.find(element => this.country == element.name);
         this.editor = new Editor();
         this.registerForm = this.formBuilder.group({
             productName: ['', Validators.required],
@@ -114,6 +128,8 @@ export class CatalogPanelComponent implements OnInit {
             quantity: ['', Validators.required],
             inventoryStatus: ['', Validators.required],
             category: ['', Validators.required],
+            phone: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/\d/)]),
+            country: [''],
         });
         this.categoryList = CategoryList;
         this.catalogStatusList = CatalogStatusList;
@@ -122,7 +138,11 @@ export class CatalogPanelComponent implements OnInit {
     }
 
     get f() { return this.registerForm.controls; }
-
+    
+    getFlag(country: string){
+        return getFlag(country);
+    }
+    
     compressFile() {
         return this.imageCompress.uploadFile().then(({ image, orientation, fileName }: UploadResponse) => {
             this.imgResultBeforeCompress = image;
@@ -168,6 +188,10 @@ export class CatalogPanelComponent implements OnInit {
                 }
             }
         }
+    }
+
+    onChangeCountry(country:any){  
+        this.registerForm.get('country')?.setValue(country.value);
     }
 
     dropImages(event: CdkDragDrop<string[]>) {

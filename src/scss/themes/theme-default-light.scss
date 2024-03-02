@@ -1305,6 +1305,16 @@
         border-radius: 0px 0px 10px 10px;
     }
 
+    .p-sidebar-custom
+    .p-sidebar-content {
+        padding: 0px;
+        overflow-x: hidden;
+    }
+
+    .p-galleria-item {
+        background: #191919;
+        padding: 10px;
+    }
 
     /* Estilos de la tarjeta */
     .card-profile {
@@ -1535,7 +1545,7 @@
 
 :root {
     --bs-border-radius: 5px;
-    --bs-btn-active-bg: #efb10a;
+    --bs-btn-active-bg: #3d9b99;
     --bs-btn-disabled-bg: #102928;
     --bs-btn-disabled-opacity: 0.9;
     --bs-btn-disabled-color: #000;

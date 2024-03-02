@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { FileUploader, FileItem, ParsedResponseHeaders } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { FormGroup } from '@angular/forms';
+import { CountryFlag } from './countrycode';
 
 export function getSmartLoginTimeOut() {
     return 1
@@ -326,6 +327,14 @@ export function removeObjectWithId(arr: any, _id: string) {
     return arr;
 }
   
+
+export function getFlag(country: string){
+    return CountryFlag.find(element => country == element.name)?.flag;
+}
+
+export function getCountryCode(country: string){
+    return CountryFlag.find(element => country == element.name)?.dial_code;
+}
 
 export enum PostMethods {
     POST_LOGIN_USER = 'api/user/authenticate',

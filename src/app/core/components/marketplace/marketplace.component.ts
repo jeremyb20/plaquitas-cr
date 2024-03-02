@@ -26,7 +26,7 @@ export class MarketplaceComponent implements OnInit {
     isNavbarTransparent = true;
     sidebarVisible: boolean = false;
     products!: Product[];
-    productsPromo!: Product[]; 
+    productsPromo: Product[]; 
     sortOptions!: SelectItem[];
     categoryList: Filters[];
     sortOrder!: number;
@@ -38,6 +38,7 @@ export class MarketplaceComponent implements OnInit {
     year:any;
     loading: boolean = false;
     displayBasic: boolean = false;
+    showFilterInputs: boolean = false;
     productSelected: any;
 
     constructor(
@@ -115,7 +116,7 @@ export class MarketplaceComponent implements OnInit {
                     this.products = result.payload;
                 }
                 if(typeReq == 2){
-                    this.productsPromo = result.payload;
+                    this.productsPromo = result.payload; 
                 }
                 this.loading = false;
             },
