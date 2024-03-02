@@ -8,12 +8,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { HeaderLayoutComponent } from './core/layouts/header-layout/header-layout.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';  
 import { ThemeService } from '@services/theme.service';
+import { MyPetCodeComponent } from '@components/my-pet-code/my-pet-code.component';
 const routes: Routes = [ {
     path: '',
     component: HeaderLayoutComponent,
     children: [
             { path: '', redirectTo: 'marketplace/item', pathMatch: 'full' }, 
             { path: 'marketplace/item/:id', component: MarketItemComponent},
+            { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
         ]
     }
 ]
