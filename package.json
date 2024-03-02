@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build && npm run plaquitas-cr:server",
+    "build": "ng build && ng run plaquitas-cr:server",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "dev:ssr": "ng run plaquitas-cr:serve-ssr",
