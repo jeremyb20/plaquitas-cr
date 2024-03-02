@@ -77,9 +77,9 @@ export class MarketItemComponent {
                 this.dayPublished = moment(this.payloadData.createdAt).fromNow(); 
                 this.dayUpdated = moment(this.payloadData.updatedAt).fromNow();  
 
-                const urlbyPass = `https//${ window.location.hostname}/marketplace/item/${productId}`
+                const urlbyPass = `https://${ window.location.hostname}/marketplace/item/${productId}`
 
-                const textMessageLink = `Hola%0A Me interesa este articulo, esta disponible? %0A Link:%0A ${urlbyPass}`
+                const textMessageLink = `Hola. ¿Sigue estando disponible?%0ALink:%0A ${urlbyPass}`
 
                 this.textMessageLink = `https://wa.me/${this.getFlag(this.payloadData.country)}${this.removeRegex(this.payloadData.phone)}?text=${textMessageLink}`
             },
