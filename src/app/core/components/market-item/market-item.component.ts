@@ -79,13 +79,7 @@ export class MarketItemComponent {
 
                 const urlbyPass = `https//${ window.location.hostname}/marketplace/item/${productId}`
 
-                const textMessageLink = `
-                Hola\n
-
-                Me interesa este articulo, esta disponible? \n
-
-                Link: ${urlbyPass}
-                `
+                const textMessageLink = `Hola%0A Me interesa este articulo, esta disponible? %0A Link:%0A ${urlbyPass}`
 
                 this.textMessageLink = `https://wa.me/${this.getFlag(this.payloadData.country)}${this.removeRegex(this.payloadData.phone)}?text=${textMessageLink}`
             },
