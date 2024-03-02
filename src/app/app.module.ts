@@ -2,7 +2,7 @@
 Internal Modules
 */
 import { NgModule, isDevMode, LOCALE_ID } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -19,7 +19,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { JwtModule } from "@auth0/angular-jwt";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgHttpLoaderModule } from 'ng-http-loader';
-import { OnlineStatusModule } from 'ngx-online-status';
+// import { OnlineStatusModule } from 'ngx-online-status';
 import { AppRoutingModule } from './app-routing.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -116,10 +116,13 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
 
-export function getLang(){
-  const lang = localStorage.getItem('lang')!
-  return lang != null ? lang : 'es';
-}
+// export function getLang(){
+//     var lang: any = '';
+//     if (typeof window !== 'undefined') {
+//          lang = localStorage.getItem('lang')!
+//     }
+//     return lang != null ? lang : 'es';
+// }
 
 export function tokenGetter() {
   return sessionStorage.getItem("token");
@@ -167,7 +170,7 @@ registerLocaleData(localeEsCR);
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    OnlineStatusModule,
+    // OnlineStatusModule,
     HttpClientModule,
     TableModule,
     CalendarModule,
@@ -243,8 +246,8 @@ registerLocaleData(localeEsCR);
     NgHttpLoaderModule.forRoot(),
     NgHttpLoaderModule.forRoot(),
     TranslateModule.forRoot({
-      defaultLanguage: getLang(),
-      //defaultLanguage: 'en',
+      //defaultLanguage: getLang(),
+      defaultLanguage: 'es',
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
@@ -271,7 +274,8 @@ registerLocaleData(localeEsCR);
     CounterService,
     TranslationService,
     ApiService,
-    CookieService, 
+    CookieService,
+    provideClientHydration(), 
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

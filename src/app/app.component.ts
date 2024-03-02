@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { OnlineStatusService, OnlineStatusType } from 'ngx-online-status';
+import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+// import { OnlineStatusService, OnlineStatusType } from 'ngx-online-status';
 import { NotificationService } from './services/notification.service';
 import { environment } from '../environments/environment.development';
 import { ApiService } from '@services/api.service';
@@ -13,22 +14,30 @@ import { filter } from 'rxjs';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-    location: string = window.location.href;
+export class AppComponent implements OnInit { 
     themeColor: string = '#1D4A49';
-    status: OnlineStatusType;
-    localTheme: string = '';
+    // status: OnlineStatusType;
+    localTheme: any = '';
     currentURL: string;
+    isBrowser: boolean;
 
-    constructor(private onlineStatusService: OnlineStatusService, private _notificationService: NotificationService, private _apiService: ApiService, private _themeService: ThemeService, public _router: Router) {
-        this.onlineStatusService.status.subscribe((status: OnlineStatusType) => {
-            this.status = status;
-            if (this.status == 0) {
-                this._notificationService.error('Connection has been lost', 'bg-dark', 'animate__backInUp', 6000);
-            } else {
-                this._notificationService.success('Connection has been established', 'bg-success', 'animate__backInUp', 6000);
+    constructor(
+        // private onlineStatusService: OnlineStatusService, 
+        private _notificationService: NotificationService, 
+        private _apiService: ApiService, 
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private _themeService: ThemeService, 
+        public _router: Router) {
+            if(isPlatformBrowser(this.platformId)){
+                // this.onlineStatusService.status.subscribe((status: OnlineStatusType) => {
+                //     this.status = status;
+                //     if (this.status == 0) {
+                //         this._notificationService.error('Connection has been lost', 'bg-dark', 'animate__backInUp', 6000);
+                //     } else {
+                //         this._notificationService.success('Connection has been established', 'bg-success', 'animate__backInUp', 6000);
+                //     }
+                // });
             }
-        });
         _router.events.pipe(
             filter(event => event instanceof NavigationEnd)
         ).subscribe((event: any) => {

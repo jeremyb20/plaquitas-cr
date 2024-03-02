@@ -70,17 +70,17 @@ export interface ColumHeader {
 export interface Product {
     id?: string;
     code?: string;
-    productName?: string;
+    productName : string;
     description: string;
     price?: number;
     quantity?: number;
     inventoryStatus?: any;
     category: string;
-    images?: Images[];
-    rating?: number;
-    updatedAt? : string;
-    createdAt? : string;
-    phone? : string;
+    images: Images[];
+    rating: number;
+    updatedAt : string;
+    createdAt : string;
+    phone : string;
     country :string;
 }
 

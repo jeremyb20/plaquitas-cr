@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '@methods/constants';
 import { GetMethods, getCountryCode, getFlag, getSeverity, responseError } from '@methods/methods';
@@ -50,6 +51,9 @@ export class MarketItemComponent {
         private _notificationService: NotificationService, 
         public _satin: DomSanitizer,
         private _media: MediaService,  
+        private readonly _title: Title,
+        @Inject(PLATFORM_ID) private platformId: Object,
+        private _metaTags: Meta,
         private route: ActivatedRoute){
          //Para registro con codigo qr    
          this.route.params.subscribe(params => { 
@@ -75,13 +79,32 @@ export class MarketItemComponent {
                 moment.locale('es')
                 this.payloadData = result.payload;
                 this.dayPublished = moment(this.payloadData.createdAt).fromNow(); 
-                this.dayUpdated = moment(this.payloadData.updatedAt).fromNow();  
+                this.dayUpdated = moment(this.payloadData.updatedAt).fromNow(); 
+                var urlWindowLocation: any = '';
+                if(isPlatformBrowser(this.platformId)){
+                    urlWindowLocation = window.location.hostname;
+                }else{
+                    urlWindowLocation = 'plaquitascr.com'
+                }
+ 
 
-                const urlbyPass = `https://${ window.location.hostname}/marketplace/item/${productId}`
+                const urlbyPass = `https://${ urlWindowLocation }/marketplace/item/${productId}`
 
                 const textMessageLink = `Hola. ¿Sigue estando disponible?%0ALink:%0A ${urlbyPass}`
 
                 this.textMessageLink = `https://wa.me/${this.getFlag(this.payloadData.country)}${this.removeRegex(this.payloadData.phone)}?text=${textMessageLink}`
+
+
+                this._title.setTitle(`${ this.TranslateText(this.payloadData.productName)} | Plaquitas CR `)
+                this._metaTags.updateTag({ property: 'og:title', content: this.payloadData.productName }); 
+                this._metaTags.updateTag({ property: 'og:url', content: urlWindowLocation }); 
+                this._metaTags.updateTag({ property: 'og:image', content: this.payloadData.images[0].imageURL });
+                this._metaTags.updateTag({ property: 'og:image:secure_url', content: this.payloadData.images[0].imageURL });
+                this._metaTags.updateTag({ property: 'og:image:type', content: 'image/png' });
+                this._metaTags.updateTag({ property: 'og:image:width', content: '300' });
+                this._metaTags.updateTag({ property: 'og:image:height', content: '300' });
+                this._metaTags.updateTag({ property: 'og:description', content: this.payloadData.description });
+
             },
             error: (err: any) => {
                 console.log(err);
