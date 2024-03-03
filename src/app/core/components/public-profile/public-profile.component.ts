@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
 import { calcularEdadPerroDesdeHumano, calculateAge } from '@methods/methods';
 import { MediaResponse, MediaService } from '@services/media.service';
@@ -23,8 +24,8 @@ export class PublicProfileComponent implements OnInit {
     constructor( 
         private _media: MediaService,
         private _clipboardService: ClipboardService, 
-        private _notificationService: NotificationService, 
-        private _metaTags: Meta
+        private _notificationService: NotificationService,
+        @Inject(PLATFORM_ID) private platformId: Object,
         ){
         this.mediaSubscription = this._media.subscribeMedia().subscribe(media => {
             this.Media = media;
@@ -32,18 +33,17 @@ export class PublicProfileComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this._metaTags.updateTag({ property: 'og:title', content: '¡Hola! Soy ' + this.payloadData.petName +'.' }); 
-        this._metaTags.updateTag({ property: 'og:url', content: 'https://' + window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId }); 
-        this._metaTags.updateTag({ property: 'og:image', content: this.payloadData.photo });
-        this._metaTags.updateTag({ property: 'og:image:secure_url', content: this.payloadData.photo });
-        this._metaTags.updateTag({ property: 'og:image:type', content: 'image/png' });
-        this._metaTags.updateTag({ property: 'og:image:width', content: '300' });
-        this._metaTags.updateTag({ property: 'og:image:height', content: '300' });
-        this._metaTags.updateTag({ property: 'og:description', content:'¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi perfil, visita el link que esta abajo.' });
+ 
     }
 
     copy(){
-        var text: string = 'https://' + window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;
+        var text: string = '';
+        if(isPlatformBrowser(this.platformId)){
+            text = 'https://' + window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId; 
+        }else{
+            text = 'https://' + 'plaquitascr.com' + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId; 
+
+        }
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
     }

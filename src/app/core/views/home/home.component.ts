@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
     }
 
     getAllInventory(){
-        const URL = `${environment.WebApiUrl + GetMethods.GET_ALL_CATALOG_LIST }`;
+        const URL = `${environment.WebApiUrl + GetMethods.GET_ALL_PROMO_LIST }`;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
                 this.products = result.payload;

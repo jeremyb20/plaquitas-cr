@@ -336,6 +336,12 @@ export function getCountryCode(country: string){
     return CountryFlag.find(element => country == element.name)?.dial_code;
 }
 
+export function stripHtmlTags(input:any) {
+    const doc = new DOMParser().parseFromString(input, 'text/html');
+    return doc.body.textContent || "";
+  }
+
+
 export enum PostMethods {
     POST_LOGIN_USER = 'api/user/authenticate',
     POST_FORGOT_PASSWORD = 'api/user/forgot',

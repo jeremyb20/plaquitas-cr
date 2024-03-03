@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { CategoryList, Product } from '@methods/constants';
+import { CatalogStatusList, CategoryList, Product } from '@methods/constants';
 import { GetMethods, getSeverity, responseError } from '@methods/methods';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -29,6 +29,7 @@ export class MarketplaceComponent implements OnInit {
     productsPromo: Product[]; 
     sortOptions!: SelectItem[];
     categoryList: Filters[];
+    statusList: Filters[];
     sortOrder!: number;
 
     sortField!: string;
@@ -46,8 +47,8 @@ export class MarketplaceComponent implements OnInit {
         private _notificationService: NotificationService,
         private _apiService: ApiService,
         private _themeService: ThemeService,
-        private _translateService: TranslateService,
-        private router: Router) {
+        private _router: Router,
+        private _translateService: TranslateService) {
         this.mediaSubscription = this.media.subscribeMedia().subscribe(result => {
             this.Media = result;
         });
@@ -58,8 +59,9 @@ export class MarketplaceComponent implements OnInit {
     ngOnInit() {
         this._themeService.setTheme('theme-default-light');
         this.categoryList = CategoryList;
+        this.statusList = CatalogStatusList;
         this.getInicialRequest(1); 
-        this.getInicialRequest(2); 
+        // this.getInicialRequest(2); 
         this.sortOptions = [
             { label: 'Price High to Low', value: '!price' },
             { label: 'Price Low to High', value: 'price' }
@@ -84,9 +86,10 @@ export class MarketplaceComponent implements OnInit {
     }
 
     openMoreInfo(product: any){
-        this.productSelected = [];
-        this.productSelected = product;
-        this.sidebarVisible = true;
+        this._router.navigate(['/marketplace/item/'+ product._id],);
+        // this.productSelected = [];
+        // this.productSelected = product;
+        // this.sidebarVisible = true;
     }
 
     closeSidebar(){

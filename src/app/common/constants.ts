@@ -72,6 +72,7 @@ export interface Product {
     code?: string;
     productName : string;
     description: string;
+    metaDescription: string;
     price?: number;
     quantity?: number;
     inventoryStatus?: any;
@@ -91,6 +92,7 @@ interface Images {
 
 export const CategoryList: Filters[] = [
     { label: 'Pet accessories', value: 'Pet accessories' },
+    { label: 'Promotion', value: 'PROMOTIONS' },
     { label: 'Medicines', value: 'Medicines' },
     { label: 'Food', value: 'Food' },
     { label: 'Grooming', value: 'Grooming' },

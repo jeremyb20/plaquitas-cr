@@ -1,7 +1,8 @@
-import { DOCUMENT } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GetMethods, calcularEdadPerro, calcularEdadPerroDesdeHumano, calculateAge, responseError, transformDate, transformMediumDate } from '@methods/methods';
+import { GetMethods, calcularEdadPerro, calcularEdadPerroDesdeHumano, calculateAge, getCountryCode, responseError, transformDate, transformMediumDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { ApiService } from '@services/api.service';
@@ -26,13 +27,18 @@ export class MyPetCodeComponent implements OnInit{
     payloadData: any;
     humanAge: number = 0;
     AngularxQrCode: string = '';
+    textMessageLink: any = ''
+    urlWindowLocation: any = '';
 
     constructor(@Inject(DOCUMENT) private document: Document,
+        @Inject(PLATFORM_ID) private platformId: Object,
         private route: ActivatedRoute, 
         private _media: MediaService, 
         private _apiService: ApiService,
         private router: Router,
         private _clipboardService: ClipboardService,
+        private readonly _title: Title,
+        private _metaTags: Meta,
         private _notificationService: NotificationService){
 
         //Para registro con codigo qr    
@@ -59,7 +65,6 @@ export class MyPetCodeComponent implements OnInit{
 
     getMyPetCode(){
         const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_CODE_BY_ID + '?id=' + this.primaryId + '&idSecond=' + this.secondaryId }`;
-        this.AngularxQrCode = 'https://' + window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
@@ -69,37 +74,25 @@ export class MyPetCodeComponent implements OnInit{
                     }
 
                     this.payloadData = result.payload;
-
-                    let ogImageMetaTag = this.document.querySelector('meta[property="og:image"]') as HTMLMetaElement | null;
-                    if (ogImageMetaTag) {
-                    // Cambia el contenido de la etiqueta og:image
-                    const nuevaURLImagen = this.payloadData.photo;
-                    ogImageMetaTag.content = nuevaURLImagen;
-                    } else {
-                        // Si no se encuentra la etiqueta, puedes crearla y agregarla al head
-                        const nuevaMetaTag = document.createElement('meta');
-                        nuevaMetaTag.setAttribute('property', 'og:image');
-                        nuevaMetaTag.content = this.payloadData.photo;
-                    
-                        // Obtén el head del documento y añade la nueva etiqueta meta
-                        const head = document.head || document.getElementsByTagName('head')[0];
-                        head.appendChild(nuevaMetaTag);
+                    if(isPlatformBrowser(this.platformId)){
+                        this.urlWindowLocation = window.location.hostname;
+                        this.AngularxQrCode = 'https://' + window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
+                    }else{
+                        this.urlWindowLocation = 'plaquitascr.com'
+                        this.AngularxQrCode = 'https://' + this.urlWindowLocation + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
                     }
-
-                    let ogDescriptionMetaTag = this.document.querySelector('meta[property="og:description"]') as HTMLMetaElement | null;
-                    if (ogDescriptionMetaTag) {
-                        // Cambia el contenido de la etiqueta og:image
-                        ogDescriptionMetaTag.content = '¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi cédula canina, visita el link que esta abajo. 👇';
-                        } else {
-                            // Si no se encuentra la etiqueta, puedes crearla y agregarla al head
-                            const nuevaMetaTag = document.createElement('meta');
-                            nuevaMetaTag.setAttribute('property', 'og:image');
-                            nuevaMetaTag.content = '¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi cédula canina, visita el link que esta abajo. 👇';
-                        
-                            // Obtén el head del documento y añade la nueva etiqueta meta
-                            const head = document.head || document.getElementsByTagName('head')[0];
-                            head.appendChild(nuevaMetaTag);
-                        }
+                    const textContent = '¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi perfil visita este link. 👆'; 
+                    this._title.setTitle(`¡Hola! Me llamo ${ this.payloadData.petName } | Plaquitas CR `)
+                    this._metaTags.updateTag({ property: 'og:title', content: `¡Hola! Me llamo ${ this.payloadData.petName } | Plaquitas CR ` }); 
+                    this._metaTags.updateTag({ property: 'og:url', content: this.AngularxQrCode }); 
+                    this._metaTags.updateTag({ property: 'og:image', content: this.payloadData.photo });
+                    this._metaTags.updateTag({ property: 'og:image:secure_url', content: this.payloadData.photo });
+                    this._metaTags.updateTag({ property: 'og:image:type', content: 'image/png' });
+                    this._metaTags.updateTag({ property: 'og:image:width', content: '300' });
+                    this._metaTags.updateTag({ property: 'og:image:height', content: '300' });
+                    this._metaTags.updateTag({ property: 'og:description', content: textContent });
+                    this._metaTags.updateTag({ name: 'description', content: textContent });
+                    
                 }else{
                     if(result.msg == 'User not found'){
                         let timerInterval;
@@ -139,6 +132,16 @@ export class MyPetCodeComponent implements OnInit{
     calculateAge(date){
         this.humanAge = calculateAge(date);
         return this.humanAge;
+    }
+
+    getFlag(country: string){
+        return getCountryCode(country);
+    }
+
+
+    removeRegex(phoneNumber){
+        if(phoneNumber)
+        return phoneNumber.replace(/-/g, '');
     }
 
     calculatePetAge(date){

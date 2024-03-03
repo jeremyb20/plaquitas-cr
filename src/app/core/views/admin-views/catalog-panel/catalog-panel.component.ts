@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewChecked, ChangeDetectorRef } fro
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CatalogStatusList, CategoryList, ColumHeader, Product } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, getFlag, getSeverity, removeObjectWithId, responseError } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, getFlag, getSeverity, removeObjectWithId, responseError, stripHtmlTags } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -277,6 +277,7 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
 
     onRowEditSave(product: any) {
         product.idOwner = this.user.id;
+        product.metaDescription = stripHtmlTags(product.description); 
         const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_INVENTORY_LIST }`;
         this._apiService.apiPutMethod(URL, product).subscribe({
             next: (result: ResponseData) => {
@@ -308,6 +309,7 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
             const data: any = {
                 productName: this.f.productName.value,
                 description: this.f.description.value,
+                metaDescription: stripHtmlTags(this.f.description.value),
                 price: this.f.price.value,
                 quantity: this.f.quantity.value,
                 inventoryStatus: this.f.inventoryStatus.value,
@@ -318,6 +320,7 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
             const fd = new FormData();
             fd.append('productName', data.productName);
             fd.append('description', data.description);
+            fd.append('metaDescription', data.metaDescription);
             fd.append('price', data.price);
             fd.append('quantity', data.quantity);
             fd.append('inventoryStatus', data.inventoryStatus);

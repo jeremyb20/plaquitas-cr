@@ -34,10 +34,10 @@
                         class="nav-link" id="promociones" data-bs-toggle="pill" data-bs-target="#pills-promociones"
                         type="button" role="tab" aria-controls="pills-promociones" aria-selected="false">Promociones</button>
                 </li>
-                <!-- <li class="nav-item" role="presentation">
+                <li class="nav-item" role="presentation">
                     <a [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         class="nav-link active" [routerLink]="'/marketplace'" id="marketplace">Marketplace</a>
-                </li> -->
+                </li>
             </ul>
             <ul class="navbar-nav ms-auto ">
                 <li class="nav-item active">
@@ -502,9 +502,8 @@
     <section class="py-5">
         <div class="container text-center text-md-start mt-5">
             <!-- Grid row -->
-            <div class="row mt-3">
-            <!-- Grid column -->
-                <div class="col-12 col-md-4 mx-auto mb-4">
+            <div class="grid mt-3"> 
+                <div class="col-12 md:col-4 lg:col-4 mx-auto mb-4">
                     <!-- Content -->
                     <h6 class="text-uppercase fw-bold mb-4">
                         <i class="fas fa-paw me-3"></i> Plaquitas CR
@@ -513,8 +512,8 @@
                         Centraliza la información de tu mascota en un perfil digital para asegurar su protección en caso de pérdida.
                     </p>
                 </div> 
-                <!-- Grid column -->
-                <div class="col-12 col-md-4 mx-auto mb-4 px-5">
+ 
+                <div class="col-12 md:col-4 lg:col-4 mx-auto mb-4 px-5">
                     <!-- Links -->
                     <h6 class="text-uppercase fw-bold mb-4">
                         Useful links
@@ -531,11 +530,10 @@
                     <p>
                         <a [routerLink]="'/terms-and-condition'" class="text-reset">Terminos y condiciones</a>
                     </p>
-                </div>
-                <!-- Grid column -->
+                </div> 
         
                 <!-- Grid column -->
-                <div class="col-12 col-md-4 mx-auto mb-md-0 mb-4">
+                <div class="col-12 md:col-4 lg:col-4 mx-auto mb-md-0 mb-4">
                     <!-- Links -->
                     <h6 class="text-uppercase fw-bold mb-4">Contacto</h6>
                         <p><i class="fas fa-home me-3"></i> Desamparados, San José 10307, Costa Rica</p>
@@ -545,10 +543,8 @@
                     </p>
                     <p><i class="fas fa-phone me-3"></i> + 506 7016-0434</p>
                     <p><i class="fas fa-phone me-3"></i> + 506 8595-9491</p>
-                </div>
-            <!-- Grid column -->
-            </div>
-            <!-- Grid row -->
+                </div> 
+            </div> 
         </div>
     </section>
     <!-- Section: Links  -->

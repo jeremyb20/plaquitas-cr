@@ -1,7 +1,7 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { Component, Inject, Input, PLATFORM_ID } from '@angular/core';
 import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Product } from '@methods/constants';
 import { GetMethods, getCountryCode, getFlag, getSeverity, responseError } from '@methods/methods';
 import { ResponseData } from '@models/models';
@@ -10,6 +10,7 @@ import { ApiService } from '@services/api.service';
 import { MediaResponse, MediaService } from '@services/media.service';
 import { NotificationService } from '@services/notification.service';
 import * as moment from 'moment';
+import { ClipboardService } from 'ngx-clipboard';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -30,6 +31,9 @@ export class MarketItemComponent {
     textMessageLink: any;
     dayPublished: string;
     dayUpdated: string;
+    previousUrl: string = '';
+    urlbyPass: string = '';
+    currentUrl: string = '';
     responsiveOptions: any[] = [
         {
             breakpoint: '1024px',
@@ -46,21 +50,32 @@ export class MarketItemComponent {
     ];
 
     constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
         private _translateService: TranslateService, 
         private _apiService: ApiService, 
         private _notificationService: NotificationService, 
+        private _clipboardService: ClipboardService,
         public _satin: DomSanitizer,
         private _media: MediaService,  
-        private readonly _title: Title,
-        @Inject(PLATFORM_ID) private platformId: Object,
         private _metaTags: Meta,
-        private route: ActivatedRoute){
+        private route: ActivatedRoute,
+        private _route: Router,
+        private _location: Location,
+        private readonly _title: Title,){
          //Para registro con codigo qr    
          this.route.params.subscribe(params => { 
             if(params){
                 this.productId = params.id;
             }
         });
+
+        _route.events.subscribe(event => {
+            if (event instanceof NavigationEnd) {
+              this.previousUrl = this.currentUrl;
+              this.currentUrl = event.url;
+            };
+        });
+
         this.mediaSubscription = this._media.subscribeMedia().subscribe(media => {
             this.Media = media;
         });
@@ -82,15 +97,13 @@ export class MarketItemComponent {
                 this.dayUpdated = moment(this.payloadData.updatedAt).fromNow(); 
                 var urlWindowLocation: any = '';
                 if(isPlatformBrowser(this.platformId)){
-                    urlWindowLocation = window.location.hostname;
+                    this.urlbyPass = `https://${ window.location.hostname }/marketplace/item/${productId}`
                 }else{
-                    urlWindowLocation = 'plaquitascr.com'
+                    this.urlbyPass = `https://plaquitascr.com/marketplace/item/${productId}`
+
                 }
- 
 
-                const urlbyPass = `https://${ urlWindowLocation }/marketplace/item/${productId}`
-
-                const textMessageLink = `Hola. ¿Sigue estando disponible?%0ALink:%0A ${urlbyPass}`
+                const textMessageLink = `Hola. ¿Sigue estando disponible?%0ALink:%0A ${this.urlbyPass}`
 
                 this.textMessageLink = `https://wa.me/${this.getFlag(this.payloadData.country)}${this.removeRegex(this.payloadData.phone)}?text=${textMessageLink}`
 
@@ -103,7 +116,8 @@ export class MarketItemComponent {
                 this._metaTags.updateTag({ property: 'og:image:type', content: 'image/png' });
                 this._metaTags.updateTag({ property: 'og:image:width', content: '300' });
                 this._metaTags.updateTag({ property: 'og:image:height', content: '300' });
-                this._metaTags.updateTag({ property: 'og:description', content: this.payloadData.description });
+                this._metaTags.updateTag({ property: 'og:description', content: this.payloadData.metaDescription });
+                this._metaTags.updateTag({ name: 'description', content: this.payloadData.metaDescription });
 
             },
             error: (err: any) => {
@@ -138,4 +152,21 @@ export class MarketItemComponent {
     TranslateText(text: string) {
         return this._translateService.instant(text);
     } 
+
+    backToHome() {
+        if(isPlatformBrowser(this.platformId)){
+            if (window.history.length > 1) {
+                this._location.back()
+            } else {
+                this._route.navigate([this.previousUrl])
+            }
+        }else{
+            this._route.navigate([this.previousUrl])
+        }
+    }
+
+    copyURL(text:string){
+        this._clipboardService.copy(text);
+        this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
+    }
 }

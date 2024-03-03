@@ -28,15 +28,16 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
-  const ssrRoutes = ['/marketplace/item/', 'myPetCode/:id/:idSecond']
+  const ssrRoutes = ['/marketplace/item/', '/myPetCode', '/myPetCode/', '/myPetCode/:id/:idSecond']
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res) => {
-    if(ssrRoutes.some((route) => req.url.startsWith(route))){
-        res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
-    }else{
-        res.sendFile(join(distFolder, 'index.html'))
-    }
+  server.get('*', (req, res) => { 
+    const isSsrRoute = ssrRoutes.some(route => req.url.startsWith(route));
+    if (isSsrRoute) { 
+        res.render(indexHtml, { req, providers: [{ provide: 'APP_BASE_HREF', useValue: req.baseUrl }] });
+      } else { 
+        res.sendFile(join(distFolder, 'index.html'));
+      }
   });
 
   return server;
