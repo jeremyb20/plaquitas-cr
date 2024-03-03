@@ -157,7 +157,7 @@ export class MyPetCodeComponent implements OnInit{
     }
 
     copy(){
-        var text: string = 'https://'+ window.location.hostname + '/myPetCode?id=' + this.primaryId +'&idSecond='+ this.secondaryId;;
+        var text: string = 'https://'+ window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId;;
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
     }

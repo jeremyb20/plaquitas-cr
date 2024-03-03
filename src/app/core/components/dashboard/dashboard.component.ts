@@ -129,12 +129,12 @@ export class DashboardComponent implements OnInit {
     }
 
     openExternalProfile(idPrimary: any, idSecondary: any) {
-        const url = this._router.createUrlTree(['/myPetCode/'],{ queryParams: { id: idPrimary, idSecond: idSecondary }})
+        const url = this._router.createUrlTree(['/myPetCode/'+ idPrimary + '/'+ idSecondary])
         window.open(url.toString(), '_blank')
     }
 
     copy(primaryId: any, secondaryId: any){
-        var text: string = 'https://' + window.location.hostname + '/myPetCode?id=' + primaryId +'&idSecond='+ secondaryId;
+        var text: string = 'https://' + window.location.hostname + '/myPetCode/' + primaryId +'/'+ secondaryId;
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
     }
