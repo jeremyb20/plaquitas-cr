@@ -9,6 +9,7 @@ import { HeaderLayoutComponent } from './core/layouts/header-layout/header-layou
 import { TranslateModule, TranslateService } from '@ngx-translate/core';  
 import { ThemeService } from '@services/theme.service';
 import { MyPetCodeComponent } from '@components/my-pet-code/my-pet-code.component';
+import { PetProfileComponent } from '@components/pet-profile/pet-profile.component';
 const routes: Routes = [ {
     path: '',
     component: HeaderLayoutComponent,
@@ -16,6 +17,7 @@ const routes: Routes = [ {
             { path: '', redirectTo: 'marketplace/item', pathMatch: 'full' }, 
             { path: 'marketplace/item/:id', component: MarketItemComponent},
             { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
+            { path: 'pet/:id/:idSecond', component: PetProfileComponent },
         ]
     }
 ]

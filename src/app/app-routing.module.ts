@@ -38,6 +38,7 @@ import { TermsAndConditionsComponent } from '@components/terms-and-conditions/te
 import { PrivacyPolicyComponent } from '@components/privacy-policy/privacy-policy.component';
 import { MarketplaceComponent } from '@components/marketplace/marketplace.component';
 import { MarketItemComponent } from '@components/market-item/market-item.component';
+import { PetProfileComponent } from '@components/pet-profile/pet-profile.component';
 
 
 
@@ -53,6 +54,7 @@ const routes: Routes = [
       { path: 'register-pets/:id/:idSecond/:isActivated', component: RegisterComponent },
       { path: 'register-pets', component: RegisterComponent },
       { path: 'myPetCode/:id/:idSecond', component: MyPetCodeComponent },
+      { path: 'pet/:id/:idSecond', component: PetProfileComponent },
       { path: 'myPetCode', component: MyPetCodeComponent},
       { path: 'marketplace', component: MarketplaceComponent},
       { path: 'marketplace/item/:id', component: MarketItemComponent},
@@ -77,6 +79,8 @@ const routes: Routes = [
       { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] },
       { path: 'marketplace-admin', component: MarketplaceComponent, canActivate: [AdminGuard]},
       { path: 'myPetCode', component: MyPetCodeComponent},
+      { path: 'pet', component: PetProfileComponent },
+
       { path: 'scanner', component: ScannerComponent},
     ]
   },

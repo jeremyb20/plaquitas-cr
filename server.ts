@@ -28,7 +28,8 @@ export function app(): express.Express {
     maxAge: '1y'
   }));
 
-  const ssrRoutes = ['/marketplace/item/', '/myPetCode', '/myPetCode/', '/myPetCode/:id/:idSecond']
+  const ssrRoutes = [ '/marketplace/item/', '/myPetCode',  '/myPetCode/',  '/myPetCode/:id/:idSecond', '/pet',  '/pet/',  '/pet/:id/:idSecond'
+]
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => { 

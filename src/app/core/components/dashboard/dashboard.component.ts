@@ -129,12 +129,12 @@ export class DashboardComponent implements OnInit {
     }
 
     openExternalProfile(idPrimary: any, idSecondary: any) {
-        const url = this._router.createUrlTree(['/myPetCode/'+ idPrimary + '/'+ idSecondary])
+        const url = this._router.createUrlTree(['/pet/'+ idPrimary + '/'+ idSecondary])
         window.open(url.toString(), '_blank')
     }
 
     copy(primaryId: any, secondaryId: any){
-        var text: string = 'https://' + window.location.hostname + '/myPetCode/' + primaryId +'/'+ secondaryId;
+        var text: string = 'https://' + window.location.hostname + '/pet/' + primaryId +'/'+ secondaryId;
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
     }
@@ -148,7 +148,7 @@ export class DashboardComponent implements OnInit {
         this.secondaryId = secondaryId;
 
         this.profileForm.get('ownerPetName')?.setValue(this.itemPetSelected.ownerPetName);
-        this.profileForm.get('genderSelected')?.setValue(this.itemPetSelected.genderSelected);
+        this.profileForm.get('genderSelected')?.setValue(this.itemPetSelected.genderSelected.toString());
         this.profileForm.get('petName')?.setValue(this.itemPetSelected.petName);
         this.profileForm.get('race')?.setValue(this.itemPetSelected.race);
         this.profileForm.get('weight')?.setValue(this.itemPetSelected.weight);

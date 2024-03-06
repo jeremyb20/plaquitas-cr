@@ -1,6 +1,6 @@
 {
   "name": "plaquitas-cr",
-  "version": "3.13.1-030324",
+  "version": "3.14.1-050324",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

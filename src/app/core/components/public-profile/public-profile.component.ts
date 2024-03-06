@@ -39,9 +39,9 @@ export class PublicProfileComponent implements OnInit {
     copy(){
         var text: string = '';
         if(isPlatformBrowser(this.platformId)){
-            text = 'https://' + window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId; 
+            text = 'https://' + window.location.hostname + '/pet/' + this.primaryId +'/'+ this.secondaryId; 
         }else{
-            text = 'https://' + 'plaquitascr.com' + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId; 
+            text = 'https://' + 'plaquitascr.com' + '/pet/' + this.primaryId +'/'+ this.secondaryId; 
 
         }
         this._clipboardService.copy(text);

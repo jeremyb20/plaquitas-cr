@@ -369,14 +369,15 @@ export enum DeleteMethods {
 
 export enum PutMethods {
     ADMIN_UPDATE_USER_PROFILE = 'api/admin/editUser',
+    ADMIN_UPDATE_USER_FIRST_PROFILE = 'api/admin/updateFirstProfile',
     ADMIN_UPDATE_USER_PROFILE_SECOND_LEVEL = 'api/admin/editUserSecondLevel',
     ADMIN_UPDATE_QR_STATUS = 'api/admin/updateStateActivationCode',
     ADMIN_UPDATE_INVENTORY_LIST = 'api/catalog/editCatalog',
-
+    ADMIN_SORT_PET = 'api/admin/sortNewPetProfile',
     USER_UPDATE_PROFILE = 'api/user/editProfileInfo',
     USER_UPDATE_SECONDARY_PROFILE = 'api/user/editProfileSecondaryInfo',
     USER_UPDATE_USER_THEME = 'api/user/editThemeProfile',
-    USER_UPDATE_PHOTO_PROFILE = 'api/user/editPhotoProfile'
+    USER_UPDATE_PHOTO_PROFILE = 'api/user/editPhotoProfile',
 }
 
 export enum GetMethods {
@@ -384,6 +385,7 @@ export enum GetMethods {
     GET_USER_PROFILE_BY_ID = 'api/user/getUserProfileById',
     GET_USR_PROFILE_BY_SCANNER = 'api/user/getUserProfileByIdScanner/',
     GET_MY_PET_CODE_BY_ID = 'api/user/getMyPetCode',
+    GET_MY_PET_INFO = 'api/user/getMyPetInfo',
 
     ADMIN_GET_ALL_LOCATION_PETS = 'api/admin/getLocationAllPets',
     ADMIN_GET_ALL_REGISTERED_USERS = 'api/admin/getAllUsers',

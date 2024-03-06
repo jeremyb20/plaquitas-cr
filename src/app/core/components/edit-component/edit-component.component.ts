@@ -28,8 +28,8 @@ export class EditComponentComponent implements OnInit {
 
     ngOnInit(): void {
         this.genderType = [
-            { Id: 1, gender: 'Macho' },
-            { Id: 2, gender: 'Hembra' }
+            { Id: '1', gender: 'Macho' },
+            { Id: '2', gender: 'Hembra' }
         ];
     }
 
@@ -38,7 +38,7 @@ export class EditComponentComponent implements OnInit {
     onSubmit(){
         const data = {
             ownerPetName: this.f.ownerPetName.value,
-            genderSelected: this.f.genderSelected.value,
+            genderSelected: this.f.genderSelected.value.toString(),
             petName: this.f.petName.value,
             race: this.f.race.value,
             weight: this.f.weight.value,

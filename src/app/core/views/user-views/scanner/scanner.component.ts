@@ -130,7 +130,7 @@ export class ScannerComponent {
     } 
 
     openExternalProfile(idPrimary: any, idSecondary: any) {
-        const url = this._router.createUrlTree(['/myPetCode/'],{ queryParams: { id: idPrimary, idSecond: idSecondary }})
+        const url = this._router.createUrlTree(['/pet/' + idPrimary + '/' + idSecondary])
         window.open(url.toString(), '_blank')
     }
 

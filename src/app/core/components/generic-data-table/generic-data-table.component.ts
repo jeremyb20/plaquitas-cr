@@ -10,6 +10,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { saveAs } from 'file-saver-es';
 import Swal from 'sweetalert2';
 import { ThemeService } from '@services/theme.service';
+import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 
 declare const bootstrap: any;
 
@@ -34,6 +35,9 @@ export class GenericDataTableComponent {
     themeSelected: string = '';
     userTypeFilter: Filters[];
     userTypeIdActivateFilter: Filters[];
+
+    userSelected: any = [];
+    sidebarVisible: boolean = false;
 
     constructor(
         private _apiService: ApiService, 
@@ -61,11 +65,37 @@ export class GenericDataTableComponent {
     }
 
     editUser(item:any){
-        console.log(item);
+        console.log(item);  
+        this.userSelected = item;
+        this.sidebarVisible = true;
+        
     }
 
     transformDate(date: any) {
         return transformDate(date)
+    }
+
+    dropImages(event: CdkDragDrop<string[]>) {
+        moveItemInArray(this.userSelected.newPetProfile, event.previousIndex, event.currentIndex);
+    }
+
+    sortPetNameList(){
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_SORT_PET }`;
+        this.userSelected._id = this.userSelected.id;
+        this._apiService.apiPutMethod(URL, this.userSelected).subscribe({
+            next: (result: ResponseData) => {
+                if(result.success){ 
+                    this.refresh();
+                    this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                }else{
+                    this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                }
+            },
+            error: (err: any) => {
+                console.log(err);
+                this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
     }
 
     deleteUser(user: any){
@@ -159,6 +189,58 @@ export class GenericDataTableComponent {
         });
     }
 
+    editPetTest(userItem){
+        console.log(userItem);
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_USER_FIRST_PROFILE }`;
+        const data = { 
+            address: userItem.address,
+            age: userItem.age,
+            birthDate: userItem.birthDate,
+            country: userItem.country ? userItem.country : 'Costa Rica',
+            email: userItem.email,
+            favoriteActivities: userItem.favoriteActivities,
+            genderSelected: userItem.genderSelected,
+            healthAndRequirements: userItem.healthAndRequirements,
+            isDigitalIdentificationActive: userItem.isDigitalIdentificationActive,
+            lat: userItem.lat,
+            lng: userItem.lng,
+            ownerPetName: userItem.ownerPetName,
+            permissions: [],
+            petName: userItem.petName,
+            petStatus: userItem.petStatus,
+            petStatusReport: [],
+            phone: userItem.phone,
+            phoneVeterinarian: userItem.phoneVeterinarian,
+            photo: userItem.photo,
+            photo_id: userItem.photo_id,
+            race: userItem.race, 
+            userState: userItem.userState,
+            veterinarianContact: userItem.veterinarianContact,
+            weight: userItem.weight,
+            id: userItem._id
+
+            
+        }
+
+        console.log(data); 
+
+
+        this._apiService.apiPutMethod(URL, data).subscribe({
+            next: (result: ResponseData) => {
+                if(result.success){
+                    delete this.clonedProfile[userItem.id as string];
+                    this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                }else{
+                    this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                }
+            },
+            error: (err: any) => {
+                console.log(err);
+                this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
+    }
+
     onRowEditSaveSecondLevel(product: any) {
         const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_USER_PROFILE_SECOND_LEVEL }`;
         this._apiService.apiPutMethod(URL, product).subscribe({
@@ -202,7 +284,7 @@ export class GenericDataTableComponent {
 
     checkQrCode(item: any, idParental: any, idSecond: any){
         this.itemSelected = item;
-        const codeUrl = `https://${window.location.hostname}/myPetCode/${idParental}/${idSecond}`;
+        const codeUrl = `https://${window.location.hostname}/pet/${idParental}/${idSecond}`;
         this.AngularxQrCode = codeUrl;
 
         setTimeout(() => { this.elem =  this.qrCode.qrcElement.nativeElement.children[0]; 

@@ -13,10 +13,10 @@ import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-my-pet-code',
-  templateUrl: './my-pet-code.component.html'
-})
-export class MyPetCodeComponent implements OnInit{
+    selector: 'app-pet-profile',
+    templateUrl: './pet-profile.component.html', 
+  })
+  export class PetProfileComponent implements OnInit{
     private mediaSubscription: Subscription;
     Media: MediaResponse;
     showEditBtnEvent: boolean;
@@ -63,7 +63,7 @@ export class MyPetCodeComponent implements OnInit{
     }
 
     getMyPetCode(){
-        const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_CODE_BY_ID + '?id=' + this.primaryId + '&idSecond=' + this.secondaryId }`;
+        const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_INFO + '?id=' + this.primaryId + '&idSecond=' + this.secondaryId }`;
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
                 if(result.success){
@@ -72,7 +72,25 @@ export class MyPetCodeComponent implements OnInit{
                         return;
                     }
 
-                    this.router.navigate(['/pet/' + this.primaryId + '/' + this.secondaryId])
+                    this.payloadData = result.payload;
+                    if(isPlatformBrowser(this.platformId)){
+                        this.urlWindowLocation = window.location.hostname;
+                        this.AngularxQrCode = 'https://' + window.location.hostname + '/pet/' + this.primaryId +'/'+ this.secondaryId;
+                    }else{
+                        this.urlWindowLocation = 'plaquitascr.com'
+                        this.AngularxQrCode = 'https://' + this.urlWindowLocation + '/pet/' + this.primaryId +'/'+ this.secondaryId;
+                    }
+                    const textContent = '¡Hola! Soy ' + this.payloadData.petName +'. Para conocer todos los detalles de mi perfil visita este link. 👆'; 
+                    this._title.setTitle(`¡Hola! Me llamo ${ this.payloadData.petName } | Plaquitas CR `)
+                    this._metaTags.updateTag({ property: 'og:title', content: `¡Hola! Me llamo ${ this.payloadData.petName } | Plaquitas CR ` }); 
+                    this._metaTags.updateTag({ property: 'og:url', content: this.AngularxQrCode }); 
+                    this._metaTags.updateTag({ property: 'og:image', content: this.payloadData.photo });
+                    this._metaTags.updateTag({ property: 'og:image:secure_url', content: this.payloadData.photo });
+                    this._metaTags.updateTag({ property: 'og:image:type', content: 'image/png' });
+                    this._metaTags.updateTag({ property: 'og:image:width', content: '300' });
+                    this._metaTags.updateTag({ property: 'og:image:height', content: '300' });
+                    this._metaTags.updateTag({ property: 'og:description', content: textContent });
+                    this._metaTags.updateTag({ name: 'description', content: textContent });
                     
                 }else{
                     if(result.msg == 'User not found'){

@@ -6,47 +6,7 @@
 </p-card>
 
 <div *ngIf="payloadData" class="container-fluid">
-    <div class="grid">
-        <div class="col-12 md:col-6 lg:col-6 lx:col-3" [ngClass]="{'d-flex justify-content-center': !Media.IsMobile}">
-            <div class="card-profile dashboard mb-4 text-center">
-                <div class="banner">
-                    <img (click)="OpenProfilePhoto(payloadData, false, payloadData._id, 0)" class="rounded-circle" style="object-fit: cover;" src="{{payloadData.photo}}" alt="{{payloadData.photo}}">
-                </div>
-                <div class="menu">
-                    <div class="dropdown">
-                        <div class="opener" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <div class="dropdown-menu test" aria-labelledby="dropdownMenuButton">
-                            <a (click)="copy(payloadData._id, 0)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-external-link mt-1 mx-1 fs-5"></i> Copiar enlace</a>
-                            <a (click)="editProfile(payloadData, 0)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-edit mt-1 mx-1"></i> {{'Edit Profile' | translate}}</a>
-                            <a  class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-lock mt-1 mx-1"></i> {{'Edit Permissions' | translate}}</a>
-                            <a (click)="OpenProfilePhoto(payloadData, true, payloadData._id, 0)" style="cursor: pointer;" class="dropdown-item p-2"><i class="feather icon-edit mt-1 mx-1"></i> {{'Change profile photo' | translate}}</a>
-                        </div>
-                    </div>
-                </div>
-                <span class="fw-bold mt-3">{{payloadData.phone}}</span>
-        
-                <hr class="mx-5">
-                <span class="fs-4 text-primary text-truncate">{{payloadData.petName}} <button (click)="editProfile(payloadData, 0)" class="btn icon icon-banner"><i class="feather icon-edit"></i></button></span>
-                <div class="actions p-4">
-                    <div class="follow-btn">
-                        <button (click)="openExternalProfile(payloadData._id, 0)" type="submit" class="btn btn-custom w-100 ">
-                            <div class="me-3 text-dark" role="status">
-                            </div> {{'View public profile' | translate}} <i class="feather icon-external-link"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="desc p-4">
-                    <div class="text-sm text-decoration-none text-dim text-center">
-                        {{'Status' | translate}} - {{payloadData.petStatus}}
-                    </div>
-                </div> 
-            </div>
-        </div>
+    <div class="grid"> 
         <div class="col-12 md:col-4 lg:col-6 lg:col-3" [ngClass]="{'d-flex justify-content-center': !Media.IsMobile}" *ngFor="let item of payloadData.newPetProfile let i = index">
             <div class="card-profile dashboard mb-4 text-center">
                 <div class="banner">
@@ -78,7 +38,7 @@
     
                 <div class="actions p-4">
                     <div class="follow-btn">
-                        <button (click)="openExternalProfile(payloadData._id, item._id)" type="submit" class="btn btn-custom w-100 ">
+                        <button (click)="openExternalProfile(payloadData._id, i)" type="submit" class="btn btn-custom w-100 ">
                             <div class="me-3 text-dark" role="status">
                             </div> {{'View public profile' | translate}} <i class="feather icon-external-link"></i>
                         </button>

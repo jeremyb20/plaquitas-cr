@@ -1,0 +1,16 @@
+<div *ngIf="payloadData" class="container-fluid" [ngClass]="{'p-0': Media.IsMobile, 'pt-4': !Media.IsMobile}">
+    <ng-container *ngIf="payloadData.isDigitalIdentificationActive; else elseTemplateNormalProfile">
+        <app-digital-identification
+            [payloadData]="payloadData"
+            [AngularxQrCode]="AngularxQrCode">
+        </app-digital-identification>
+    </ng-container>
+    <ng-template #elseTemplateNormalProfile>
+        <app-public-profile
+            [payloadData]="payloadData"
+            [AngularxQrCode]="AngularxQrCode"
+            [primaryId]="primaryId"
+            [secondaryId]="secondaryId">
+        </app-public-profile>
+    </ng-template>
+</div>

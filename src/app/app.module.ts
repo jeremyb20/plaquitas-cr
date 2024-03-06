@@ -111,6 +111,7 @@ import { CatalogPanelComponent } from './core/views/admin-views/catalog-panel/ca
 import { PrivacyPolicyComponent } from './core/components/privacy-policy/privacy-policy.component';
 import { MarketplaceComponent } from './core/components/marketplace/marketplace.component';
 import { MarketItemComponent } from './core/components/market-item/market-item.component';
+import { PetProfileComponent } from './core/components/pet-profile/pet-profile.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -162,7 +163,8 @@ registerLocaleData(localeEsCR);
     CatalogPanelComponent,
     PrivacyPolicyComponent,
     MarketplaceComponent,
-    MarketItemComponent
+    MarketItemComponent,
+    PetProfileComponent
   ],
   imports: [
     BrowserModule,

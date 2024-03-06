@@ -128,7 +128,7 @@ export class ProfileComponent implements OnInit {
     }
 
     goToProfile() {
-        this._router.navigate(['/myPetCode/'],{ queryParams: { id: this.userLogin.id, idSecond: 0 }}); 
+        this._router.navigate(['/pet/'],{ queryParams: { id: this.userLogin.id, idSecond: 0 }}); 
     }
 
     transformDate(date: any) {
@@ -149,16 +149,16 @@ export class ProfileComponent implements OnInit {
     }
 
     openExternalProfile(idPrimary: any, idSecondary: any) {
-        const url = this._router.createUrlTree(['/myPetCode/'],{ queryParams: { id: idPrimary, idSecond: idSecondary }})
+        const url = this._router.createUrlTree(['/pet/'],{ queryParams: { id: idPrimary, idSecond: idSecondary }})
         window.open(url.toString(), '_blank')
     }
 
     copy(){
         var text: string = '';
         if(this.primaryId != undefined){
-            text = 'https://' + window.location.hostname + '/myPetCode/' + this.primaryId +'/'+ this.secondaryId;
+            text = 'https://' + window.location.hostname + '/pet/' + this.primaryId +'/'+ this.secondaryId;
         }else{
-            text = 'https://' + window.location.hostname + '/myPetCode/' + this.userLogin.id +'/'+ 0;
+            text = 'https://' + window.location.hostname + '/pet/' + this.userLogin.id +'/'+ 0;
         }
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
