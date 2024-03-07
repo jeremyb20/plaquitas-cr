@@ -1,0 +1,349 @@
+<form [formGroup]="generalForm" (ngSubmit)="onSubmit()">
+
+    <div *ngIf="formShowFields.showPhone" class="forms-inputs mb-4">
+        <div class="p-inputgroup">
+            <p-dropdown  
+                styleClass="d-flex w-100 custom-dropdown" 
+                [options]="countryFlag"
+                optionLabel="flag"
+                formControlName="country"
+                (onChange)="onChangeCountry($event)"
+                [autoDisplayFirst]="false"
+                [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.phone.errors }" 
+                [filter]="true" filterBy="name"
+                optionValue="name">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'customer-badge status-' + option.dial_code">{{option.flag}} - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                </ng-template>
+            </p-dropdown>
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.phone.errors }">
+                <i  class="feather icon-phone"></i> 
+                <ng-container *ngIf="submitted && f.phone.errors; else elseTemplate">
+                    <small class="small-msg" *ngIf="f.phone.errors.required"> Número telefónico es requerido</small>
+                    <small class="small-msg" *ngIf="f.phone.errors.minlength"> Número telefónico debe ser al menos 8 digitos</small>
+                    <small class="small-msg" *ngIf="f.phone.errors.pattern"> Solo se permiten números</small>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    Número telefónico {{ ( f.petName.value == '') ? ' ' : 'para ' + f.petName.value }}
+                </ng-template> 
+            </span>
+            <p-inputMask styleClass="w-100 custom-input-mask is-invalid" mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+  
+        </div>
+    </div>
+
+    <div *ngIf="formShowFields.showEmail" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.email.errors }">
+            <i class="feather icon-mail"></i> 
+
+            <ng-container *ngIf="submitted && f.email.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.email.errors.email">El correo ingresado no es válido</small>
+                <small class="small-msg" *ngIf="f.email.errors.required">Correo es requerido</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Ingrese un correo {{ ( f.petName.value == '') ? ' ' : 'para ' +  f.petName.value }}
+            </ng-template>
+    
+        </span>
+        <input pInputText class="w-100" id="email" aria-describedby="email-help" placeholder="@example.com" pInputText formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
+    </div>
+
+    <div *ngIf="formShowFields.showPassword" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.password.errors }">
+            <i class="feather icon-lock"></i> 
+            <ng-container *ngIf="submitted && f.password.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.password.errors.required">Contraseña es requerida</small>
+                <small class="small-msg" *ngIf="f.password.errors?.minlength">Contraseña debe tener al menos 6 caracteres</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Contraseña
+            </ng-template>
+            
+        </span>
+        <input type="{{showPassword ? 'text': 'password'}}" pInputText class="w-100" formControlName="password" [ngClass]="{ 'is-invalid invalid': submitted && f.password.errors }" />
+        <i style="cursor: pointer; position: relative; top: -37px; float: right;" (click)="showPassword = !showPassword" ngbTooltip="{{!showPassword ? 'Mostrar Contraseña': 'Ocultar Contraseña'}}" class="{{!showPassword ? 'far fa-eye eye-show' : 'far fa-eye-slash eye-hide'}} px-3 py-1"></i>
+
+    </div>
+
+    <div *ngIf="formShowFields.showConfirmPassword" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.confirmPassword.errors }">
+            <i class="feather icon-lock"></i>
+            <ng-container *ngIf="submitted && f.confirmPassword.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.confirmPassword.errors">Contraseña no son iguales</small>
+                <small class="small-msg" *ngIf="f.confirmPassword.errors.required">Confirmar Contraseña es requerida</small>
+                <small class="small-msg" *ngIf="f.confirmPassword.errors.mustMatch">Contraseña no son iguales</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Confirmar contraseña
+            </ng-template>
+            
+        </span>
+        <input type="{{showPassword2 ? 'text': 'password'}}" pInputText class="w-100" formControlName="confirmPassword" [ngClass]="{ 'is-invalid invalid': submitted && f.confirmPassword.errors }" />
+        <i style="cursor: pointer; position: relative; top: -37px; float: right;"
+        (click)="showPassword2 = !showPassword2"
+        ngbTooltip="{{!showPassword2 ? 'Mostrar Contraseña': 'Ocultar Contraseña'}}"
+        class="{{!showPassword2 ? 'far fa-eye eye-show' : 'far fa-eye-slash eye-hide'}} px-3 py-1"></i> 
+    </div>
+
+    <div *ngIf="formShowFields.showCodeGenerator" class="forms-inputs mb-4"> 
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.codeGenerator.errors}">
+            <i class="feather icon-edit-2"></i>
+            <ng-container *ngIf="submitted && f.codeGenerator.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.codeGenerator.errors.required">Código para tu mascota es requerida</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                Ingrese el codigo de registro
+            </ng-template>
+        </span>
+        <input pInputText class="w-100" id="codeGenerator" aria-describedby="codeGenerator-help" pInputText formControlName="codeGenerator" [ngClass]="{ 'is-invalid': submitted && f.codeGenerator.errors }" />
+    </div>
+
+    <div *ngIf="formShowFields.showOwnerPetName" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.ownerPetName.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.ownerPetName.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.ownerPetName.errors.required">{{'Owner Pet Name' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Owner Pet Name' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="ownerPetName"  [ngClass]="{ 'is-invalid': submitted && f.ownerPetName.errors }" class="form-control">
+    </div>
+
+    <div *ngIf="formShowFields.showPetName" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.petName.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.petName.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.petName.errors.required">{{'Pet Name' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Pet Name' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="petName"  [ngClass]="{ 'is-invalid': submitted && f.petName.errors }" class="form-control">
+    </div>
+
+    <div *ngIf="formShowFields.showGenderSelected" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.genderSelected.errors }">
+            <i  class="feather icon-edit-2"></i>
+            <ng-container *ngIf="submitted && f.genderSelected.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.genderSelected.errors.required">{{'Pet Gender' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Pet Gender' | translate }}
+            </ng-template>
+        </span>
+        
+        <p-dropdown styleClass="d-flex w-100" 
+            [options]="genderType" 
+            [autoDisplayFirst]="false"
+            optionLabel="gender" formControlName="genderSelected"
+            [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.genderSelected.errors }" optionValue="Id">
+        </p-dropdown>        
+    </div>
+
+
+    <div *ngIf="formShowFields.showRace" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.race.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.race.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.race.errors.required">{{'Race' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Race' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="race"  [ngClass]="{ 'is-invalid': submitted && f.race.errors }" class="form-control">
+    </div>
+
+    <div *ngIf="formShowFields.showWeight" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.weight.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.weight.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.weight.errors.required">{{'Weight' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Weight' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="weight"  [ngClass]="{ 'is-invalid': submitted && f.weight.errors }" class="form-control">
+    </div>
+     
+
+    <div *ngIf="formShowFields.showBirthDate" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.birthDate.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.birthDate.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.birthDate.errors.required">{{'Birthdate' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Birthdate' | translate }}
+            </ng-template>
+            
+        </span>
+        
+        <p-calendar [showClear]="true" [maxDate]="date" formControlName="birthDate" [ngClass]="{ 'is-invalid': submitted && f.birthDate.errors }" class=" datePickTC"  dateFormat="d/m/yy" styleClass="w-100"></p-calendar>
+    </div>
+
+
+
+    <div *ngIf="formShowFields.showVeterinarianContact" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.veterinarianContact.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.veterinarianContact.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.veterinarianContact.errors.required">{{'Veterinarian Name' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Veterinarian Name' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="veterinarianContact"  [ngClass]="{ 'is-invalid': submitted && f.veterinarianContact.errors }" class="form-control">
+    </div>
+ 
+    <div *ngIf="formShowFields.showVeterinarianPhone" class="forms-inputs mb-4">
+        <div class="p-inputgroup">
+            <p-dropdown  
+                styleClass="d-flex w-100 custom-dropdown" 
+                [options]="countryFlag"
+                optionLabel="flag"
+                formControlName="country"
+                (onChange)="onChangeCountry($event)"
+                [autoDisplayFirst]="false"
+                [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.phoneVeterinarian.errors }" 
+                [filter]="true" filterBy="name"
+                optionValue="name">
+                <ng-template let-option pTemplate="item">
+                    <span [class]="'customer-badge status-' + option.dial_code">{{option.flag}} - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                </ng-template>
+            </p-dropdown>
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.phoneVeterinarian.errors }">
+                <i  class="feather icon-phone"></i> 
+                <ng-container *ngIf="submitted && f.phoneVeterinarian.errors; else elseTemplate">
+                    <small class="small-msg" *ngIf="f.phoneVeterinarian.errors.required"> {{'Phone Veterinarian' | translate}} {{'is required' | translate}}</small>
+                    <small class="small-msg" *ngIf="f.phoneVeterinarian.errors.minlength"> Número telefónico debe ser al menos 8 digitos</small>
+                    <small class="small-msg" *ngIf="f.phoneVeterinarian.errors.pattern"> Solo se permiten números</small>
+                </ng-container>
+                <ng-template #elseTemplate>
+                    {{ 'Phone Veterinarian' | translate }}
+                </ng-template> 
+            </span>
+            <p-inputMask styleClass="w-100 custom-input-mask is-invalid" mask="9999-9999" formControlName="phoneVeterinarian" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phoneVeterinarian.errors }"></p-inputMask>
+  
+        </div>
+    </div>
+
+
+
+    <div *ngIf="formShowFields.showFavoriteActivities" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.favoriteActivities.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.favoriteActivities.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.favoriteActivities.errors.required">{{'Favorite Activities' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Favorite Activities' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="favoriteActivities"  [ngClass]="{ 'is-invalid': submitted && f.favoriteActivities.errors }" class="form-control">
+    </div>
+
+
+    <div *ngIf="formShowFields.showHealthAndRequirements" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.healthAndRequirements.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.healthAndRequirements.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.healthAndRequirements.errors.required">{{'Health and Requirements' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Health and Requirements' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="healthAndRequirements"  [ngClass]="{ 'is-invalid': submitted && f.healthAndRequirements.errors }" class="form-control">
+    </div>
+
+    <div *ngIf="formShowFields.showAddress" class="forms-inputs mb-4">
+        <span class="span-login" [ngClass]="{'text-danger': submitted && f.address.errors }">
+            <i class="feather icon-edit-2"></i> 
+            <ng-container *ngIf="submitted && f.address.errors; else elseTemplate">
+                <small class="small-msg" *ngIf="f.address.errors.required">{{'Address' | translate}} {{'is required' | translate}}</small>
+            </ng-container>
+            <ng-template #elseTemplate>
+                {{ 'Address' | translate }}
+            </ng-template>
+            
+        </span>
+        <input type="text" formControlName="address"  [ngClass]="{ 'is-invalid': submitted && f.address.errors }" class="form-control">
+    </div>
+ 
+
+    <div *ngIf="formShowFields.showFileImg" class="forms-inputs mb-4">
+        <label htmlFor="confirmPassword" [ngClass]="{ 'text-danger': this.file == undefined }">
+            <i class="feather icon-image"></i> Seleccione una foto de {{ ( f.petName.value == '') ? 'tu mascota' : f.petName.value }}
+        </label>
+
+        <p-fileUpload name="myfile[]" [maxFileSize]="maxSizeInBytes" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
+            [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"  invalidFileSizeMessageDetail="El archivo excede el tamaño máximo permitido de 6MB"
+            [chooseStyleClass]="'p-1'"  allowTypes="*.jpg;*.png;*.jpeg;" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
+
+            <ng-template pTemplate="toolbar">
+                <div *ngIf="!Media.IsMobile" class="py-3">Arrastra y suelta la imagen a esta zona <i class="feather icon-arrow-down"></i> </div>
+            </ng-template>
+            <ng-template pTemplate="content">
+                <ng-template pTemplate="content">
+                    <ul *ngIf="uploadedFiles.length">
+                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                    </ul>
+                </ng-template>
+            </ng-template>
+        </p-fileUpload>
+
+    </div>
+
+    <div *ngIf="formShowFields.showAcceptTerms" class="form-group mb-4 text-center">
+        <div class="grid d-flex aling-items-center w-100">
+            <div class="col-1">
+                <label class="container-custom mt-2">
+                    <input type="checkbox" formControlName="acceptTerms" id="acceptTermss" class="form-check-input" [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }" />
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="col-11"> 
+                <label style="cursor: pointer;" (click)="openTermsAndCondiions()" for="acceptTerms" class="fw-bold">Accepto términos & condiciones </label> <br>
+                <small *ngIf="submitted && f.acceptTerms.errors" class="text-danger ms-4">Acceptar Ts & Cs es requerido</small>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="hideMsg" class="row g-0 alert alert-warning error-message text-center mt-2" role="alert">
+        <strong class="text-center"><i class="feather icon-alert-circle"></i> {{ ShowMsg | translate}}</strong>
+    </div>
+    <div class="follow-btn" type="submit">
+        <button [disabled]="loading" type="submit" (click)="onSubmit();" class="btn btn-custom w-100 ">
+            <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                <span class="sr-only">Loading...</span>
+            </div> {{ isEditProfile ? 'Editar ' : 'Registrar a' | translate}} {{ ( f.petName.value == '') ? 'mi mascota' : f.petName.value }}
+        </button>
+    </div>
+</form>
+
+<div class="modal modal-qr fade" tabindex="-1" role="dialog" id="termsandcondition">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header custom-header-modal text-center header-modal" id="exampleModalLabel">
+                <h5 class="text-center modal-title"><i class="fas fa-paw"></i> TÉRMINOS Y CONDICIONES</h5>
+                <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times fs-3"></i> </a>
+            </div>
+            <div class="modal-body">
+              <app-terms-and-conditions></app-terms-and-conditions>
+            </div>
+        </div>
+    </div>
+</div>

@@ -34,3 +34,7 @@ El tercero (Z) se le conoce como revisión y nos indica que se hizo una revisió
 
 ## Environment
 node v18.10.0 (npm v8.19.2)
+
+npm run build:ssr
+
+npm run serve:ssr

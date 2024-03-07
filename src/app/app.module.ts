@@ -95,13 +95,11 @@ import { GoogleMapsComponent } from './core/components/google-maps/google-maps.c
 import { GenericDataTableComponent } from './core/components/generic-data-table/generic-data-table.component';
 import { UserListComponent } from './core/views/admin-views/user-list/user-list.component';
 import { CodeGeneratorComponent } from './core/views/admin-views/code-generator/code-generator.component';
-import { ProfileComponent } from './core/components/profile/profile.component';
-import { RegisterFormComponent } from './core/components/register-form/register-form.component';
+import { ProfileComponent } from './core/components/profile/profile.component'; 
 import { RegisterComponent } from './core/views/user-views/register/register.component';
 import { TermsAndConditionsComponent } from './core/components/terms-and-conditions/terms-and-conditions.component';
 import { MyPetCodeComponent } from './core/components/my-pet-code/my-pet-code.component';
-import { ExportAsComponent } from '@components/export-as/export-as.component';
-import { EditComponentComponent } from './core/components/edit-component/edit-component.component';
+import { ExportAsComponent } from '@components/export-as/export-as.component'; 
 import { ForgotComponent } from './core/views/user-views/forgot/forgot.component';
 import { ResetPasswordComponent } from './core/views/user-views/reset-password/reset-password.component';
 import { ScannerComponent } from './core/views/user-views/scanner/scanner.component';
@@ -112,18 +110,11 @@ import { PrivacyPolicyComponent } from './core/components/privacy-policy/privacy
 import { MarketplaceComponent } from './core/components/marketplace/marketplace.component';
 import { MarketItemComponent } from './core/components/market-item/market-item.component';
 import { PetProfileComponent } from './core/components/pet-profile/pet-profile.component';
+import { GeneralFormComponent } from './core/components/general-form/general-form.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
-// export function getLang(){
-//     var lang: any = '';
-//     if (typeof window !== 'undefined') {
-//          lang = localStorage.getItem('lang')!
-//     }
-//     return lang != null ? lang : 'es';
-// }
 
 export function tokenGetter() {
   return sessionStorage.getItem("token");
@@ -148,13 +139,11 @@ registerLocaleData(localeEsCR);
     GenericDataTableComponent,
     UserListComponent,
     CodeGeneratorComponent,
-    ProfileComponent,
-    RegisterFormComponent,
+    ProfileComponent, 
     RegisterComponent,
     TermsAndConditionsComponent,
     MyPetCodeComponent,
-    ExportAsComponent,
-    EditComponentComponent,
+    ExportAsComponent, 
     ForgotComponent,
     ResetPasswordComponent,
     ScannerComponent,
@@ -164,7 +153,8 @@ registerLocaleData(localeEsCR);
     PrivacyPolicyComponent,
     MarketplaceComponent,
     MarketItemComponent,
-    PetProfileComponent
+    PetProfileComponent,
+    GeneralFormComponent
   ],
   imports: [
     BrowserModule,
@@ -247,8 +237,7 @@ registerLocaleData(localeEsCR);
     }),
     NgHttpLoaderModule.forRoot(),
     NgHttpLoaderModule.forRoot(),
-    TranslateModule.forRoot({
-      //defaultLanguage: getLang(),
+    TranslateModule.forRoot({ 
       defaultLanguage: 'es',
       loader: {
         provide: TranslateLoader,

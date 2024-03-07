@@ -38,15 +38,15 @@ export class ExportAsComponent {
   }
 
   exportPdf() {
-    import('jspdf').then((jsPDF) => {
-      import('jspdf-autotable').then((x) => {
-        const doc = new jsPDF.default('p', 'px', 'a4');
-        var titleHeader: any = [] 
-        titleHeader = this.exportColumns.map(element =>  this.TranslateText(element.title) ); 
-        (doc as any).autoTable(titleHeader, this.pdfPayloadData);
-        doc.save(this.downloadPdf);
-      });
-    });
+    // import('jspdf').then((jsPDF) => {
+    //   import('jspdf-autotable').then((x) => {
+    //     const doc = new jsPDF.default('p', 'px', 'a4');
+    //     var titleHeader: any = [] 
+    //     titleHeader = this.exportColumns.map(element =>  this.TranslateText(element.title) ); 
+    //     (doc as any).autoTable(titleHeader, this.pdfPayloadData);
+    //     doc.save(this.downloadPdf);
+    //   });
+    // });
   }
 
   async generateExcel() {

@@ -1,6 +1,6 @@
 {
   "name": "plaquitas-cr",
-  "version": "3.14.1-050324",
+  "version": "4.0.1-070324",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -47,9 +47,7 @@
     "exceljs": "^4.4.0",
     "express": "^4.15.2",
     "file-saver": "^2.0.5",
-    "file-saver-es": "^2.0.5",
-    "jspdf": "^2.5.1",
-    "jspdf-autotable": "^3.5.31",
+    "file-saver-es": "^2.0.5", 
     "moment": "^2.30.1",
     "ng-http-loader": "^14.0.0",
     "ng2-charts": "^5.0.3",

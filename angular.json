@@ -67,12 +67,8 @@
             "allowedCommonJsDependencies": [
               "rxjs-compat",
               "sweetalert2",
-              "jspdf-autotable",
-              "file-saver",
-              "core-js",
-              "raf",
-              "rgbcolor",
-              "exceljs",
+              "exceljs", 
+              "file-saver", 
               "qrcode",
               "moment"
             ],

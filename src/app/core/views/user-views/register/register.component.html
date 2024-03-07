@@ -10,15 +10,11 @@
                 <img src="assets/images/plaquitascr.png" alt="Plaquitas CR Logo Register" class="img-fluid" height="150px" width="150px">
             </div>
             <div class="card-body">
-
-                <app-register-form
+                <app-general-form 
                     [primaryId]="primaryId"
-                    [secondaryId]="secondaryId"
-                    [isNewPetRegisterFromUserProfile]="false"
-                    [formValidation]="formValidateInputs"
-                    [formShowInputs]="formShowInputs"
-                    [registerType]="registerType">
-                </app-register-form>
+                    [formIdType]="formIdType" 
+                    [isEditProfile]="false"
+                ></app-general-form>
 
                 <div class="col-12 mt-4 d-flex justify-content-between">
                     <!-- <a [routerLink]="['/forgotPassword']" class="text-sm ml-auto text-decoration-none text-dim">{{'Forgot password' | translate}}</a><br> -->

@@ -121,7 +121,8 @@ export class LoginComponent implements OnInit {
     }
 
     goToRegisterPets(){
-        this._router.navigate(['/register-pets/'],{ queryParams: {id: 0, idSecond: 0, isActivated: false}}); 
+        // this._router.navigate(['/register-pets/'],{ queryParams: {id: 0, idSecond: 0, isActivated: false}});
+        this._router.navigate(['/register-pets/']); 
     }
 
     installPWA(){

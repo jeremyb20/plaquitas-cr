@@ -1,82 +1,156 @@
-<p-card *ngIf="payloadData" class="card" header="{{'My Pets' | translate}}">
-    <span>Total Registrados: {{payloadData.newPetProfile.length + 1}}  |  {{'Last Modification' | translate }} : {{transformDate(payloadData.updatedAt)}}</span>
-    <button (click)="registerNewPet()" class="btn btn-secondary ms-4">
-        <i class="fa fa-paw mt-1 mx-1"></i> Añadir Mascota
-    </button>
-</p-card>
-
-<div *ngIf="payloadData" class="container-fluid">
-    <div class="grid"> 
-        <div class="col-12 md:col-4 lg:col-6 lg:col-3" [ngClass]="{'d-flex justify-content-center': !Media.IsMobile}" *ngFor="let item of payloadData.newPetProfile let i = index">
-            <div class="card-profile dashboard mb-4 text-center">
-                <div class="banner">
-                    <img (click)="OpenProfilePhoto(item, false, payloadData._id, item._id)" class="rounded-circle" style="object-fit: cover;" src="{{item.photo}}" alt="{{item.photo}}">
-                </div>
-
-                <div class="menu">
-                    <div class="dropdown">
-                        <div class="opener" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                            aria-expanded="false">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                        <div class="dropdown-menu test" aria-labelledby="dropdownMenuButton">
-                            <a (click)="copy(payloadData._id, item._id)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-external-link mt-1 mx-1 fs-5"></i> Copiar enlace</a>
-                            <a (click)="editProfile(item, item._id)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-edit mt-1 mx-1"></i> {{'Edit Profile' | translate}}</a>
-                            <!-- <a class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-lock mt-1 mx-1"></i> {{'Edit Permissions' | translate}}</a> -->
-                            <a (click)="deletePet(item)" class="dropdown-item p-2" style="cursor: pointer;"><i class="feather icon-trash mt-1 mx-1"></i> {{'Delete Pet' | translate}}</a>
-                            <a (click)="OpenProfilePhoto(item, true, payloadData._id, item._id)" style="cursor: pointer;" class="dropdown-item p-2"><i class="feather icon-edit mt-1 mx-1"></i> {{'Change profile photo' | translate}}</a>
-                        </div>
-                    </div>
-                </div>
-
-                <span class="fw-bold mt-3">{{item.phone}}</span>
-    
-                <hr class="mx-5">
-                <span class="fs-4 text-primary">{{item.petName}} <button (click)="editProfile(item, item._id)" class="btn icon icon-banner"><i class="feather icon-edit"></i></button> </span>
-    
-                <div class="actions p-4">
-                    <div class="follow-btn">
-                        <button (click)="openExternalProfile(payloadData._id, i)" type="submit" class="btn btn-custom w-100 ">
-                            <div class="me-3 text-dark" role="status">
-                            </div> {{'View public profile' | translate}} <i class="feather icon-external-link"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="desc p-4">
-                    <div class="text-sm text-decoration-none text-dim text-center">
-                        {{'Status' | translate}} - {{item.petStatus}}
-                    </div>
-
-                    <!-- <div *ngIf="item.updatedAt" class="text-sm text-decoration-none text-dim text-center">
-                        {{'Last Modification' | translate }} - {{transformDate( item.updatedAt )}}
-                    </div> -->
-                </div> 
-            </div>
-        </div>
+<div *ngIf="payloadData" class="grid">
+    <div class="col-12 md:col-6">
+        <p-card class="card mb-0 text-center" header="{{'Total Registrados' | translate}} | {{payloadData.newPetProfile.length }}">
+            <button (click)="registerNewPet()" class="btn btn-secondary">
+                <i class="fa fa-paw mt-1 mx-1"></i> Añadir Mascota
+            </button>
+        </p-card>
     </div>
+    <div class="col-12 md:col-6">
+        <p-card class="card mb-0 text-center">
+            <p *ngIf="payloadData.updatedAt" class="fw-bold">
+                {{'Last Modification' | translate}} {{transformDate(payloadData.updatedAt)}}
+            </p> 
+            <p *ngIf="payloadData.createdAt" class="fw-bold">
+                {{'Fecha creación' | translate}} {{transformDate(payloadData.createdAt)}}
+            </p> 
+        </p-card>
+    </div> 
 </div>
 
-<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
-    <div class="modal-dialog modal-dialog modal-dialog-top modal-search">
-        <div class="modal-content" *ngIf="itemPetSelected">
-            <div class="modal-header px-3 py-2">
-                <h5 class="modal-title fw-bold w-100 text-center" id="editProfileModalLabel">{{ 'Edit Profile' | translate}}:  {{itemPetSelected.petName}}</h5>
-                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
-            </div>
-            <div class="modal-body pt-0">
-                <app-edit-component
-                    [payloadData]="itemPetSelected"
-                    [primaryId]="payloadData._id"
-                    [secondaryId]="secondaryId"
-                    [profileForm]="profileForm"
-                    (getProfileUpdated)="getProfileUpdated($event)">
-                </app-edit-component>
+<div *ngIf="payloadData">
+
+    <ng-container *ngIf="payloadData.newPetProfile.length > 0; else elseTemplate">
+        <p-card header="Mi lista de mascotas" class="card card-custom mt-3">
+            <p-dataView 
+                #dv 
+                filterBy="petName"
+                [value]="payloadData.newPetProfile" 
+                title="Mi lista de mascotas"  
+                dataKey="id"  
+                [layout]="'list'"
+                [showCurrentPageReport]="true"> 
+                <p-header> 
+                    <div class="grid">
+                        <div class="d-flex col-12 justify-content-between">
+                            <button class="btn rounded-2" (click)="showFilterInputs = !showFilterInputs" ><i class="feather icon-filter "></i>Filtrar</button>
+                            <div *ngIf="!Media.IsMobile && showFilterInputs" class="col-12 md:col-3 lg:col-3">
+                                <input type="search" class="w-100" pInputText placeholder="Buscar por nombre" (input)="Myfilter($any($event.target) .value)">
+                            </div>
+                           
+                            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                        </div>
+                        <div *ngIf="Media.IsMobile && showFilterInputs" class="col-12">
+                            <div class="col-12 md:col-4 lg:col-4">
+                                <input type="search" class="w-100" pInputText placeholder="Buscar por nombre" (input)="Myfilter($any($event.target) .value)">
+                            </div> 
+                        </div>
+                    </div>
+                </p-header>
+    
+                <ng-template let-item pTemplate="listItem" let-index="rowIndex">
+                    <div class="col-12 md:col-6 lg:col-3 p-2">
+                        <div class="p-2 border-0 surface-border surface-card rounded-2 shadow"> 
+                            <div class="grid">
+                                <div class="col-7">
+                                    <img (click)="OpenProfilePhoto(item, false, payloadData._id, item._id)" class="rounded-2" style="object-fit: cover; height: 250px; width: 100%;" src="{{item.photo}}" [alt]="item.petName" />
+                                </div>
+                                <div class="col-5">
+                                    <div class="grid mt-2">
+                                        <div class="col-12">
+                                            <div (click)="editProfile(item, item._id)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
+                                                <span class="font-semibold" style="font-size: 15px;"> 
+                                                    {{ item.petName }}
+                                                </span> 
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button (click)="openExternalProfile(payloadData._id, index)" type="submit" class="btn btn-primary btn-sm w-100 text-center">
+                                                 <i class="feather icon-external-link"></i> Abrir
+                                            </button> 
+                                        </div>
+                                        <div class="col-12">
+                                            <button (click)="copy(payloadData._id, index)" type="submit" class="btn btn-info btn-sm w-100 text-center">
+                                                 <i class="feather icon-copy"></i> Copiar
+                                            </button> 
+                                        </div>
+                                        <div class="col-12">
+                                            <button (click)="editProfile(payloadData, item._id)" type="submit" class="btn btn-secondary btn-sm w-100 text-center ">
+                                                 <i class="feather icon-edit"></i> Editar Perfil
+                                            </button> 
+                                        </div>
+                                        <div class="col-12">
+                                            <button (click)="deletePet(item)" type="submit" class="btn btn-danger btn-sm w-100 text-center">
+                                                 <i class="feather icon-trash"></i> Eliminar
+                                            </button> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+
+                <ng-template let-item pTemplate="gridItem" let-index="rowIndex">
+                    <div class="col-6 md:col-6 lg:col-3 px-1">
+                        <div class="border-1 surface-border surface-card rounded-2 shadow p-2"> 
+                            
+                            <img (click)="OpenProfilePhoto(item, false, payloadData._id, item._id)" class="rounded-2" style="object-fit: cover; height: 260px; width: 100%;" src="{{item.photo}}" [alt]="item.petName" />
+                            <div (click)="editProfile(item, item._id)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
+                                <span class="font-semibold" style="font-size: 15px;"> 
+                                    {{ item.petName }}
+                                </span> 
+                            </div>
+                            
+                            <div class="grid mt-2">
+                                <div class="col-3 text-center">
+                                    <button (click)="openExternalProfile(payloadData._id, index)" type="submit" class="btn btn-primary btn-sm">
+                                         <i class="feather icon-external-link"></i>
+                                    </button> 
+                                </div>
+                                <div class="col-3 text-center">
+                                    <button (click)="editProfile(payloadData, item._id)" type="submit" class="btn btn-secondary btn-sm">
+                                         <i class="feather icon-edit"></i>
+                                    </button> 
+                                </div>
+                                <div class="col-3 text-center">
+                                    <button (click)="deletePet(item)" type="submit" class="btn btn-danger btn-sm">
+                                         <i class="feather icon-trash"></i>
+                                    </button> 
+                                </div>
+                                <div class="col-3 text-center">
+                                    <button (click)="copy(payloadData._id, index)" type="submit" class="btn btn-info btn-sm">
+                                         <i class="feather icon-copy"></i>
+                                    </button> 
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </ng-template>
+                
+            </p-dataView>  
+        </p-card>
+    </ng-container>
+    <ng-template #elseTemplate>
+        <div class="container">
+            <div class="grid text-center">
+                <div class="col-12">
+                    <img [ngClass]="{'w-100' : Media.IsMobile}" src="assets/images/mascota.png" alt="Mascota No Registrada">
+                </div>
+                <div class="col-12">
+                    <span>Vaya.. parece que no tienes ninguna mascota registrada en ese caso puedes registrarlo aqui</span>
+                </div>
+                <div class="col-12">
+                    <button (click)="registerNewPet()" class="btn btn-secondary ms-4">
+                        <i class="fa fa-paw mt-1 mx-1"></i> Añadir Mascota
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
+    </ng-template>
 </div>
+
 
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog modal-dialog-top modal-search modal-dialog-scrollable">
@@ -85,21 +159,39 @@
                 <h5 class="modal-title fw-bold w-100 text-center" id="registerModalLabel">{{ 'Register Pet' | translate}} </h5>
                 <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
             </div>
-            <div *ngIf="payloadData" class="modal-body">
-                <app-register-form
+            <div *ngIf="showRegisterModal" class="modal-body">
+                <app-general-form 
                     [primaryId]="payloadData._id"
-                    [secondaryId]="0"
-                    [isNewPetRegisterFromUserProfile]="true"
-                    [formValidation]="formValidateInputs"
-                    [formShowInputs]="formShowInputs"
-                    [registerType]="1"
-                    [payloadData]="payloadData"
-                    (refreshUserData)="refreshUserData($event)">
-                </app-register-form>
+                    [formIdType]="2" 
+                    [isEditProfile]="false"
+                    (refreshUserData)="getProfileUpdated($event)"
+                ></app-general-form>
             </div>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog modal-dialog-top modal-search">
+        <div class="modal-content" *ngIf="itemSelected">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="editProfileModalLabel">{{ 'Edit Profile' | translate}}:  {{itemSelected.petName}}</h5>
+                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0"> 
+                <app-general-form 
+                    [itemSelected]="itemSelected"
+                    [primaryId]="payloadData._id"
+                    [secondaryId]="itemSelected._id"
+                    [formIdType]="3" 
+                    [isEditProfile]="true"
+                    (refreshUserData)="getProfileUpdated($event)"
+                ></app-general-form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <div class="modal fade" id="openPhotoProfileModal" tabindex="-1" aria-labelledby="openPhotoProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-dialog-top modal-search modal-dialog-scrollable">
@@ -132,7 +224,7 @@
 
                 </ng-container>
                 <ng-template #elseTemplate>
-                    <img *ngIf="itemPetSelected" class="w-100" src="{{itemPetSelected.photo}}" alt="Photo Profile" srcset="">
+                    <img *ngIf="itemSelected" class="w-100" src="{{itemSelected.photo}}" alt="Photo Profile" srcset="">
                 </ng-template>
             </div>
         </div>

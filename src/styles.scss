@@ -23,6 +23,16 @@ p-inputnumber {
     width: 100%;
 }
 
+.custom-input-mask {
+    min-width: 250px !important;
+
+    @include media-breakpoint-up(md){
+
+        min-width: 350px !important;
+
+    }
+}
+
 .notifications {
     position: fixed;
     bottom: 0;
@@ -372,3 +382,16 @@ video{
   div:where(.swal2-container){
     z-index: 2102 !important;
   }
+
+.p-dataview.p-dataview-list .p-dataview-content > .p-grid > div {
+    border: none;
+}
+
+.card-custom {
+    .p-card-title {
+        padding: 1.25rem;
+    }
+    .p-card-body {
+        padding: 0px;
+    }
+}

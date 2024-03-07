@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CountryFlag, getCountry } from '@methods/countrycode';
@@ -12,6 +12,8 @@ import { NotificationService } from '@services/notification.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DataView } from 'primeng/dataview'; 
+
 import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
@@ -22,38 +24,43 @@ declare var bootstrap: any;
 })
 
 export class DashboardComponent implements OnInit {
+    @ViewChild('dv') dv!: DataView;
+
     userLogin: User;
     payloadData: any;
     mediaSubscription: Subscription;
     Media: MediaResponse;
     editProfileModal: any;
     registerModal: any;
-    itemPetSelected: any;
-    profileForm: FormGroup;
+ 
     primaryId: number = 0;
     secondaryId: number = 0;
-    formValidateInputs: any;
     formShowInputs: any;
     openPhotoProfileModal: any;
     itemPhotoSelected: any;
     isEditProfilePhoto: boolean = false;
     isPrincipalProfile: boolean = false;
+    showRegisterModal: boolean = false;
 
     maxSizeInBytes = 6 * 1024 * 1024; // 6MB
     file: File;
     photoSelected: any | ArrayBuffer;
     uploadedFiles: any[] = [];
+
     country: any;
     countryCode: any;
     countryFlag: any = CountryFlag;
+
+    itemSelected: any;
+    showFilterInputs: boolean = false;
+
 
     constructor(private _apiService: ApiService, 
         private _notificationService: NotificationService,
         private _mediaService: MediaService, 
         private _router: Router, 
         private _clipboardService: ClipboardService,
-        private _translateService: TranslateService,
-        private _formBuilder: FormBuilder) {
+        private _translateService: TranslateService) {
         this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
             this.Media = media;
         });
@@ -61,53 +68,12 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.userLogin = JSON.parse(localStorage.getItem('user')!);
-        if (this.userLogin != null) {
-            this.getUserProfile();
-        }
 
         this.country = getCountry(); 
         this.countryCode = CountryFlag.find(element => this.country == element.name);
-
-        this.profileForm =  this._formBuilder.group({
-            ownerPetName: [''],
-            genderSelected: [''],
-            petName: [''],
-            country: [this.countryCode.name],
-            race: [''],
-            weight: [''],
-            phone: [''],
-            birthDate: [''],
-            veterinarianContact: [''],
-            phoneVeterinarian: [''],
-            favoriteActivities: [''],
-            healthAndRequirements: [''],
-            address: ['']
-        });
-
-        this.formValidateInputs = [
-            { control: 'genderSelected', show: true},
-            { control: 'petName', show: true },
-            { control: 'race', show: true },
-            { control: 'weight', show: true },
-            { control: 'phone', show: true },
-            { control: 'codeGenerator', show: false },
-            { control: 'email', show: false },
-            { control: 'password', show: false},
-            { control: 'confirmPassword', show: false},
-            { control: 'acceptTerms', show: false },
-        ]
-
-        this.formShowInputs = {
-            showGenderSelected: true,
-            showPetName: true,
-            showRace: true,
-            showWeight: true,
-            showPhone: true,
-            showCodeGenerator: false,
-            showEmail: false,
-            showPassword: false,
-            showConfirmPassword: false,
-            showAcceptTerms: false
+ 
+        if (this.userLogin != null) {
+            this.getUserProfile();
         }
     }
 
@@ -143,23 +109,15 @@ export class DashboardComponent implements OnInit {
         return transformDate(date);
     }
 
-    editProfile(item: any, secondaryId: any){
-        this.itemPetSelected = item;
-        this.secondaryId = secondaryId;
+ 
+    Myfilter(filter: string, filterMatchMode:string = "contains" ) {
+        this.dv.filter( filter, filterMatchMode );
+        // free to do anything here
+    }
 
-        this.profileForm.get('ownerPetName')?.setValue(this.itemPetSelected.ownerPetName);
-        this.profileForm.get('genderSelected')?.setValue(this.itemPetSelected.genderSelected.toString());
-        this.profileForm.get('petName')?.setValue(this.itemPetSelected.petName);
-        this.profileForm.get('race')?.setValue(this.itemPetSelected.race);
-        this.profileForm.get('weight')?.setValue(this.itemPetSelected.weight);
-        this.profileForm.get('phone')?.setValue(this.itemPetSelected.phone);
-        this.profileForm.get('country')?.setValue(this.itemPetSelected.country);
-        this.profileForm.get('birthDate')?.setValue(this.itemPetSelected.birthDate != undefined ? new Date(this.itemPetSelected.birthDate): new Date());
-        this.profileForm.get('veterinarianContact')?.setValue(this.itemPetSelected.veterinarianContact);
-        this.profileForm.get('phoneVeterinarian')?.setValue(this.itemPetSelected.phoneVeterinarian);
-        this.profileForm.get('favoriteActivities')?.setValue(this.itemPetSelected.favoriteActivities);
-        this.profileForm.get('healthAndRequirements')?.setValue(this.itemPetSelected.healthAndRequirements);
-        this.profileForm.get('address')?.setValue(this.itemPetSelected.address);
+    editProfile(item: any, secondaryId: any){
+        this.itemSelected = item;
+        this.secondaryId = secondaryId;
 
         this.editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'), {
             keyboard: false
@@ -167,8 +125,19 @@ export class DashboardComponent implements OnInit {
         this.editProfileModal.show()
     }
 
-    getProfileUpdated(itemUpdated: any){
-        this.editProfileModal.hide()
+    cancel(){
+        this.itemSelected = [];
+        this.itemSelected = null;
+    }
+
+    getProfileUpdated(idFormType: any){
+        this.itemSelected = [];
+        if(idFormType == 2) {
+            this.registerModal.hide();
+        }
+        if(idFormType == 3) {
+            this.editProfileModal.hide();
+        }
         this.getUserProfile();
     }
 
@@ -176,7 +145,7 @@ export class DashboardComponent implements OnInit {
         this.isEditProfilePhoto = isEditProfilePhoto;
         this.primaryId = primaryId;
         this.secondaryId = secondaryId;
-        this.itemPetSelected = item;
+        this.itemSelected = item;
         this.openPhotoProfileModal = new bootstrap.Modal(document.getElementById('openPhotoProfileModal'), {
             keyboard: false,
         });
@@ -215,7 +184,7 @@ export class DashboardComponent implements OnInit {
                 photo: this.file,
                 idPrincipal: this.primaryId,
                 idSecondary: this.secondaryId,
-                idPhoto: this.itemPetSelected.photo_id
+                idPhoto: this.itemSelected.photo_id
             }
             fd.append('image', data.photo);
             fd.append('idPrincipal', data.idPrincipal);
@@ -249,6 +218,7 @@ export class DashboardComponent implements OnInit {
     }
 
     registerNewPet(){
+        this.showRegisterModal = true;
         this.registerModal = new bootstrap.Modal(document.getElementById('registerModal'), {
             keyboard: false,
             backdrop: 'static'
@@ -296,8 +266,4 @@ export class DashboardComponent implements OnInit {
     TranslateText(text: string) {
         return this._translateService.instant(text);
     } 
-
-    cancel(){
-        this.itemPetSelected = [];
-    }
 }

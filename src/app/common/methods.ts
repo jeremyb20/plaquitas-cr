@@ -155,64 +155,216 @@ export function onErrorItem(
 }
 
 
-export function validateFormControlType(type: number) {
-    /**
-    Form Component functions
-        // 1 HEPL TICKET CENTER
-        // 2 PARTNERS TICKET CENTER
-        // 3 INTERNAL TICKET CENTER
-        // 4 DIRECT TICKET CENTER
-        // 5 6 7 TICKET MESSAGE INFO // MODAL FORMS New Message
-        // 8 SERVICE DESK NEW ENTRY
-        // 9 SERVICE DESK NEW COMMENT
-        // 10 SERVICE DESK EDIT ENTRY
-        // 12 SHORCUT CENTER ADD NEW ENTRY 
-    */
+export function formValidateInput(type: number) {
+
     switch (type) {
+         /**
+        Form Component functions
+            // 0 // Registro de usuario sin codigo 
+        */
+        case 0: return [
+            { control: 'phone', isRequired: true },
+            { control: 'email', isRequired: true },
+            { control: 'password', isRequired: true },
+            { control: 'confirmPassword', isRequired: true},
+            { control: 'codeGenerator', isRequired: false },
+            { control: 'acceptTerms', isRequired: true },
+
+            { control: 'ownerPetName', isRequired: false },
+            { control: 'petName', isRequired: false },
+            { control: 'genderSelected', isRequired: false},
+            { control: 'race', isRequired: false }, 
+            { control: 'weight', isRequired: false },
+            { control: 'birthDate', isRequired: false },
+            { control: 'veterinarianContact', isRequired: false },
+            { control: 'phoneVeterinarian', isRequired: false },
+            { control: 'favoriteActivities', isRequired: false },
+            { control: 'healthAndRequirements', isRequired: false },
+            { control: 'address', isRequired: false }
+        ];
+
+         /**
+        Form Component functions
+            // 1 // Registro de usuario con codigo 
+        */
         case 1: return [
-            { control: 'userSelected', show: false },
-            { control: 'account', show: true },
-            { control: 'agentPlayer', show: true },
-            { control: 'subject', show: true },
-            { control: 'subjectField', show: true },
-            { control: 'website', show: true },
-            { control: 'relevance', show: true },
-            { control: 'department', show: true },
-            { control: 'status', show: true },
-            { control: 'replyToEmail', show: false },
-            { control: 'shortcuts', show: true },
-            { control: 'message', show: true },
-            { control: 'emailSubject', show: false },
-            { control: 'ticketLink', show: false },
-            { control: 'inputTextName', show: false },
-            { control: 'description', show: false }
-        ]
+            { control: 'phone', isRequired: true },
+            { control: 'email', isRequired: true },
+            { control: 'password', isRequired: true },
+            { control: 'confirmPassword', isRequired: true},
+            { control: 'codeGenerator', isRequired: true },
+            { control: 'acceptTerms', isRequired: true },
+
+            { control: 'ownerPetName', isRequired: false },
+            { control: 'petName', isRequired: false },
+            { control: 'genderSelected', isRequired: false},
+            { control: 'race', isRequired: false }, 
+            { control: 'weight', isRequired: false },
+            { control: 'birthDate', isRequired: false },
+            { control: 'veterinarianContact', isRequired: false },
+            { control: 'phoneVeterinarian', isRequired: false },
+            { control: 'favoriteActivities', isRequired: false },
+            { control: 'healthAndRequirements', isRequired: false },
+            { control: 'address', isRequired: false }
+        ];
+
+         /**
+        Form Component functions
+            // 2 // Registro de nueva mascota en el perfil 
+        */
+        case 2: return [
+            { control: 'phone', isRequired: true },
+            { control: 'email', isRequired: false },
+            { control: 'password', isRequired: false },
+            { control: 'confirmPassword', isRequired: false},
+            { control: 'codeGenerator', isRequired: false },
+            { control: 'acceptTerms', isRequired: false },
+
+            { control: 'ownerPetName', isRequired: false },
+            { control: 'petName', isRequired: true },
+            { control: 'genderSelected', isRequired: false},
+            { control: 'race', isRequired: false }, 
+            { control: 'weight', isRequired: false },
+            { control: 'birthDate', isRequired: true },
+            { control: 'veterinarianContact', isRequired: false },
+            { control: 'phoneVeterinarian', isRequired: false },
+            { control: 'favoriteActivities', isRequired: false },
+            { control: 'healthAndRequirements', isRequired: false },
+            { control: 'address', isRequired: false }
+        ];
+
+
+         /**
+        Form Component functions
+            // 3 // Editar mascota en Dashboard
+        */
+        case 3: return [
+            { control: 'phone', isRequired: false },
+            { control: 'email', isRequired: false },
+            { control: 'password', isRequired: false },
+            { control: 'confirmPassword', isRequired: false},
+            { control: 'codeGenerator', isRequired: false },
+            { control: 'acceptTerms', isRequired: false },
+
+            { control: 'ownerPetName', isRequired: false },
+            { control: 'petName', isRequired: false },
+            { control: 'genderSelected', isRequired: false},
+            { control: 'race', isRequired: false }, 
+            { control: 'weight', isRequired: false },
+            { control: 'birthDate', isRequired: false },
+            { control: 'veterinarianContact', isRequired: false },
+            { control: 'phoneVeterinarian', isRequired: false },
+            { control: 'favoriteActivities', isRequired: false },
+            { control: 'healthAndRequirements', isRequired: false },
+            { control: 'address', isRequired: false }
+        ];
+
+
         default: return null;
     }
 }
 
-export function getFormType(type: number) {
-    /**
-    Form Component functions
-        // 1 HEPL TICKET CENTER
-    */
+export function formShowFields(type: number) {
     switch (type) {
-        case 1: return {
-            showUsers: false,
-            showAccount: true,
-            showAgentPlayer: true,
-            showSubject: true,
-            showSubjetField: true,
-            showWebsite: true,
-            showRelevance: true,
-            showDepartment: true,
-            showStatus: true,
-            showReplyToEmail: true,
-            showShortCuts: true,
-            showMessage: true,
-            showAttachment: true,
-            showInputTextName: false,
-            showDescription: false
+        /**
+        Form Component functions
+            // 0 // Registro de usuario sin codigo 
+        */
+        case 0 : return {
+            showPhone: true,
+            showEmail: true,
+            showPassword: true,
+            showConfirmPassword: true,
+            showCodeGenerator: false, 
+            showAcceptTerms: true,
+            showOwnerPetName: false,
+            showPetName: false, 
+            showGenderSelected: false,
+            showRace: false,
+            showWeight: false,
+            showBirthDate: false,
+            showVeterinarianContact: false,
+            showVeterinarianPhone: false,
+            showFavoriteActivities: false,
+            showHealthAndRequirements: false,
+            showAddress: false,
+            showFileImg: false
+        };
+
+        /**
+        Form Component functions
+            // 1 // Registro de usuario con codigo 
+        */
+        case 1 : return {
+            showPhone: true,
+            showEmail: true,
+            showPassword: true,
+            showConfirmPassword: true,
+            showCodeGenerator: true, 
+            showAcceptTerms: true,
+            showOwnerPetName: false,
+            showPetName: false, 
+            showGenderSelected: false,
+            showRace: false,
+            showWeight: false,
+            showBirthDate: false,
+            showVeterinarianContact: false,
+            showVeterinarianPhone: false,
+            showFavoriteActivities: false,
+            showHealthAndRequirements: false,
+            showAddress: false,
+            showFileImg: false
+        };
+
+        /**
+        Form Component functions
+            // 2 // Registro de usuario sin codigo 
+        */
+        case 2 : return {
+            showPhone: true,
+            showEmail: false,
+            showPassword: false,
+            showConfirmPassword: false,
+            showCodeGenerator: false, 
+            showAcceptTerms: false,
+            showOwnerPetName: false,
+            showPetName: true, 
+            showGenderSelected: false,
+            showRace: false,
+            showWeight: false,
+            showBirthDate: true,
+            showVeterinarianContact: false,
+            showVeterinarianPhone: false,
+            showFavoriteActivities: false,
+            showHealthAndRequirements: false,
+            showAddress: false,
+            showFileImg: true
+        };
+
+        /**
+        Form Component functions
+            // 3 // Editar mascota en Dashboard
+        */
+
+        case 3 : return {
+            showPhone: true,
+            showEmail: false,
+            showPassword: false,
+            showConfirmPassword: false,
+            showCodeGenerator: false, 
+            showAcceptTerms: false,
+            showOwnerPetName: true,
+            showPetName: true, 
+            showGenderSelected: true,
+            showRace: true,
+            showWeight: true,
+            showBirthDate: true,
+            showVeterinarianContact: true,
+            showVeterinarianPhone: true,
+            showFavoriteActivities: true,
+            showHealthAndRequirements: true,
+            showAddress: true,
+            showFileImg: false
         };
 
         default: return null;
@@ -339,7 +491,21 @@ export function getCountryCode(country: string){
 export function stripHtmlTags(input:any) {
     const doc = new DOMParser().parseFromString(input, 'text/html');
     return doc.body.textContent || "";
-  }
+}
+
+export function buildFormData(data: any): FormData {
+    const fd = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+            if (value instanceof Blob) {
+                fd.append(key, value);
+            } else {
+                fd.append(key, String(value));
+            }
+        }
+    });
+    return fd;
+}
 
 
 export enum PostMethods {
@@ -375,7 +541,7 @@ export enum PutMethods {
     ADMIN_UPDATE_INVENTORY_LIST = 'api/catalog/editCatalog',
     ADMIN_SORT_PET = 'api/admin/sortNewPetProfile',
     USER_UPDATE_PROFILE = 'api/user/editProfileInfo',
-    USER_UPDATE_SECONDARY_PROFILE = 'api/user/editProfileSecondaryInfo',
+    USER_UPDATE_PET_PROFILE = 'api/user/editPetProfile',
     USER_UPDATE_USER_THEME = 'api/user/editThemeProfile',
     USER_UPDATE_PHOTO_PROFILE = 'api/user/editPhotoProfile',
 }
