@@ -116,8 +116,16 @@
                 <ul class="dropdown-menu dropdown-menu-bg p-0" aria-labelledby="dropdownMenuButton1">
                     <ng-container *ngIf="userLogin">
                         <li>
+                            <a class="dropdown-item p-3" style="cursor: pointer;" (click)="sidebarVisible = true"> 
+                                <span class="d-inline-block">
+                                    <i class="feather icon-settings nav_icon ms-1 me-1"></i>
+                                    Configuración
+                                </span>
+                            </a>
+                        </li>
+                        <li>
                             <a class="dropdown-item p-3" (click)="logout()" href="#"> 
-                                <span class="p-2 d-inline-block">
+                                <span class="d-inline-block">
                                     <i class="feather icon-log-out nav_icon ms-1 me-1"></i>
                                     Cerrar Sesión 
                                 </span>
@@ -143,3 +151,7 @@
         </div>
     </div>
 </div>
+
+<p-sidebar title="Configuracion" styleClass="p-0 p-sidebar-custom" [blockScroll]="true" [(visible)]="sidebarVisible" [fullScreen]="true" (onHide)="closeSidebar()">
+    <app-configuration></app-configuration>
+</p-sidebar>

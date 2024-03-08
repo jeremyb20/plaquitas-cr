@@ -47,6 +47,9 @@ export class NavbarComponent {
   langFilter: Filters[]
   langItemSelected: any;
   themeSelected: any = '';
+  sidebarVisible: boolean = false;
+  displayBasic: boolean = false;
+
 
   get f() { return this.smartLoginForm.controls; }
 
@@ -78,6 +81,11 @@ export class NavbarComponent {
     metaTheme.content =  this._themeService.getMetaColor(this.themeSelected);
     
   }
+
+  closeSidebar(){ 
+    this.displayBasic = false;
+    this.sidebarVisible = false;
+}
 
   getMenuItemByUser() {
     if(this.userLogin.userState == 0){

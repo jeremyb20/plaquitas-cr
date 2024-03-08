@@ -544,6 +544,7 @@ export enum PutMethods {
     USER_UPDATE_PET_PROFILE = 'api/user/editPetProfile',
     USER_UPDATE_USER_THEME = 'api/user/editThemeProfile',
     USER_UPDATE_PHOTO_PROFILE = 'api/user/editPhotoProfile',
+    ADMING_UPDATE_LOCATION_PET = 'api/admin/updateLocationPet'
 }
 
 export enum GetMethods {

@@ -11,6 +11,8 @@ import { saveAs } from 'file-saver-es';
 import Swal from 'sweetalert2';
 import { ThemeService } from '@services/theme.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
+import { MediaResponse, MediaService } from '@services/media.service';
+import { Subscription } from 'rxjs';
 
 declare const bootstrap: any;
 
@@ -26,6 +28,9 @@ export class GenericDataTableComponent {
     @Output() refreshData = new EventEmitter<any>();
 
     @ViewChild('qrCode', {static : false}) qrCode:any;
+
+    mediaSubscription: Subscription;
+    Media: MediaResponse;
 
     AngularxQrCode: string = '';
     elem: any;
@@ -44,12 +49,17 @@ export class GenericDataTableComponent {
         private _notificationService: NotificationService,
         private _translateService: TranslateService,
         private _clipboardService: ClipboardService,
+        private _mediaService: MediaService, 
         private _themeService : ThemeService,
     ){
         this.AngularxQrCode = 'Initial QR code data string';
         this.themeSelected = this._themeService.getThemeSelected();
         this.userTypeFilter = UserTypeList;
         this.userTypeIdActivateFilter = UserActivationTypeList;
+
+        this.mediaSubscription = this._mediaService.subscribeMedia().subscribe(media => {
+            this.Media = media;
+        });
     }
 
     getStatusType(status: string) {

@@ -69,9 +69,7 @@ const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, canActivate: [UserGuard] },
-      { path: 'configuration', component: ConfigurationComponent, canActivate: [UserGuard] },
-      { path: 'configuration-admin', component: ConfigurationComponent, canActivate: [AdminGuard] },
+      { path: 'dashboard', component: DashboardComponent, canActivate: [UserGuard] }, 
       { path: 'admin-panel', component: AdminPanelComponent, canActivate: [AdminGuard] },
       { path: 'user-registered', component: UserListComponent, canActivate: [AdminGuard] },
       { path: 'code-generator', component: CodeGeneratorComponent, canActivate: [AdminGuard] },

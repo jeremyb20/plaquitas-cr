@@ -1,58 +1,27 @@
-<google-map height="600px" width="100%" #GoogleMap [center]="center" [options]="options" [zoom]="zoom">
+<button class="btn btn-info m-2" (click)="getMyCurrentPosition()">Get my position</button>
+<google-map height="600px" width="100%" #GoogleMap [center]="center" [options]="options" [zoom]="zoom" (mapClick)="click($event)">
 
-    <map-marker *ngFor="let marker of points; let ix = index" [position]="marker.position" [title]="marker.title"
-        [options]="marker.options" (mapClick)="openInfo(ix, marker)">
+    <map-marker 
+        *ngFor="let marker of points; let ix = index" 
+        [position]="marker.position" [title]="marker.title" 
+        [options]="marker.options" 
+        (mapClick)="openInfo(ix, marker)" 
+        (mapDragend)="onDragend(marker, $event)">
+        
         <map-info-window>
-            <div class="row" *ngIf="dataContent">
-                <div class="col-12 col-sm-12">
-                    <div class="row">
-                        <div class="col-6">
-                            <h5> <i class="fa fa-paw" aria-hidden="true"></i> {{dataContent?.petName}}</h5>
-                            <p><span class="fw-bold">Estatus:</span> {{dataContent?.petStatus}}</p>
-                            <p><span *ngIf="dataContent?.newPetProfile" class="fw-bold">Hermanos:</span>
-                                {{dataContent?.newPetProfile?.length}}</p>
-                        </div>
-                        <div class="col-6">
-                            <div class="mb-3">
-                                <img class="rounded-circle" style="height: 100px; width: 100px; object-fit: cover;"
-                                    src="{{dataContent?.photo}}" alt="petprofile">
-                            </div>
-                        </div>
+            <div class="grid grid-nogutter p-3 text-center" *ngIf="dataContent">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <img class="rounded-circle" style="height: 100px; width: 100px; object-fit: cover;"
+                            src="{{dataContent?.photo}}" alt="petprofile">
                     </div>
                 </div>
-                <div class="col-12 col-sm-12">
-                    <div *ngFor="let n of dataContent?.newPetProfile; let i = index" class="mb-2">
-                        <div id="accordion">
-                            <div class="card">
-
-                                <div class="card-header" (click)="showPanel(n)" role="tab" id="headingTwo">
-                                    <h5 class="mb-0">
-                                        <a aria-expanded="false">
-                                            <div style="font-size: 13px;">
-                                                <span><i class="fas fa-paw"></i> {{n.petName}}</span>
-                                            </div>
-                                        </a>
-                                    </h5>
-                                </div>
-                                <div id="{{n._id}}" class="collapsible" [@collapse]="n.showPanel" role="tabpanel"
-                                    aria-labelledby="headingTwo" data-parent="#accordion">
-                                    <div class="row card-body">
-                                        <div class="col-6">
-                                            <h5> <i class="fa fa-paw" aria-hidden="true"></i> {{n.petName}}</h5>
-                                            <p><span class="fw-bold">Estatus:</span> {{n.petStatus}}</p>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="mb-3">
-                                                <img class="rounded-circle"
-                                                    style="height: 100px; width: 100px; object-fit: cover;"
-                                                    src="{{n.photo}}" alt="petprofile">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="col-12">
+                    <h5> <i class="fa fa-paw" aria-hidden="true"></i> {{dataContent?.petName}}</h5>
+                    <p><span class="fw-bold">Estatus:</span> {{dataContent?.petStatus}}</p> 
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-info" (click)="openWaze(dataContent?.lat, dataContent?.lng)">Waze</button>
                 </div>
             </div>
         </map-info-window>

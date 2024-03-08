@@ -35,62 +35,63 @@
         <div class="col-12 col-md-5 col-lg-5 col-xl-6 mb-5" [ngClass]="{'px-2': Media.IsMobile}">
            <p-card header="{{'Perfil de ' + payloadData.petName }}" styleClass="card-custom">
             
-                <div class="row">
-                    <div class="p-2">
-                        <div *ngIf="payloadData.race && payloadData.race != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Race' | translate }} </h5>
-                            <span>{{payloadData.race}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.weight && payloadData.weight != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Weight' | translate }} </h5>
-                            <span>{{payloadData.weight}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.birthDate && payloadData.birthDate != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Birthdate' | translate }} </h5> 
-                            <span>{{payloadData.birthDate | date }}  | {{ payloadData.petName }} {{'have' | translate}} {{calculateAge(payloadData.birthDate)}} {{'years' | translate }} humanos y en años canino aproximadamente: {{calcularEdadPerroDesdeHumano()}} </span>
-                        </div>
-
-                        <div *ngIf="payloadData.ownerPetName && payloadData.ownerPetName != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold"> {{ 'Owner Father Name' | translate }} </h5>
-                            <span>{{payloadData.ownerPetName}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.phone && payloadData.phone != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{'Phone Number' | translate}} </h5> 
-                            <span>{{payloadData.phone}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.veterinarianContact && payloadData.veterinarianContact != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Veterinarian Name' | translate }} </h5> 
-                            <span>{{payloadData.veterinarianContact}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.phoneVeterinarian && payloadData.phoneVeterinarian != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{'Phone Veterinarian' | translate}} </h5> 
-                            <span>{{payloadData.phoneVeterinarian}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.favoriteActivities && payloadData.favoriteActivities != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Favorite Activities' | translate }} </h5> 
-                            <span>{{payloadData.favoriteActivities}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.healthAndRequirements && payloadData.healthAndRequirements != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Health and Requirements' | translate }} </h5>
-                            <span>{{payloadData.healthAndRequirements}}</span>
-                        </div>
-
-                        <div *ngIf="payloadData.address && payloadData.address != ''" class="forms-inputs mt-4">
-                            <h5 class="fw-bold">{{ 'Address' | translate }} </h5> 
-                            <span>{{payloadData.address}}</span>
-                        </div>
-
-
-                        <div class="w-100 text-center">
-                            <qrcode [qrdata]="AngularxQrCode" size="200" [allowEmptyString]="true" [width]="156" [errorCorrectionLevel]="'L'"></qrcode>
-                        </div>
+                <div class="px-3">
+                    <div *ngIf="payloadData.race && payloadData.race != ''" class="forms-inputs">
+                        <h5 class="fw-bold">{{ 'Race' | translate }} </h5>
+                        <span>{{payloadData.race}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.weight && payloadData.weight != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{ 'Weight' | translate }} </h5>
+                        <span>{{payloadData.weight}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.birthDate && payloadData.birthDate != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{ 'Birthdate' | translate }} </h5>
+                        <span>{{payloadData.birthDate | date }} | {{ payloadData.petName }} {{'have' | translate}}
+                            {{calculateAge(payloadData.birthDate)}} {{'years' | translate }} humanos y en años canino aproximadamente:
+                            {{calcularEdadPerroDesdeHumano()}} </span>
+                    </div>
+                
+                    <div *ngIf="payloadData.ownerPetName && payloadData.ownerPetName != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold"> {{ 'Owner Father Name' | translate }} </h5>
+                        <span>{{payloadData.ownerPetName}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.phone && payloadData.phone != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{'Phone Number' | translate}} </h5>
+                        <span>{{payloadData.phone}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.veterinarianContact && payloadData.veterinarianContact != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{ 'Veterinarian Name' | translate }} </h5>
+                        <span>{{payloadData.veterinarianContact}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.phoneVeterinarian && payloadData.phoneVeterinarian != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{'Phone Veterinarian' | translate}} </h5>
+                        <span>{{payloadData.phoneVeterinarian}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.favoriteActivities && payloadData.favoriteActivities != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{ 'Favorite Activities' | translate }} </h5>
+                        <span>{{payloadData.favoriteActivities}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.healthAndRequirements && payloadData.healthAndRequirements != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{ 'Health and Requirements' | translate }} </h5>
+                        <span>{{payloadData.healthAndRequirements}}</span>
+                    </div>
+                
+                    <div *ngIf="payloadData.address && payloadData.address != ''" class="forms-inputs mt-4">
+                        <h5 class="fw-bold">{{ 'Address' | translate }} </h5>
+                        <span>{{payloadData.address}}</span>
+                    </div>
+                
+                
+                    <div class="w-100 text-center">
+                        <qrcode [qrdata]="AngularxQrCode" size="200" [allowEmptyString]="true" [width]="156"
+                            [errorCorrectionLevel]="'L'"></qrcode>
                     </div>
                 </div>
            </p-card>
