@@ -152,6 +152,6 @@
     </div>
 </div>
 
-<p-sidebar title="Configuracion" styleClass="p-0 p-sidebar-custom" [blockScroll]="true" [(visible)]="sidebarVisible" [fullScreen]="true" (onHide)="closeSidebar()">
+<p-sidebar title="Configuracion" styleClass="p-0 p-sidebar-custom" [position]="'right'" [blockScroll]="true" [(visible)]="sidebarVisible"  (onHide)="closeSidebar()">
     <app-configuration></app-configuration>
 </p-sidebar>

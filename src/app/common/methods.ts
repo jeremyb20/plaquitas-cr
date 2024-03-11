@@ -479,6 +479,9 @@ export function removeObjectWithId(arr: any, _id: string) {
     return arr;
 }
   
+export function getCountryCodeFormat(country: string){
+    return CountryFlag.find(element => country == element.name)?.code;
+}
 
 export function getFlag(country: string){
     return CountryFlag.find(element => country == element.name)?.flag;

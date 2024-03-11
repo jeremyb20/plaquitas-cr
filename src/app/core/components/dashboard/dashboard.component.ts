@@ -116,18 +116,31 @@ export class DashboardComponent implements OnInit {
     }
 
     editProfile(item: any, secondaryId: any){
-        this.itemSelected = item;
         this.secondaryId = secondaryId;
 
-        this.editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'), {
-            keyboard: false
-        })
-        this.editProfileModal.show()
+        const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_INFO + '?id=' + this.payloadData._id + '&idSecond=' + secondaryId }`;
+        this._apiService.apiGetMethod(URL).subscribe({
+            next: (result: ResponseData) => {
+                if(result.success){
+                    this.itemSelected = []; 
+                    this.itemSelected = result.payload;
+                    this.editProfileModal = new bootstrap.Modal(document.getElementById('editProfileModal'), {
+                        keyboard: false
+                    })
+                    this.editProfileModal.show()
+                }
+            },
+            error: (err: any) => {
+                console.log(err); 
+                const messageTypeErrorText = responseError(err.status);
+                this._notificationService.error(messageTypeErrorText, 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
     }
 
     cancel(){
-        this.itemSelected = [];
-        this.itemSelected = null;
+        this.itemSelected = null; 
+        this.editProfileModal.hide()
     }
 
     getProfileUpdated(idFormType: any){

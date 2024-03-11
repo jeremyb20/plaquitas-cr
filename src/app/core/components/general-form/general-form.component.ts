@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { COUNTRYFLAG, CountryFlag, getCountry } from '@methods/countrycode';
-import { MustMatch, PostMethods, PutMethods, buildFormData, formShowFields, formValidateInput } from '@methods/methods';
+import { MustMatch, PostMethods, PutMethods, buildFormData, formShowFields, formValidateInput, getCountryCodeFormat } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -54,7 +54,7 @@ export class GeneralFormComponent implements OnInit {
     uploadedFiles: any[] = [];
     genderType: any = [];
     userLogin: User;
-
+    countryCodeFormat: any;
     date: any = new Date();
 
     constructor(
@@ -83,7 +83,7 @@ export class GeneralFormComponent implements OnInit {
 
         this.country = getCountry(); 
         this.countryCode = CountryFlag.find(element => this.country == element.name);
- 
+        this.countryCodeFormat = getCountryCodeFormat(this.country);
 
         this.generalForm = this.formBuilder.group({
     
@@ -147,7 +147,9 @@ export class GeneralFormComponent implements OnInit {
         }
     }
 
-    onChangeCountry(country:any){  
+    onChangeCountry(country:any){ 
+        console.log(country) 
+        this.countryCodeFormat = getCountryCodeFormat(country.value)
         this.generalForm.get('country')?.setValue(country.value);
     }
 

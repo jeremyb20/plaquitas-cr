@@ -1,27 +1,28 @@
-<div *ngIf="payloadData" class="grid">
-    <div class="col-12 md:col-6">
-        <p-card class="card mb-0 text-center" header="{{'Total Registrados' | translate}} | {{payloadData.newPetProfile.length }}">
+<div *ngIf="payloadData" class="flex align-items-start flex-wrap" style="min-height: 200px">
+    <div class="card flex align-items-center justify-content-center font-bold border-round m-2 p-5" style="min-width: 200px; min-height: 150px">
+        <div class="mb-0 text-center">
+            <p>{{'Total Registrados' | translate}} | {{payloadData.newPetProfile.length }}</p>
             <button (click)="registerNewPet()" class="btn btn-secondary">
                 <i class="fa fa-paw mt-1 mx-1"></i> Añadir Mascota
             </button>
-        </p-card>
+        </div>
     </div>
-    <div class="col-12 md:col-6">
-        <p-card class="card mb-0 text-center">
+    <div class="card flex align-items-center justify-content-center font-bold border-round m-2 p-5" style="min-width: 200px; min-height: 150px">
+        <div class="mb-0 text-center">
             <p *ngIf="payloadData.updatedAt" class="fw-bold">
                 {{'Last Modification' | translate}} {{transformDate(payloadData.updatedAt)}}
             </p> 
             <p *ngIf="payloadData.createdAt" class="fw-bold">
                 {{'Fecha creación' | translate}} {{transformDate(payloadData.createdAt)}}
             </p> 
-        </p-card>
+        </div>
     </div> 
 </div>
 
 <div *ngIf="payloadData">
 
     <ng-container *ngIf="payloadData.newPetProfile.length > 0; else elseTemplate">
-        <p-card header="Mi lista de mascotas" class="card card-custom mt-3">
+        <p-card header="Mi lista de mascotas" class="card card-custom shadow mt-3">
             <p-dataView 
                 #dv 
                 filterBy="petName"
@@ -58,7 +59,7 @@
                                 <div class="col-5">
                                     <div class="grid mt-2">
                                         <div class="col-12">
-                                            <div (click)="editProfile(item, item._id)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
+                                            <div (click)="editProfile(payloadData._id, index)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
                                                 <span class="font-semibold" style="font-size: 15px;"> 
                                                     {{ item.petName }}
                                                 </span> 
@@ -75,7 +76,7 @@
                                             </button> 
                                         </div>
                                         <div class="col-12">
-                                            <button (click)="editProfile(payloadData, item._id)" type="submit" class="btn btn-secondary btn-sm w-100 text-center ">
+                                            <button (click)="editProfile(payloadData._id, index)" type="submit" class="btn btn-secondary btn-sm w-100 text-center ">
                                                  <i class="feather icon-edit"></i> Editar Perfil
                                             </button> 
                                         </div>
@@ -96,7 +97,7 @@
                         <div class="border-1 surface-border surface-card rounded-2 shadow p-2"> 
                             
                             <img (click)="OpenProfilePhoto(item, false, payloadData._id, item._id)" class="rounded-2" style="object-fit: cover; height: 260px; width: 100%;" src="{{item.photo}}" [alt]="item.petName" />
-                            <div (click)="editProfile(item, item._id)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
+                            <div (click)="editProfile(payloadData._id, index)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
                                 <span class="font-semibold" style="font-size: 15px;"> 
                                     {{ item.petName }}
                                 </span> 
@@ -109,7 +110,7 @@
                                     </button> 
                                 </div>
                                 <div class="col-3 text-center">
-                                    <button (click)="editProfile(payloadData, item._id)" type="submit" class="btn btn-secondary btn-sm">
+                                    <button (click)="editProfile(payloadData._id, index)" type="submit" class="btn btn-secondary btn-sm">
                                          <i class="feather icon-edit"></i>
                                     </button> 
                                 </div>
@@ -176,7 +177,7 @@
         <div class="modal-content" *ngIf="itemSelected">
             <div class="modal-header px-3 py-2">
                 <h5 class="modal-title fw-bold w-100 text-center" id="editProfileModalLabel">{{ 'Edit Profile' | translate}}:  {{itemSelected.petName}}</h5>
-                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+                <a (click)="cancel()" type="button" class="modal-title px-0"  aria-label="Close"> <i class="fas fa-times"></i> </a>
             </div>
             <div class="modal-body pt-0"> 
                 <app-general-form 

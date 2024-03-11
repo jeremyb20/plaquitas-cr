@@ -12,8 +12,13 @@
                 [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.phone.errors }" 
                 [filter]="true" filterBy="name"
                 optionValue="name">
+                <ng-template pTemplate="selectedItem">
+                    <div class="flex align-items-center gap-2" *ngIf="countryCodeFormat">
+                        <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{countryCodeFormat}}.svg" alt="{{countryCodeFormat}}">
+                    </div>
+                </ng-template>
                 <ng-template let-option pTemplate="item">
-                    <span [class]="'customer-badge status-' + option.dial_code">{{option.flag}} - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                    <span [class]="'customer-badge status-' + option.dial_code"> <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{option.code}}.svg" alt="{{option.name}}"> - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
                 </ng-template>
             </p-dropdown>
             <span class="span-login" [ngClass]="{'text-danger': submitted && f.phone.errors }">
@@ -218,8 +223,13 @@
                 [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.phoneVeterinarian.errors }" 
                 [filter]="true" filterBy="name"
                 optionValue="name">
+                <ng-template pTemplate="selectedItem">
+                    <div class="flex align-items-center gap-2" *ngIf="countryCodeFormat">
+                        <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{countryCodeFormat}}.svg" alt="{{countryCodeFormat}}">
+                    </div>
+                </ng-template>
                 <ng-template let-option pTemplate="item">
-                    <span [class]="'customer-badge status-' + option.dial_code">{{option.flag}} - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                    <span [class]="'customer-badge status-' + option.dial_code"> <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{option.code}}.svg" alt="{{option.name}}"> - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
                 </ng-template>
             </p-dropdown>
             <span class="span-login" [ngClass]="{'text-danger': submitted && f.phoneVeterinarian.errors }">

@@ -16,7 +16,7 @@
             <p-header> 
                 <div class="grid">
                     <div class="d-flex col-12 justify-content-between">
-                        <button class="btn rounded-2" (click)="showFilterInputs = !showFilterInputs" ><i class="feather icon-filter "></i>Filtrar</button>
+                        <button class="btn rounded-2 btn-transparent" (click)="showFilterInputs = !showFilterInputs" ><i class="feather icon-filter "></i>Filtrar</button>
                         <div *ngIf="!Media.IsMobile && showFilterInputs" class="col-12 md:col-3 lg:col-3">
                             <input type="search" class="w-100" pInputText placeholder="Buscar por nombre" (input)="Myfilter($any($event.target) .value)">
                         </div>

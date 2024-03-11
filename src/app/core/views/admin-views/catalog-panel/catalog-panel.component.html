@@ -1,4 +1,4 @@
-<div class="card p-4">
+<p-card>
     <p-table 
         [value]="products" 
         [columns]="columsData" 
@@ -171,7 +171,7 @@
             </tr>
         </ng-template>
     </p-table>
-</div>
+</p-card>
 
 <p-sidebar [(visible)]="sidebarVisible" position="{{Media.IsMobile? 'bottom' : 'right' }}" styleClass="w-30rem">
     <h3 class="mb-3">{{'New Catalog' | translate}}</h3>

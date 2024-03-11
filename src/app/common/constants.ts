@@ -244,17 +244,17 @@ export const NAVIGATION: Navigation[] = [
     //     isNew: false,
     //     SubMenu: []
     // },
-    {
-        Id: 12,
-        url: '/configuration',
-        icon: 'feather icon-settings',
-        title: 'Configuration',
-        hasPermission: true,
-        showInToolbar: false,
-        showInNavBar: true,
-        isNew: false,
-        SubMenu: []
-    }
+    // {
+    //     Id: 12,
+    //     url: '/configuration',
+    //     icon: 'feather icon-settings',
+    //     title: 'Configuration',
+    //     hasPermission: true,
+    //     showInToolbar: false,
+    //     showInNavBar: true,
+    //     isNew: false,
+    //     SubMenu: []
+    // }
 ];
 
 export const NAVIGATIONADMIN: Navigation[] = [
@@ -335,17 +335,17 @@ export const NAVIGATIONADMIN: Navigation[] = [
         isNew: false,
         SubMenu: []
     },
-    {
-        Id: 16,
-        url: '/configuration-admin',
-        icon: 'feather icon-settings',
-        title: 'Configuration',
-        hasPermission: true,
-        showInToolbar: false,
-        showInNavBar: true,
-        isNew: false,
-        SubMenu: []
-    }
+    // {
+    //     Id: 16,
+    //     url: '/configuration-admin',
+    //     icon: 'feather icon-settings',
+    //     title: 'Configuration',
+    //     hasPermission: true,
+    //     showInToolbar: false,
+    //     showInNavBar: true,
+    //     isNew: false,
+    //     SubMenu: []
+    // }
 ]
 
 //export const NAVIGATION: Navigation[] = [

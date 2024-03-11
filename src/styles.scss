@@ -25,10 +25,13 @@ p-inputnumber {
 
 .custom-input-mask {
     min-width: 250px !important;
+}
 
+.custom-dropdown{
+    height: 50px;
     @include media-breakpoint-up(md){
 
-        min-width: 350px !important;
+        min-width: 89px !important;
 
     }
 }

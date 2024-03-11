@@ -166,6 +166,10 @@
         border-color: var(--btn-outline-primary);
     }
 
+    .btn-transparent {
+        color: var(--text-light-color);
+    }
+
     // LOGIN
     .login {
         position: relative;
@@ -1000,10 +1004,6 @@
 
     .p-sidebar-bottom{
         height: 90%;
-    }
-
-    .p-sidebar-right{
-        width: 30rem;
     }
 
     // .btn{

@@ -57,7 +57,8 @@ export class MarketplaceComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._themeService.setTheme('theme-default-light');
+        const theme = this._themeService.getThemeSelected();
+        this._themeService.setTheme(theme ? theme : 'theme-default-light');
         this.categoryList = CategoryList;
         this.statusList = CatalogStatusList;
         this.getInicialRequest(1); 
