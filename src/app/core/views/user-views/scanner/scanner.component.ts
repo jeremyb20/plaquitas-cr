@@ -71,13 +71,13 @@ export class ScannerComponent {
 
     onCodeResult(resultString: string) {
         this.qrResultString = resultString;
-        var codigo = this.qrResultString.replace(/.*\/myPetCode\//, '');
+        var codigo = this.qrResultString.replace(/.*\/pet\//, '');
         const stateResponse = codigo.split('/');
         this.primaryId = stateResponse[0];
         this.secondaryId = stateResponse[1];
 
         if(this.secondaryId != ''){
-            const URL = `${environment.WebApiUrl + GetMethods.GET_USR_PROFILE_BY_SCANNER + this.primaryId + '/'+ this.secondaryId}`;
+            const URL = `${environment.WebApiUrl + GetMethods.GET_MY_PET_INFO + '?id=' + this.primaryId + '&idSecond=' + parseInt(this.secondaryId) }`;
             this._apiService.apiGetMethod(URL).subscribe({
                 next: (result: ResponseData) => {
                     if (result.success) {
@@ -140,8 +140,8 @@ export class ScannerComponent {
     }
 
     cancel(){
-        this.showScanner = true;
         this.petProfileScanner.hide();
+        this.showScanner = true;
     }
 
     onDeviceSelectChange(selected: string) {

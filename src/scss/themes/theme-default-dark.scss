@@ -1,5 +1,5 @@
 .theme-default-dark {
-    --background-color: linear-gradient(109.6deg, rgb(30, 38, 69) 11.2%, rgb(14, 14, 14) 91.1%);
+    --background-color: linear-gradient(109.6deg, rgb(0, 0, 0) 11.2%, rgb(0, 0, 0) 91.1%);
 
     --text-dark-color: #000;
     --text-light-color: #fff;
@@ -168,6 +168,11 @@
 
     .btn-transparent {
         color: var(--text-light-color);
+    }
+
+    .btn-info{
+        color: var(--btn-info-text-color);
+        border-radius: var(--border-radius);
     }
 
     // LOGIN
@@ -1148,6 +1153,8 @@
         transition: box-shadow 0.2s ease-in-out;
         border-radius: var(--border-radius);
         margin-bottom: 30px;
+        background-color: var(--card-bg-color);
+        color: var(--text-light-color);
 
         &.borderless {
             border-top: none;

@@ -1,6 +1,6 @@
 .theme-atlantis-dark { 
     //--background-color: linear-gradient(109.6deg, rgb(30, 38, 69) 11.2%, rgb(14, 14, 14) 91.1%);
-    --background-color: #121212;
+    --background-color: #18191a;
     --text-dark-color: #000;
     --text-light-color: #fff;
 
@@ -25,11 +25,11 @@
     --background-inputs: #1f2935;
     --background-linear-span: #000;
 
-    --sidebar-bg-color: #262626;
+    --sidebar-bg-color: #161616;
     //--sidebar-header-bg-color: linear-gradient(to top, #0a0e1d 0%, #1b1f30 100%);
     // --navbar-bg-color: linear-gradient(10.6deg, rgb(30, 38, 69) -21.8%, rgb(14, 14, 14) 115.1%);
     --sidebar-header-bg-color: #262626;
-    --navbar-bg-color: #121212;
+    --navbar-bg-color: #242526;
     --card-profile-bg-color: #1e1e1e;
 
     --btn-primary-bg-color: linear-gradient(to top, #368077 0%, #51a19d 100%);
@@ -54,7 +54,7 @@
     --card-shadow-custom: -1px 5px 6px 1px rgb(0 0 0 / 17%);
 
      // prime ng
-     --bg-prime-card-body: #0a0e1d;
+     --bg-prime-card-body: #1e1e1e;
      //--bg-prime-card-body: #252e53;
      --bg-prime-tab-active: #323a43;
 
@@ -76,6 +76,7 @@
         background: var(--background-color);
         font-family: var(--bs-font-sans-serif);
         font-size: var(--normal-font-size);
+        color: var(--text-light-color);
     }
 
     /* width */
@@ -169,6 +170,11 @@
 
     .btn-icon i {
         color: #fff;
+    }
+
+    .btn-info{
+        color: var(--btn-info-text-color);
+        border-radius: var(--border-radius);
     }
 
       // LOGIN
@@ -346,7 +352,7 @@
             position: fixed;
             bottom: 0;
             background-color: var(--sidebar-bg-color);
-            border-top: 1px solid #3f576d;
+            border-top: 1px solid var(--sidebar-bg-color);
             transition: 0.5s;
         }
 
@@ -980,10 +986,7 @@
     .p-sidebar-bottom{
         height: 90%;
     }
-
-    .p-sidebar-right{
-        width: 30rem;
-    }
+ 
 
     // .btn{
     //     color: var(--text-light-color);
@@ -1127,6 +1130,9 @@
         transition: box-shadow 0.2s ease-in-out;
         border-radius: var(--border-radius);
         margin-bottom: 30px;
+        background-color: var(--bg-prime-card-body);
+        color: var(--text-light-color);
+
         &.borderless {
             border-top: none;
         }
