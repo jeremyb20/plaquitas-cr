@@ -1,6 +1,6 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from '@services/notification.service';
 import { MediaService, MediaResponse } from '@services/media.service';
 import { Subscription } from 'rxjs';
@@ -26,6 +26,9 @@ export class HomeComponent implements OnInit {
     products!: Product[];
     responsiveOptions: any[] | undefined;
     year:any;
+    aifilateForm: FormGroup;
+    submitted = false; 
+    showDarkMode: boolean = false;
 
     constructor(
         private media: MediaService,
@@ -33,7 +36,7 @@ export class HomeComponent implements OnInit {
         private _apiService: ApiService,
         private _themeService: ThemeService,
         private _translateService: TranslateService,
-        private router: Router) {
+        private _formBuilder: FormBuilder)        {
         this.mediaSubscription = this.media.subscribeMedia().subscribe(result => {
             this.Media = result;
         });
@@ -42,7 +45,9 @@ export class HomeComponent implements OnInit {
     }
 
     ngOnInit() {
-        this._themeService.setTheme('theme-default-light');
+        const theme = this._themeService.getThemeSelected();
+        this._themeService.setTheme(theme ? theme : 'theme-default-light');
+        this.showDarkMode = this.changeThemeValidation(theme); 
         if(window.location.hash ) { 
             var someVarName = document.querySelector(window.location.hash); // theTabID of the tab you want to open
             var tab = new bootstrap.Tab(someVarName);
@@ -65,14 +70,44 @@ export class HomeComponent implements OnInit {
                 numScroll: 1
             }
         ];
+        this.aifilateForm = this._formBuilder.group({
+            nombre: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            mensaje: ['', [Validators.required]]
+        });
         this.getAllInventory();
     }
+    get f() { return this.aifilateForm.controls; }
 
     hashchanged(pTab:any){
         if(window.location.hash == pTab ) { 
             var someVarName = document.querySelector('#'+pTab); // theTabID of the tab you want to open
             var tab = new bootstrap.Tab(someVarName);
             tab.show();
+        }
+    }
+
+    changeTheme(eventTheme){ 
+        this.showDarkMode = eventTheme.checked; 
+        this._themeService.setTheme(eventTheme.checked ? 'theme-default-dark' : 'theme-default-light');
+    }
+
+    changeThemeValidation(key:any){
+        switch (key) {
+            case 'theme-default-light':
+                 return false;
+
+            case 'theme-default-dark':
+            return true; 
+            
+
+            case null:
+            case undefined: 
+            return false 
+            
+            default:
+
+            return false   
         }
     }
 
@@ -113,8 +148,33 @@ export class HomeComponent implements OnInit {
         this.isNavbarTransparent = false;
     }
 
+    backToTop(){
+        window.scrollTo(0, 0);
+    }
+
     TranslateText(text: string) {
         return this._translateService.instant(text);
     } 
+
+
+    onSubmitAfiliados(){
+        this.submitted = true;
+        if (this.aifilateForm.invalid) {
+            return;
+        }
+
+        var body = "Nombre: " + this.f.nombre.value + "\nCorreo Electrónico: " + this.f.email.value + "\nMensaje: " + this.f.mensaje.value;
+        window.location.href = "mailto:soporte@localpetsandfamily.com?subject=Solicitud de Información de Afiliados&body=" + encodeURIComponent(body);
+    }
+
+    onSubmitContact(){
+        this.submitted = true;
+        if (this.aifilateForm.invalid) {
+            return;
+        }
+
+        var body = "Nombre: " + this.f.nombre.value + "\nCorreo Electrónico: " + this.f.email.value + "\nMensaje: " + this.f.mensaje.value;
+        window.location.href = "mailto:soporte@localpetsandfamily.com?subject=Solicitud de Contacto&body=" + encodeURIComponent(body);
+    }
 
 }

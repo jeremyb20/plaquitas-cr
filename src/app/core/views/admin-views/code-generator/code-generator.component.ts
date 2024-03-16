@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ColumHeader, StatusFilter } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateCodeRandom, getStatusType, responseError, transformDate } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateCodeRandom, generateRandomNumber, getStatusType, responseError, transformDate } from '@methods/methods';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
@@ -41,9 +41,11 @@ export class CodeGeneratorComponent implements OnInit {
     filteredData: any;
     columsData: ColumHeader[] = [];
     loading: boolean = true;
-    showHardReloadBtn: boolean = false;
     themeSelected: string = ''
     statusFilter: Filters[];
+    showHardReloadBtn: boolean = false;
+    randomNumber: number = generateRandomNumber(1, 5);
+
 
     @ViewChild('qrCode', {static : false}) qrCode:any;
 

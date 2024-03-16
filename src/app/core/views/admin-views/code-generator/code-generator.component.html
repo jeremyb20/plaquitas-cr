@@ -146,6 +146,7 @@
                 <td style="padding: 200px; text-align: center;" colspan="12">
                     <span *ngIf="!showHardReloadBtn"> {{ 'No data found' | translate }} </span>
                     <span *ngIf="showHardReloadBtn"> {{'An error occurred in the process.' | translate}} <a class="btn btn-danger" (click)="hardRefresh()"> <i class="feather icon-refresh-cw"></i> {{ 'Refresh' | translate }}</a> </span>
+                    <img class="w-100" style="height: 200px; width: 200px; object-fit: cover;" src="assets/images/gifts/gift-version-{{randomNumber}}.gif" alt="Not Found Image">
                 </td>
             </tr>
         </ng-template>

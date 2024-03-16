@@ -76,6 +76,7 @@ const routes: Routes = [
       { path: 'catalog-panel', component: CatalogPanelComponent, canActivate: [AdminGuard] },
       { path: 'profile', component: ProfileComponent, canActivate: [UserGuard] },
       { path: 'marketplace-admin', component: MarketplaceComponent, canActivate: [AdminGuard]},
+      { path: 'Marketplace', component: MarketplaceComponent, canActivate: [UserGuard]},
       { path: 'myPetCode', component: MyPetCodeComponent},
       { path: 'pet', component: PetProfileComponent },
 

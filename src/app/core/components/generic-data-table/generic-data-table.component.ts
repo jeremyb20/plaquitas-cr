@@ -43,6 +43,7 @@ export class GenericDataTableComponent {
 
     userSelected: any = [];
     sidebarVisible: boolean = false;
+    showFilterInputs: boolean = false;
 
     constructor(
         private _apiService: ApiService, 
@@ -74,8 +75,7 @@ export class GenericDataTableComponent {
         this.refreshData.emit(true);
     }
 
-    editUser(item:any){
-        console.log(item);  
+    editUser(item:any){ 
         this.userSelected = item;
         this.sidebarVisible = true;
         

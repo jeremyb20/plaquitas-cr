@@ -233,6 +233,17 @@ export const NAVIGATION: Navigation[] = [
         isNew: false,
         SubMenu: []
     },
+    {
+        Id: 17,
+        url: '/Marketplace',
+        icon: 'fas fa-shopping-bag',
+        title: 'Marketplace',
+        hasPermission: true,
+        showInToolbar: false,
+        showInNavBar: true,
+        isNew: false,
+        SubMenu: []
+    },
     // {
     //     Id: 13,
     //     url: '/profile',

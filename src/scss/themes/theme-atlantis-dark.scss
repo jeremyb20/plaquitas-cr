@@ -1717,5 +1717,20 @@
             width: 100%;
         }
     }
+
+    i,
+    .btn,
+    .font-semibold,
+    .text-body-emphasis,
+    .text-dark {
+        color: #fff !important;
+    }
+
+    .bg-secondary,
+    .bg-body-tertiary {
+        background-color: var(--card-bg-color) !important;
+        color: #fff !important;
+
+    }
       
 }

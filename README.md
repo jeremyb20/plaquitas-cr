@@ -33,8 +33,7 @@ El segundo (Y) se le conoce como versión menor y nos indica nuevas funcionalida
 El tercero (Z) se le conoce como revisión y nos indica que se hizo una revisión del código por algun fallo. Ejemplo: 1.2.2, 3.3.4
 
 ## Environment
-Ubuntu node v18.10.0 (npm v8.19.2)
-Windows node v18.13.0 (npm v8.19.2)
+node v18.13.0 (npm v8.19.2) 
 
 npm run build:ssr
 

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CountryFlag, getCountry } from '@methods/countrycode';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, responseError, transformDate } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateRandomNumber, responseError, transformDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -53,7 +53,8 @@ export class DashboardComponent implements OnInit {
 
     itemSelected: any;
     showFilterInputs: boolean = false;
-
+    showHardReloadBtn: boolean = false;
+    randomNumber: number = generateRandomNumber(1, 5);
 
     constructor(private _apiService: ApiService, 
         private _notificationService: NotificationService,
@@ -77,6 +78,10 @@ export class DashboardComponent implements OnInit {
         }
     }
 
+    hardRefresh(){
+        location.reload();
+    }
+    
     getUserProfile() {
         const URL = `${environment.WebApiUrl + GetMethods.GET_USER_PROFILE_BY_ID + '?id=' + this.userLogin.id}`;
         this._apiService.apiGetMethod(URL).subscribe({

@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewChecked, ChangeDetectorRef, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser, Location } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { CatalogStatusList, CategoryList, ColumHeader, Product } from '@methods/constants';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, getFlag, getSeverity, removeObjectWithId, responseError, stripHtmlTags } from '@methods/methods';
+import { DeleteMethods, GetMethods, PostMethods, PutMethods, base64toFile, generateCodeRandom, generateRandomNumber, getCountryCode, getCountryCodeFormat, getFlag, getSeverity, removeObjectWithId, responseError, stripHtmlTags } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,6 +17,7 @@ import { DataUrl, DOC_ORIENTATION, NgxImageCompressService, UploadResponse } fro
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import Swal from 'sweetalert2';
 import { CountryFlag, getCountry } from '@methods/countrycode';
+import moment from 'moment';
 declare var bootstrap: any;
 
 @Component({
@@ -33,7 +35,7 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     catalogStatusList: Filters[];
     mediaSubscription: Subscription;
     Media: MediaResponse;
-
+    randomNumber: number = generateRandomNumber(1, 5);
     registerForm: FormGroup;
     maxSizeInBytes = 6 * 1024 * 1024; // 5MB
     file: File;
@@ -58,7 +60,15 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     country: any;
     countryCode: any;
     countryFlag: any = CountryFlag;
-
+    countryCodeFormat: any;
+    dayPublished: string;
+    dayUpdated: string;
+    isCatalogEdition: boolean = false;
+    showFilterInputs: boolean = false;
+    showHardReloadBtn: boolean = false;
+ 
+    textMessageLink: any;
+    urlbyPass: string = '';
 
     editor: Editor;
     toolbar: Toolbar = [
@@ -87,11 +97,12 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     ];
 
     constructor(
+        @Inject(PLATFORM_ID) private platformId: Object,
         private readonly changeDetectorRef: ChangeDetectorRef,
         private _apiService: ApiService, 
         private _notificationService: NotificationService, 
         private _translateService: TranslateService,
-        private _mediaService: MediaService, 
+        private _mediaService: MediaService,  
         private formBuilder: FormBuilder,
         private imageCompress: NgxImageCompressService,
         private _sanitizer: DomSanitizer){
@@ -110,10 +121,10 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
             { title: 'Name'},
             { title: 'Code'},
             { title: 'Image'},
-            { title: 'Description'},
-            { title: 'Phone Number'},
-            { title: 'Price'},
-            { title: 'Category'},
+            // { title: 'Description'},
+            // { title: 'Phone Number'},
+            // { title: 'Price'},
+            // { title: 'Category'},
             { title: 'Reviews'},
             { title: 'Status'},
             { title: 'Actions'},
@@ -141,6 +152,10 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     
     getFlag(country: string){
         return getFlag(country);
+    }
+
+    getCountryCode(country: string){
+        return getCountryCode(country);
     }
     
     compressFile() {
@@ -239,6 +254,18 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
         this._apiService.apiGetMethod(URL).subscribe({
             next: (result: ResponseData) => {
                 this.productSelected = result.payload;
+                if(isPlatformBrowser(this.platformId)){
+                    this.urlbyPass = `https://${ window.location.hostname }/marketplace/item/${pProduct._id }`
+                }else{
+                    this.urlbyPass = `https://plaquitascr.com/marketplace/item/${pProduct._id }`
+
+                }
+                const textMessageLink = `Hola. ¿Sigue estando disponible?%0ALink:%0A ${this.urlbyPass}`
+
+                this.textMessageLink = `https://wa.me/${this.getCountryCode(result.payload.country)}${this.removeRegex(result.payload.phone)}?text=${textMessageLink}`;
+                this.countryCodeFormat = getCountryCodeFormat(result.payload.country);
+                this.dayPublished = moment(result.payload.createdAt).fromNow(); 
+                this.dayUpdated = moment(result.payload.updatedAt).fromNow(); 
                 this.sidebarFullScreenVisible = true;
             },
             error: (err: any) => {
@@ -257,6 +284,12 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     cancel(){
         this.openDescription = null;
     }
+
+    removeRegex(phoneNumber){
+        if(phoneNumber)
+        return phoneNumber.replace(/-/g, '');
+    }
+ 
     
     getSeverity(statusProduct: any){
         return getSeverity(statusProduct)
@@ -479,7 +512,60 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
     }
 
     TranslateText(text: string) {
+        if(text)
         return this._translateService.instant(text);
     } 
+
+    byPassSecurity(textHtml: any){
+        return this._sanitizer.bypassSecurityTrustHtml(textHtml)
+    }
+
+    editCatalogSelected(profile){
+        this.isCatalogEdition = !this.isCatalogEdition;
+        this.registerForm.get('productName')?.setValue(profile.productName);
+        this.registerForm.get('description')?.setValue(profile.description);
+        this.registerForm.get('phone')?.setValue(profile.phone);
+        this.registerForm.get('country')?.setValue(profile.country);
+        this.registerForm.get('price')?.setValue(profile.price );
+        this.registerForm.get('quantity')?.setValue(profile.quantity);
+        this.registerForm.get('inventoryStatus')?.setValue(profile.inventoryStatus);
+        this.registerForm.get('category')?.setValue(profile.category); 
+        this.registerForm.get('rating')?.setValue(profile.rating); 
+    }
+
+    updateProduct(){ 
+
+        const data = {
+            productName: this.f.productName.value,
+            description: this.f.description.value,
+            phone: this.f.phone.value,
+            country: this.f.country.value,
+            price: this.f.price.value,
+            quantity: this.f.quantity.value,
+            inventoryStatus: this.f.inventoryStatus.value,
+            category: this.f.category.value, 
+            idOwner: this.user.id,
+            _id: this.productSelected._id,
+            metaDescription: stripHtmlTags(this.f.description.value)
+        }
+ 
+        const URL = `${environment.WebApiUrl + PutMethods.ADMIN_UPDATE_INVENTORY_LIST }`;
+        this._apiService.apiPutMethod(URL, data).subscribe({
+            next: (result: ResponseData) => {
+                if(result.success){ 
+                    this.isCatalogEdition = false;
+                    this.getAllInventory();
+                    this.openModalGallery(this.productSelected)
+                    this._notificationService.success(result.msg, 'bg-success', 'animate__backInUp', 6000);
+                }else{
+                    this._notificationService.warning(result.msg, 'bg-dark', 'animate__backInUp', 6000);
+                }
+            },
+            error: (err: any) => {
+                console.log(err);
+                this._notificationService.warning('An error occurred in the process.', 'bg-dark', 'animate__backInUp', 6000);
+            }
+        });
+    }
 
 }

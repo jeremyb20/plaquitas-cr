@@ -15,25 +15,33 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item" role="presentation">
-                    <a [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                    <a (click)="backToTop()" [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         class="nav-link active" id="inicio" data-bs-toggle="pill" data-bs-target="#pills-inicio"
                         type="button" role="tab" aria-controls="pills-inicio" aria-selected="true">Inicio</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                    <button (click)="backToTop()" [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         class="nav-link" id="nosotros" data-bs-toggle="pill" data-bs-target="#pills-nosotros"
                         type="button" role="tab" aria-controls="pills-nosotros" aria-selected="false">Nosotros</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                    <button (click)="backToTop()" [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         class="nav-link" id="contacto" data-bs-toggle="pill" data-bs-target="#pills-contacto"
                         type="button" role="tab" aria-controls="pills-contacto" aria-selected="false">Contacto</button>
                 </li>
+
                 <li class="nav-item" role="presentation">
-                    <button [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
-                        class="nav-link" id="promociones" data-bs-toggle="pill" data-bs-target="#pills-promociones"
-                        type="button" role="tab" aria-controls="pills-promociones" aria-selected="false">Promociones</button>
+                    <button (click)="backToTop()" [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                        class="nav-link" id="afiliacion" data-bs-toggle="pill" data-bs-target="#pills-afiliacion"
+                        type="button" role="tab" aria-controls="pills-afiliacion" aria-selected="false">Afiliación</button>
                 </li>
+                <ng-container *ngIf="products">
+                    <li *ngIf="products.length > 0" class="nav-item" role="presentation">
+                        <button (click)="backToTop()" [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
+                            class="nav-link" id="promociones" data-bs-toggle="pill" data-bs-target="#pills-promociones"
+                            type="button" role="tab" aria-controls="pills-promociones" aria-selected="false">Promociones</button>
+                    </li> 
+                </ng-container>
                 <li class="nav-item" role="presentation">
                     <a [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         class="nav-link active" [routerLink]="'/marketplace'" id="marketplace">Marketplace</a>
@@ -45,10 +53,14 @@
                         [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         href="#">Iniciar Sesión</a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <a class="nav-link" [routerLink]="'/register-pets'"
                         [ngClass]="{'text-light': !isNavbarTransparent, 'text-dark': isNavbarTransparent}"
                         href="#">Registrarme</a>
+                </li>
+                <li class="nav-item d-flex align-items-center" [ngClass]="{'ms-5': !Media.IsMobile}">
+                    <i class="fs-4 feather me-2" [ngClass]="{'icon-moon': showDarkMode , 'icon-sun' : !showDarkMode}"></i>
+                    <p-inputSwitch (onChange)="changeTheme($event)" [(ngModel)]="showDarkMode"></p-inputSwitch>
                 </li>
             </ul>
         </div>
@@ -171,7 +183,7 @@
                                     <i class="fas fa-check-circle fa-2x indigo-text"></i>
                                 </div>
                                 <div class="col-10">
-                                    <h6 class="feature-title">Carrito de compras</h6>
+                                    <h6 class="feature-title">Marketplace</h6>
                                     <p class="grey-text">
                                         Una impresionante colección de productos con la mayor calidad y durabilidad para
                                         el can o familiar.
@@ -264,8 +276,8 @@
                                 <div class="col-10">
                                     <h6 class="feature-title">Como ubicar mi mascota si se pierde?</h6>
                                     <p class="grey-text">
-                                        Cuando la persona se encuentra al mascota por medio del lector QR enviará un
-                                        link en el cual verá toda la información del can o familiar.
+                                        Con nuestras plaquitas intéligentes tu mascota puede llevar tu información de contacto, detalles médicos 
+                                        y otros datos importantes para que, en caso de pérdida, pueda ser rápidamente reunida con sus dueños.
                                     </p>
                                     <div style="height:15px"></div>
                                 </div>
@@ -279,8 +291,9 @@
                                 </div>
                                 <div class="col-10">
                                     <h6 class="feature-title">Navegadores de mapas disponibles</h6>
-                                    <p class="grey-text">Tienes la opción de usar Google Maps o Waze, si deseas ir a la
-                                        vivienda del can.</p>
+                                    <p class="grey-text">
+                                        Nuestra aplicación trabaja con mapas de ubicación exacta lo cual puedes obtener mejor información en caso de extravio
+                                    </p>
                                     <div style="height:15px"></div>
                                 </div>
                             </div>
@@ -440,20 +453,26 @@
             <div class="card mx-auto mx-5" style="width: 18rem;" >
                 <div class="card-body">
                     <p>Para más información, contáctanos a través del siguiente formulario:</p>
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label for="name">Nombre</label>
-                            <input type="text" class="form-control" id="name" required>
+                    <form [formGroup]="aifilateForm" (ngSubmit)="onSubmitContact()" id="contactForm">
+                        <div class="form-group my-3"> 
+                            <input type="text" placeholder="Nombre completo" formControlName="nombre" class="form-control" id="name"  [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }"  >
+                            <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }" >
+                                <div *ngIf="f.nombre.errors.required">{{'Name is required' | translate}}</div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="email">Correo electrónico</label>
-                            <input type="email" class="form-control" id="email" required>
+                        <div class="form-group my-3"> 
+                            <input type="email" placeholder="Correo electrónico" formControlName="email" class="form-control" id="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback" >
+                                <div *ngIf="f.email.errors.required">{{'Email is required' | translate}}</div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="message">Mensaje</label>
-                            <textarea class="form-control" id="message" rows="4" required></textarea>
+                        <div class="form-group my-3"> 
+                            <textarea class="form-control" formControlName="mensaje" placeholder="Contanos qué te gustaría hacer en conjunto" id="message" rows="4" [ngClass]="{ 'is-invalid': submitted && f.mensaje.errors }"></textarea>
+                            <div *ngIf="submitted && f.mensaje.errors" class="invalid-feedback" >
+                                <div *ngIf="f.mensaje.errors.required">{{'Mensaje is required' | translate}}</div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary w-100 mt-4">Enviar</button>
+                        <button type="submit" (click)="onSubmitContact();" class="btn btn-primary w-100 mt-4">Enviar</button>
                     </form>
                 </div>
             </div>
@@ -487,6 +506,37 @@
                             </ng-template>
                         </p-carousel>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="pills-afiliacion" role="tabpanel" aria-labelledby="afiliacion">
+        <div style="margin-top: 150px;">
+            <div class="card mx-auto mx-5" style="width: 18rem;" >
+                <div class="card-body">
+                    <p>Si estás interesado en ser parte de este equipo, contáctanos a través del siguiente formulario:</p>
+                    <form [formGroup]="aifilateForm" (ngSubmit)="onSubmitAfiliados()" id="contactForm">
+                        <div class="form-group my-3"> 
+                            <input type="text" placeholder="Nombre completo" formControlName="nombre" class="form-control" id="name"  [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }"  >
+                            <div *ngIf="submitted && f.nombre.errors" class="invalid-feedback" [ngClass]="{ 'is-invalid': submitted && f.nombre.errors }" >
+                                <div *ngIf="f.nombre.errors.required">{{'Name is required' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group my-3"> 
+                            <input type="email" placeholder="Correo electrónico" formControlName="email" class="form-control" id="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback" >
+                                <div *ngIf="f.email.errors.required">{{'Email is required' | translate}}</div>
+                            </div>
+                        </div>
+                        <div class="form-group my-3"> 
+                            <textarea class="form-control" formControlName="mensaje" placeholder="Contanos qué te gustaría hacer en conjunto" id="message" rows="4" [ngClass]="{ 'is-invalid': submitted && f.mensaje.errors }"></textarea>
+                            <div *ngIf="submitted && f.mensaje.errors" class="invalid-feedback" >
+                                <div *ngIf="f.mensaje.errors.required">{{'Mensaje is required' | translate}}</div>
+                            </div>
+                        </div>
+                        <button type="submit" (click)="onSubmitAfiliados();" class="btn btn-primary w-100 mt-4">Enviar</button>
+                    </form>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 .theme-default-dark {
-    --background-color: linear-gradient(109.6deg, rgb(0, 0, 0) 11.2%, rgb(0, 0, 0) 91.1%);
+    --background-color: linear-gradient(109.6deg, rgb(14 9 25) 11.2%, rgb(7 3 16) 91.1%);
 
     --text-dark-color: #000;
     --text-light-color: #fff;
@@ -22,13 +22,13 @@
     --scroll-bg-color: #000000;
     --scroll-bg-color-hover: #000000;
     --border-account-user: #198754;
-    --background-inputs: #1f2935;
+    --background-inputs: #040d19;
 
-    --sidebar-bg-color: #0a0e1d;
+    --sidebar-bg-color: #071426;
     //--sidebar-header-bg-color: linear-gradient(to top, #0a0e1d 0%, #1b1f30 100%);
     // --navbar-bg-color: linear-gradient(10.6deg, rgb(30, 38, 69) -21.8%, rgb(14, 14, 14) 115.1%);
-    --sidebar-header-bg-color: linear-gradient(to top, #0a0e1d 0%, #010105 100%);
-    --navbar-bg-color: linear-gradient(to top, #0a0e1d 0%, #010105 100%);
+    --sidebar-header-bg-color: linear-gradient(to top, #071426 0%, #010105 100%);
+    --navbar-bg-color: linear-gradient(to top, #071426 0%, #010105 100%);
 
     --btn-primary-bg-color: linear-gradient(to top, #327870 0%, #57afaa 100%);
     --btn-primary-bg-color-hover: linear-gradient(to top, #327870 0%, #51a19d 100%);
@@ -48,8 +48,8 @@
     --btn-outline-primary-text-color-hover: #fff;
     --btn-outline-primary-background-color: #1abc9c;
 
-    --card-shadow: 0px 3px 6px 1px rgb(87 87 87 / 34%);
-    --card-shadow-custom: -1px 5px 6px 1px rgb(0 0 0 / 17%);
+    --card-shadow: 0px 3px 6px 1px rgba(255, 255, 255, 0.34);
+    --card-shadow-custom: -1px 5px 6px 1px rgba(255, 255, 255, 0.17);
     --card-bg-color: #071426;
 
     // prime ng
@@ -67,6 +67,8 @@
 
     --dp-size: 8rem;
     --border-radius: 11px;
+    
+    --surface-card: #0a1b30;
 
     background: var(--background-color);
 
@@ -175,35 +177,45 @@
         border-radius: var(--border-radius);
     }
 
-    // LOGIN
-    .login {
-        position: relative;
-        display: -webkit-box;
-        display: flex;
-        -webkit-box-align: center;
-        align-items: flex-start;
-        -webkit-box-pack: center;
-        justify-content: center;
-        overflow: hidden;
-        min-width: 100%;
-        min-height: 100vh;
-        // background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../src/assets/images/login-bg.png');
-        background: linear-gradient(0deg, rgb(247 247 247 / 17%), rgb(41 133 158 / 94%));
-        background-repeat: no-repeat;
-        background-size: cover;
-        background-attachment: fixed;
-        background-position: center;
+   // LOGIN
+   .register,
+   .login {
+       position: relative;
+       display: -webkit-box;
+       display: flex;
+       -webkit-box-align: center;
+       align-items: flex-start;
+       -webkit-box-pack: center;
+       justify-content: center;
+       overflow: hidden;
+       min-width: 100%;
+       min-height: 100vh;
+       // background: linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../src/assets/images/login-bg.png');
+       background: linear-gradient(0deg, rgb(247 247 247 / 17%), rgb(41 133 158 / 94%));
+       background-repeat: no-repeat;
+       background-size: cover;
+       background-attachment: fixed;
+       background-position: center;
 
-        .auth-content {
-            padding-top: 5rem;
-        }
+       .auth-content {
+           padding-top: 5rem;
+           padding-bottom: 5rem;
+       }
 
-        @include media-breakpoint-up(md) {
-            .card-custom {
-                width: 20rem;
-            }
-        }
-    }
+       @include media-breakpoint-up(md) {
+           .card-custom {
+               width: 20rem;
+           }
+
+           .register-card {
+               width: 24rem;
+           }
+       }
+
+       .small-msg {
+           padding-left: 5px;
+       }
+   }
 
     .forms-inputs input {
         width: 100%;
@@ -232,8 +244,8 @@
     }
 
     .forms-inputs input {
-        border: 2px solid #040d19;
-        background: #040d19;
+        border: 2px solid var(--background-inputs);
+        background: var(--background-inputs);
     }
 
     .form-control:focus {
@@ -283,11 +295,10 @@
         // background: var(--background-inputs);
     }
 
-    .btn-custom {
-        color: inherit;
+    .btn-custom { 
         font: inherit;
         font-weight: 700;
-        background-color: #ffd01a;
+        background-color: var(--btn-secondary-bg-color);
         border: none;
         padding: 1rem;
         outline: none;
@@ -297,7 +308,8 @@
     }
 
     .btn-custom:hover {
-        background-color: #e2ba19;
+        color: #000;
+        background-color: var(--btn-secondary-bg-color-hover);
     }
 
     .bg-warning,
@@ -1004,7 +1016,11 @@
     }
 
     .p-card {
-        border-radius: var(--border-radius);
+        border-radius: var(--border-radius); 
+    }
+
+    .p-sidebar {
+        background: var(--surface-card);
     }
 
     .p-sidebar-bottom{
@@ -1161,8 +1177,8 @@
         }
 
         .card-header {
-            border-bottom: 1px solid var(--modal-bg-color);
-            background: var(--modal-bg-color);
+            border-bottom: 1px solid var(--card-bg-color);
+            background: var(--card-bg-color);
             position: relative;
 
             h5 {
@@ -1307,7 +1323,7 @@
     .card-custom {
         box-shadow: var(--card-shadow-custom);
         border-radius: var(--border-radius);
-        background-color: var(--modal-bg-color);
+        background-color: var(--card-bg-color);
 
         .sub-desc {
             color: #fff;
@@ -1684,7 +1700,7 @@
         color: var(--text-dark-color);
         font: inherit;
         font-weight: bold;
-        background-color: #ffd01a;
+        background-color: var(--btn-secondary-bg-color);
         width: 100%;
         border: none;
         padding: 1rem;
@@ -1695,7 +1711,7 @@
     }
 
     .card-profile .actions .follow-btn button:hover {
-        background-color: #efb10a;
+        background-color: var(--btn-secondary-bg-color-hover);
         transform: scale(1.1);
         color: var(--text-dark-color);
     }
@@ -1741,5 +1757,21 @@
         @include media-breakpoint-down(md) {
             width: 100%;
         }
+    }
+
+
+    //HOME PAGE
+ 
+    .font-semibold,
+    .text-body-emphasis,
+    .text-dark {
+        color: #fff !important;
+    }
+
+    .bg-secondary,
+    .bg-body-tertiary {
+        background-color: var(--card-bg-color) !important;
+        color: #fff !important;
+
     }
 }

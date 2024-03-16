@@ -496,6 +496,10 @@ export function stripHtmlTags(input:any) {
     return doc.body.textContent || "";
 }
 
+export function generateRandomNumber(min: number, max: number): number {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 export function buildFormData(data: any): FormData {
     const fd = new FormData();
     Object.entries(data).forEach(([key, value]) => {

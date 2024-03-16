@@ -19,20 +19,25 @@
     [globalFilterFields]="['id','petName', 'email', 'phone', 'userState', 'isDigitalIdentificationActive']">
 
     <ng-template pTemplate="caption">
-        <div class="row g-2 my-2">
-            <div class="col-sm-4 col-md-4 col-lg-2">
+        <div class="grid">
+            <div class="d-flex col-12 justify-content-between">
+                <button class="btn rounded-2 btn-transparent" (click)="showFilterInputs = !showFilterInputs" ><i class="feather icon-filter "></i>Filtrar</button>
+            </div>
+        </div>
+        <div *ngIf="showFilterInputs" class="grid g-2 my-2">
+            <div class="col-12 md:col-3 lg:col-3">
                 <input pInputText type="text" id="filterid" (input)="dt.filter($any($event.target) .value, 'id', 'contains')" placeholder="{{'Filter By Id' | translate}}" class="p-column-filter w-100">
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-2">
+            <div class="col-12 md:col-3 lg:col-3">
                 <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target) .value, 'petName', 'contains')" placeholder="{{'Filter By Name' | translate}}" class="p-column-filter w-100">
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-2">
+            <div class="col-12 md:col-3 lg:col-3">
                 <input pInputText type="text" id="filteremail" (input)="dt.filter($any($event.target) .value, 'email', 'contains')" placeholder="{{'Filter By Email' | translate}}" class="p-column-filter w-100">
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-2">
+            <div class="col-12 md:col-3 lg:col-3">
                 <input pInputText type="text" id="filterphone"  (input)="dt.filter($any($event.target) .value, 'phone', 'contains')" placeholder="{{'Filter By Phone' | translate}}" class="p-column-filter w-100">
             </div>
-            <div class="col-sm-4 col-md-4 col-lg-2">
+            <div class="col-12 md:col-3 lg:col-3">
                 <p-dropdown 
                     [options]="userTypeFilter" 
                     (onChange)="dt.filter($event.value, 'userState', 'equals')" 
@@ -49,7 +54,7 @@
                 </p-dropdown>
             </div>
 
-            <div class="col-sm-4 col-md-4 col-lg-2">
+            <div class="col-12 md:col-3 lg:col-3">
                 <p-dropdown 
                     [options]="userTypeIdActivateFilter" 
                     (onChange)="dt.filter($event.value, 'isDigitalIdentificationActive', 'equals')" 

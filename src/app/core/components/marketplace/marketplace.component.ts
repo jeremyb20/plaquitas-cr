@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CatalogStatusList, CategoryList, Product } from '@methods/constants';
-import { GetMethods, getSeverity, responseError } from '@methods/methods';
+import { GetMethods, generateRandomNumber, getSeverity, responseError } from '@methods/methods';
 import { Filters, ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiService } from '@services/api.service';
@@ -41,6 +41,9 @@ export class MarketplaceComponent implements OnInit {
     displayBasic: boolean = false;
     showFilterInputs: boolean = false;
     productSelected: any;
+
+    showHardReloadBtn: boolean = false;
+    randomNumber: number = generateRandomNumber(1, 5);
 
     constructor(
         private media: MediaService,
@@ -91,6 +94,10 @@ export class MarketplaceComponent implements OnInit {
         // this.productSelected = [];
         // this.productSelected = product;
         // this.sidebarVisible = true;
+    }
+
+    hardRefresh(){
+        location.reload();
     }
 
     closeSidebar(){

@@ -1,5 +1,5 @@
-<p-card>
-    <p-table 
+<p-card class="card">
+    <p-table #dt
         [value]="products" 
         [columns]="columsData" 
         [scrollable]="true" 
@@ -7,14 +7,27 @@
         [rows]="5" 
         [rowsPerPageOptions]="[5,10,25,50]"
         [showCurrentPageReport]="true" 
-        [tableStyle]="{'min-width': '130rem'}"
+        [tableStyle]="{'min-width': '60rem'}"
         dataKey="_id"
         editMode="row"
-        currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}"  >
+        currentPageReportTemplate="{{'Showing {first} to {last} of {totalRecords} entries' | translate}}"  
+        [globalFilterFields]="['productName' , 'code' ]">
         <ng-template pTemplate="caption">
             <div class="d-flex align-items-center justify-content-between">
                 <span>{{'Catalog Panel' | translate}}</span>
-                <div>
+
+                <button class="btn rounded-2 btn-transparent" (click)="showFilterInputs = !showFilterInputs" ><i class="feather icon-filter "></i>Filtrar</button>
+            </div>
+            <div *ngIf="showFilterInputs" class="grid">
+                <div class="col-12 md:col-3 lg:col-3">
+                    <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target) .value, 'productName', 'contains')" placeholder="{{'Filter By Name' | translate}}" class="p-column-filter w-100">
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
+                    <input pInputText type="text" id="filtername" (input)="dt.filter($any($event.target) .value, 'code', 'contains')" placeholder="{{'Filter By Code' | translate}}" class="p-column-filter w-100">
+                </div>
+
+                <div class="col-12 md:col-3 lg:col-3">
                     <p-button (onClick)="getAllInventory()" class="mr-2" styleClass="mx-1" icon="feather icon-refresh-cw"></p-button>
                     <p-button type="button" class="mr-2" styleClass="mx-1 p-button-success" (click)="sidebarVisible = true" icon="feather icon-plus"></p-button>
                 </div>
@@ -52,23 +65,21 @@
                         <span>No fotos</span>
                     </ng-template>
                 </td>
-                <td [ngStyle]="{'width': editing ?  '350px' : '150px' }">
+                <!-- <td [ngStyle]="{'width': editing ?  '350px' : '150px' }">
                     <p-cellEditor>
-                        <ng-template pTemplate="input">
-                            <!-- <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="product.description"></textarea> -->
+                        <ng-template pTemplate="input"> 
                             <div class="editor">
                                 <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
                                 <ngx-editor multiple [editor]="editor" [(ngModel)]="product.description" placeholder="{{'Type here...' | translate}}"  (ngModelChange)="onChange($event)"></ngx-editor>
                             </div>
                         </ng-template>
-                        <ng-template pTemplate="output">
-                            <!-- <div [innerHTML]="transform(product.description)"></div> -->
+                        <ng-template pTemplate="output"> 
                             <button class="btn btn-warning" (click)="openModalDescription(product.description)"> <i class="feather icon-eye"></i></button>
                         </ng-template>
                     </p-cellEditor>
-                </td>
+                </td> -->
 
-                <td [ngStyle]="{'width': editing ?  '415px' : '150px' }">
+                <!-- <td [ngStyle]="{'width': editing ?  '415px' : '150px' }">
                     <p-cellEditor>
                         <ng-template pTemplate="input">
                             <div class="forms-inputs">
@@ -99,9 +110,9 @@
                             </ng-template>
                         </ng-template>
                     </p-cellEditor>
-                </td>
+                </td> -->
 
-                <td>
+                <!-- <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
                             <p-inputNumber [(ngModel)]="product.price" inputId="locale-cr" mode="decimal" locale="es-CR" [minFractionDigits]="0"> </p-inputNumber>
@@ -110,10 +121,10 @@
                             {{product.price | currency:'CRC':'symbol':'1.0-0'}}
                         </ng-template>
                     </p-cellEditor>
-                </td>
+                </td> -->
 
 
-                <td>
+                <!-- <td>
                     <p-cellEditor>
                         <ng-template pTemplate="input">
                             <p-dropdown  
@@ -135,7 +146,7 @@
                             <span> {{product.category | translate }}</span> 
                         </ng-template>
                     </p-cellEditor>
-                </td>
+                </td> -->
                 <td><p-rating [ngModel]="product.rating" [readonly]="!editing" [cancel]="false"></p-rating></td>
                 <td>
                     <p-cellEditor>
@@ -163,17 +174,30 @@
                 <td>
                     <div class="d-flex">
                         <button *ngIf="!editing" type="button" pInitEditableRow  (click)="onRowEditInit(product)" class="btn btn-icon"> <i class="feather icon-edit"></i> </button>
+                        <button *ngIf="!editing" type="button" (click)="openModalGallery(product)" class="btn btn-icon"> <i class="feather icon-maximize-2"></i> </button>
                         <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(product)" class="btn btn-icon"> <i class="feather icon-save"></i> </button>
                         <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(product, ri)" class="btn btn-icon"> <i class="feather icon-x"></i> </button>
                         <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteProduct(product)" class="btn btn-icon"> <i class="feather icon-trash-2"></i> </button>
                     </div>
                 </td>
             </tr>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6">There are no order for this product yet.</td>
+                </tr>
+            </ng-template>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <div class="p-5">
+            <span class="p-2" *ngIf="!showHardReloadBtn"> {{ 'No data found' | translate }} </span>
+            <span class="p-2" *ngIf="showHardReloadBtn"> {{'An error occurred in the process.' | translate}} <a class="btn btn-danger" > <i class="feather icon-refresh-cw"></i> {{ 'Refresh' | translate }}</a> </span>
+            <img class="w-100" style="height: 200px; width: 200px; object-fit: cover;" src="assets/images/gifts/gift-version-{{randomNumber}}.gif" alt="Not Found Image">
+          </div>
         </ng-template>
     </p-table>
 </p-card>
 
-<p-sidebar [(visible)]="sidebarVisible" position="{{Media.IsMobile? 'bottom' : 'right' }}" styleClass="w-30rem">
+<p-sidebar [(visible)]="sidebarVisible" [blockScroll]="true" position="{{Media.IsMobile? 'bottom' : 'right' }}" styleClass="{{!Media.IsMobile ?  'w-30rem' : 'w-100'}}">
     <h3 class="mb-3">{{'New Catalog' | translate}}</h3>
 
     <form [formGroup]="registerForm" (ngSubmit)="createProduct()">
@@ -339,56 +363,243 @@
     </ng-template>
     <div *ngIf="productSelected">
         <div class="grid">
-            <div class="col-12 md:col-8 lg:col-8">
-                <p-galleria [value]="productSelected.images" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px', 'margin-top': '2em' }">
-                    <ng-template pTemplate="item" let-item>
-                        <img [src]="item.imageURL" style="display: block; width: 100%; height: 22rem; object-fit: cover;" />
-                    </ng-template>
-                    <ng-template pTemplate="thumbnail" let-item>
-                        <div class="grid grid-nogutter justify-content-center">
-                            <img [src]="item.imageURL" style="display: block;" />
-                        </div>
-                    </ng-template>
-                </p-galleria>
-
-                <p-galleria [value]="productSelected.images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-                    [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
-                    <ng-template pTemplate="item" let-item>
-                        <img [src]="item.imageURL" style="width: 100%; display: block;"/>
-                    </ng-template>
-                    <ng-template pTemplate="thumbnail" let-item>
-                        <div class="grid grid-nogutter justify-content-center">
-                            <img height="40px" width="40px" [src]="item.imageURL" style="display: block;"/>
-                        </div>
-                    </ng-template>
-                </p-galleria>
+            <div class="col-12 md:col-4 lg:col-4">
+                <div class="card shadow p-2 pb-4">
+                    <p-galleria [value]="productSelected.images" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="true" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-width': '640px', 'margin-top': '2em' }">
+                        <ng-template pTemplate="item" let-item>
+                            <img [src]="item.imageURL" style="display: block; width: 100%; height: 22rem; object-fit: cover;" />
+                        </ng-template>
+                        <ng-template pTemplate="thumbnail" let-item>
+                            <div class="grid grid-nogutter justify-content-center">
+                                <img [src]="item.imageURL" style="display: block;" />
+                            </div>
+                        </ng-template>
+                    </p-galleria>
+    
+                    <p-galleria [value]="productSelected.images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
+                        [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+                        <ng-template pTemplate="item" let-item>
+                            <img [src]="item.imageURL" style="width: 100%; display: block;"/>
+                        </ng-template>
+                        <ng-template pTemplate="thumbnail" let-item>
+                            <div class="grid grid-nogutter justify-content-center">
+                                <img height="40px" width="40px" [src]="item.imageURL" style="display: block;"/>
+                            </div>
+                        </ng-template>
+                    </p-galleria>
+                </div>
             </div>
             <div class="col-12 md:col-4 lg:col-4">
-                <button class="btn btn-success m-2 rounded-5" (click)="updatePhotoList(productSelected)">Actualizar Lista </button>
-                <button class="btn btn-primary m-2" (click)="compressFile()">Nueva imagen</button>
-                <section class="col-12"> 
-                    <button *ngIf="imgResultAfterCompress" class="btn btn-warning position-absolute m-2" (click)="deletePhoto()"><i class="feather icon-trash-2"></i> </button>
-                    <img style="height: 200px; width: 200px; object-fit: cover;" *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="" />
-                    <div *ngIf="imgResultAfterCompress" class="col-12">
-                        <button (click)="addNewPhoto()" class="btn btn-success">Agregar foto</button>
-                    </div>
-                </section>
-        
-                <div #dropListContainer class="example-container" cdkDropListGroup>
-                    <div  cdkDropList class="example-list" (cdkDropListDropped)="dropImages($event)">
-                        <div class="col-12 px-3 m-2 example-box" *ngFor="let item of productSelected.images let i = index " cdkDrag>
-                            <div class="d-flex justify-content-between align-items-center example-custom-placeholder rounded-2" *cdkDragPlaceholder>
-                                <span class="p-5 fs-5">{{i + 1}}</span>
-                                <img [src]="item.imageURL" style="height: 100px; width: 100px; object-fit: cover;">
+                <div class="card shadow p-2">
+                   <div class="d-flex">
+                        <button class="btn btn-success m-2 rounded-5" (click)="updatePhotoList(productSelected)">Actualizar Lista </button>
+                        <button class="btn btn-primary m-2" (click)="compressFile()">Nueva imagen</button>
+                   </div>
+                    <section class="col-12"> 
+                        <button *ngIf="imgResultAfterCompress" class="btn btn-warning position-absolute m-2" (click)="deletePhoto()"><i class="feather icon-trash-2"></i> </button>
+                        <img style="height: 200px; width: 200px; object-fit: cover;" *ngIf="imgResultAfterCompress" [src]="imgResultAfterCompress" alt="" />
+                        <div *ngIf="imgResultAfterCompress" class="col-12">
+                            <button (click)="addNewPhoto()" class="btn btn-success">Agregar foto</button>
+                        </div>
+                    </section>
+            
+                    <div #dropListContainer class="example-container" cdkDropListGroup>
+                        <div  cdkDropList class="example-list" (cdkDropListDropped)="dropImages($event)">
+                            <div class="col-12 px-3 m-2 example-box" *ngFor="let item of productSelected.images let i = index " cdkDrag>
+                                <div class="d-flex justify-content-between align-items-center example-custom-placeholder rounded-2" *cdkDragPlaceholder>
+                                    <span class="p-5 fs-5">{{i + 1}}</span>
+                                    <img [src]="item.imageURL" style="height: 100px; width: 100px; object-fit: cover;">
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="p-5 fs-5">{{i + 1}}</span>
+                                    <button class="btn btn-danger" (click)="deletePhotoById(productSelected._id, item._id, item.image_id)"> <i class="feather icon-trash-2"></i> </button>
+                                    <img [src]="item.imageURL" style="height: 100px; width: 100px; object-fit: cover;">
+                                </div>
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <span class="p-5 fs-5">{{i + 1}}</span>
-                                <button class="btn btn-danger" (click)="deletePhotoById(productSelected._id, item._id, item.image_id)"> <i class="feather icon-trash-2"></i> </button>
-                                <img [src]="item.imageURL" style="height: 100px; width: 100px; object-fit: cover;">
+                        </div>  
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 md:col-4 lg:col-4">
+                <div class="card shadow p-3">
+                    <button class="btn btn-warning" (click)="editCatalogSelected(productSelected)">
+                        <i class="feather " [ngClass]="{'icon-edit': !isCatalogEdition, 'icon-x': isCatalogEdition}"></i> <span *ngIf="!isCatalogEdition"> {{'Edit Catalog' | translate }} </span>  <span *ngIf="isCatalogEdition"> {{'Cancel' | translate}}</span>
+                    </button>
+
+                    <ng-container *ngIf="!isCatalogEdition; else elseTemplate">
+                        <div class="col-12">
+                            <span class="flex align-items-center gap-2">
+                                <i class="feather icon-tag"></i>
+                                <span class="font-semibold">{{ TranslateText(productSelected.category) }}</span>
+                                <!-- <button type="button" class="btn" (click)="copyURL(urlbyPass)"> <i class="feather icon-copy"></i> </button> -->
+                            </span>
+                            <div class="text-start p-3 border-round-sm">
+                                <div class="text-2xl text-900 font-bold">{{ productSelected.productName }} </div>
+                                <div class="text-2xl text-900 font-bold">{{ productSelected.price | currency:'CRC':'symbol':'1.0-0' }} 
+                                <button class="btn btn-sm font-semibold" style="font-size: 10px;" [ngClass]="{ 
+                                    'bg-info' : productSelected.inventoryStatus == 'PROMOTION' ,
+                                    'bg-warning' : productSelected.inventoryStatus == 'INSTOCK',
+                                    'bg-danger text-light' : productSelected.inventoryStatus == 'LOWSTOCK',
+                                    'bg-primary' : productSelected.inventoryStatus == 'OUTOFSTOCK',
+                                    }" > <i class="feather icon-tag"></i>
+                                <span>{{TranslateText(productSelected.inventoryStatus)}}</span></button> </div>
+        
+                                <div class="text-sm text-900">Publicado {{dayPublished}}</div>
+                                <div class="text-sm text-900">Última Actualización {{dayUpdated}}</div>
+                                <p-rating [ngModel]="productSelected.rating" [readonly]="true" [cancel]="false"></p-rating>
                             </div>
                         </div>
-                    </div>  
-                </div>
+                        <div class="col-12">
+                            <a href="{{textMessageLink}}" class="btn btn-primary p-3" target="_blank">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-whatsapp" viewBox="0 0 16 16">
+                                    <path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/>
+                                </svg> 
+                                Enviar Mensaje al vendedor
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <div class="p-3 border-round-sm">
+                                <div class="text-2xl text-900 font-bold">Descripción del producto</div>
+                                <div class="text-sm text-900" style="max-height: 400px; overflow-y: auto;" [innerHTML]="byPassSecurity(productSelected.description)"></div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        <form [formGroup]="registerForm" class="mt-4" (ngSubmit)="updateProduct()">
+
+                            <div class="forms-inputs mb-4">
+                                <span class="span-login" [ngClass]="{'text-danger': submitted && f.productName.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Article name' | translate }}</span>
+                                <input type="text" formControlName="productName"  [ngClass]="{ 'is-invalid': submitted && f.productName.errors }" class="form-control">
+                                <div *ngIf="submitted && f.productName.errors" class="invalid-feedback">
+                                    <small class="small-msg" *ngIf="f.productName.errors.required">{{'Article name' | translate}} {{'is required' | translate}}</small>
+                                </div>
+                            </div>
+                    
+                            <div class="forms-inputs mb-4">
+                                <span class="span-login" [ngClass]="{'text-danger': submitted && f.price.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Price' | translate }}</span>
+                                <p-inputNumber styleClass="w-100"  formControlName="price" inputId="locale-cr" mode="decimal" locale="es-CR" [ngClass]="{ 'is-invalid': submitted && f.price.errors }" [minFractionDigits]="0"> </p-inputNumber>
+                                <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                                    <small class="small-msg" *ngIf="f.price.errors.required">{{'Price' | translate}} {{'is required' | translate}}</small>
+                                </div>
+                            </div>
+                    
+                            <div class="forms-inputs mb-4">
+                                <span class="span-login" [ngClass]="{'text-danger': submitted && f.quantity.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Quantity' | translate }}</span>
+                                <p-inputNumber styleClass="w-100" formControlName="quantity" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"> </p-inputNumber>
+                                <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
+                                    <small class="small-msg" *ngIf="f.quantity.errors.required">{{'Quantity' | translate}} {{'is required' | translate}}</small>
+                                </div>
+                            </div>
+                    
+                    
+                            <div class="forms-inputs mb-4">
+                                <span class="span-login" [ngClass]="{'text-danger': submitted && f.description.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Description' | translate }}</span>
+                                <!-- <textarea rows="5" cols="30" class="form-control" pInputTextarea formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea> -->
+                                <div class="editor" [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.description.errors }">
+                                    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+                                    <ngx-editor multiple [editor]="editor" formControlName="description" placeholder="{{'Type here...' | translate}}"  (ngModelChange)="onChange($event)"></ngx-editor>
+                                </div>
+                                <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                    <small class="small-msg" *ngIf="f.description.errors.required">{{'Description' | translate}} {{'is required' | translate}}</small>
+                                </div>
+                            </div>
+
+                            <div  class="forms-inputs mb-4">
+                                <div class="p-inputgroup">
+                                    <p-dropdown  
+                                        styleClass="d-flex w-100 custom-dropdown" 
+                                        [options]="countryFlag"
+                                        optionLabel="flag"
+                                        formControlName="country"
+                                        (onChange)="onChangeCountry($event)"
+                                        [autoDisplayFirst]="false"
+                                        [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.phone.errors }" 
+                                        [filter]="true" filterBy="name"
+                                        optionValue="name">
+                                        <ng-template pTemplate="selectedItem">
+                                            <div class="flex align-items-center gap-2" *ngIf="countryCodeFormat">
+                                                <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{countryCodeFormat}}.svg" alt="{{countryCodeFormat}}">
+                                            </div>
+                                        </ng-template>
+                                        <ng-template let-option pTemplate="item">
+                                            <span [class]="'customer-badge status-' + option.dial_code"> <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{option.code}}.svg" alt="{{option.name}}"> - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                                        </ng-template>
+                                    </p-dropdown>
+                                    <span class="span-login" [ngClass]="{'text-danger': submitted && f.phone.errors }">
+                                        <i  class="feather icon-phone"></i> 
+                                        <ng-container *ngIf="submitted && f.phone.errors; else elseTemplate">
+                                            <small class="small-msg" *ngIf="f.phone.errors.required"> Número telefónico es requerido</small>
+                                            <small class="small-msg" *ngIf="f.phone.errors.minlength"> Número telefónico debe ser al menos 8 digitos</small>
+                                            <small class="small-msg" *ngIf="f.phone.errors.pattern"> Solo se permiten números</small>
+                                        </ng-container>
+                                        <ng-template #elseTemplate>
+                                            Número telefónico
+                                        </ng-template> 
+                                    </span>
+                                    <p-inputMask styleClass="w-100 custom-input-mask is-invalid" mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+                        
+                                </div>
+                            </div>
+                    
+                            <div  class="forms-inputs mb-4">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.inventoryStatus.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Status' | translate }}</span>
+                                
+                                <p-dropdown  
+                                    styleClass="d-flex w-100" 
+                                    [options]="catalogStatusList"
+                                    optionLabel="label"
+                                    formControlName="inventoryStatus"
+                                    [autoDisplayFirst]="false"
+                                    [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.inventoryStatus.errors }"
+                                    optionValue="value">
+                                    <ng-template let-option pTemplate="item">
+                                        <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                                    </ng-template>
+                                    <ng-template let-selectedItem pTemplate="selectedItem">
+                                        {{selectedItem.label | translate}}
+                                    </ng-template>
+                                </p-dropdown>
+                        
+                                <div *ngIf="submitted && f.inventoryStatus.errors" class="invalid-feedback">
+                                    <small class="small-msg" *ngIf="f.inventoryStatus.errors.required">{{'Status' | translate }} {{'is required' | translate}}</small>
+                                </div>
+                            </div>      
+                            
+                            <div  class="forms-inputs mb-4">
+                                <span class="span-login" [ngClass]="{ 'text-danger': submitted && f.category.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Category' | translate }}</span>
+                                
+                                <p-dropdown  
+                                    styleClass="d-flex w-100" 
+                                    [options]="categoryList"
+                                    optionLabel="label"
+                                    formControlName="category"
+                                    [filter]="true" filterBy="label" [showClear]="true"
+                                    [autoDisplayFirst]="false"
+                                    [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.category.errors }"
+                                    optionValue="value">
+                                    <ng-template let-option pTemplate="item">
+                                        <span [class]="'customer-badge status-' + option.value">{{ option.label | translate }}</span>
+                                    </ng-template>
+                                    <ng-template let-selectedItem pTemplate="selectedItem">
+                                        {{selectedItem.label | translate}}
+                                    </ng-template>
+                                </p-dropdown>
+                        
+                                <div *ngIf="submitted && f.category.errors" class="invalid-feedback">
+                                    <small class="small-msg" *ngIf="f.category.errors.required">{{'Category' | translate }} {{'is required' | translate}}</small>
+                                </div>
+                            </div>  
+                        
+                            <div class="follow-btn" type="submit">
+                                <button [disabled]="loading" type="submit" class="btn btn-custom w-100 ">
+                                    <div *ngIf="loading" class="me-3 spinner-border spinner-border-sm text-dark" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div> Actualizar
+                                </button>
+                            </div>
+                        </form>
+                    </ng-template>
+               </div>
             </div>
         </div>
     </div>
