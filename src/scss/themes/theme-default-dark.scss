@@ -808,11 +808,11 @@
 
     .swal2-title,
     .swal2-html-container {
-        color: var(--text-dark-color);
+        color: var(--text-light-color);
     }
 
     .swal2-styled.swal2-confirm {
-        background-color: var(--btn-primary-bg-color);
+        background-color: var(--btn-secondary-bg-color);
     }
 
     .swal2-styled.swal2-confirm:focus {

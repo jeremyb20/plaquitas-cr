@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { COUNTRYFLAG, CountryFlag, getCountry } from '@methods/countrycode';
-import { MustMatch, PostMethods, PutMethods, buildFormData, formShowFields, formValidateInput, getCountryCodeFormat } from '@methods/methods';
+import { MustMatch, PostMethods, PutMethods, buildFormData, formShowFields, formValidateInput, generateRandomNumber, getCountryCodeFormat } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';
@@ -56,6 +56,8 @@ export class GeneralFormComponent implements OnInit {
     userLogin: User;
     countryCodeFormat: any;
     date: any = new Date();
+    randomNumber: number = generateRandomNumber(1, 5);
+
 
     constructor(
         private formBuilder: FormBuilder,
@@ -200,8 +202,11 @@ export class GeneralFormComponent implements OnInit {
                         Swal.fire({
                             position: 'center',
                             icon: 'success',
-                            title: 'Se ha registrado ' + this.f.petName.value + ' exitosamente!',
-                            html: this.TranslateText(result.msg),
+                            title: 'Registro exitoso!',
+                            html: `
+                            <img class="w-100" style="height: 300px; width:300px; object-fit: cover;" src="assets/images/gifts/gift-greeting-${this.randomNumber}.gif" alt="Not Found Image">
+                            ${this.TranslateText(result.msg)}
+                          `,
                             allowOutsideClick: false,
                             confirmButtonText: 'OK',
                         })

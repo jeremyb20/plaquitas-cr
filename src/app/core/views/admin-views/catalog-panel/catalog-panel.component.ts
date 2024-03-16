@@ -131,6 +131,7 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
         ]
         this.country = getCountry(); 
         this.countryCode = CountryFlag.find(element => this.country == element.name);
+        this.countryCodeFormat = getCountryCodeFormat(this.country);
         this.editor = new Editor();
         this.registerForm = this.formBuilder.group({
             productName: ['', Validators.required],
@@ -140,7 +141,7 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
             inventoryStatus: ['', Validators.required],
             category: ['', Validators.required],
             phone: new FormControl('', [Validators.required, Validators.minLength(6), Validators.pattern(/\d/)]),
-            country: [''],
+            country: [this.country],
         });
         this.categoryList = CategoryList;
         this.catalogStatusList = CatalogStatusList;
@@ -347,6 +348,8 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
                 quantity: this.f.quantity.value,
                 inventoryStatus: this.f.inventoryStatus.value,
                 category: this.f.category.value,
+                country: this.f.country.value,
+                phone: this.f.phone.value,
                 photo: this.file
             }
 
@@ -358,6 +361,8 @@ export class CatalogPanelComponent implements OnInit, AfterViewChecked {
             fd.append('quantity', data.quantity);
             fd.append('inventoryStatus', data.inventoryStatus);
             fd.append('category', data.category);
+            fd.append('country', data.country);
+            fd.append('phone', data.phone);
             fd.append('image', data.photo);
             fd.append('idOwner', this.user.id);
             

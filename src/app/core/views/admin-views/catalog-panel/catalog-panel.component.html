@@ -191,7 +191,7 @@
           <div class="p-5">
             <span class="p-2" *ngIf="!showHardReloadBtn"> {{ 'No data found' | translate }} </span>
             <span class="p-2" *ngIf="showHardReloadBtn"> {{'An error occurred in the process.' | translate}} <a class="btn btn-danger" > <i class="feather icon-refresh-cw"></i> {{ 'Refresh' | translate }}</a> </span>
-            <img class="w-100" style="height: 200px; width: 200px; object-fit: cover;" src="assets/images/gifts/gift-version-{{randomNumber}}.gif" alt="Not Found Image">
+            <img class="w-100" style="height: 400px; object-fit: cover;" src="assets/images/gifts/gift-version-{{randomNumber}}.gif" alt="Not Found Image">
           </div>
         </ng-template>
     </p-table>
@@ -201,6 +201,66 @@
     <h3 class="mb-3">{{'New Catalog' | translate}}</h3>
 
     <form [formGroup]="registerForm" (ngSubmit)="createProduct()">
+
+        <div class="forms-inputs mb-4">
+            <label htmlFor="confirmPassword" [ngClass]="{ 'text-danger': submitted && uploadedFiles.length == 0 }">
+                <i class="feather icon-image"></i> Seleccione una foto
+            </label>
+    
+            <p-fileUpload #fileUpload name="myfile[]" [maxFileSize]="maxSizeInBytes" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
+                [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"  invalidFileSizeMessageDetail="El archivo excede el tamaño máximo permitido de 6MB"
+                [chooseStyleClass]="'p-1'"  allowTypes="*.jpg;*.png;*.jpeg;" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
+
+                <ng-template pTemplate="toolbar">
+                    <div *ngIf="!Media.IsMobile" class="py-3">Arrastra y suelta la imagen a esta zona <i class="feather icon-arrow-down"></i> </div>
+                </ng-template>
+                <ng-template pTemplate="content">
+                    <ng-template pTemplate="content">
+                        <ul *ngIf="uploadedFiles.length">
+                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                        </ul>
+                    </ng-template>
+                </ng-template>
+            </p-fileUpload>
+    
+        </div>
+
+        <div  class="forms-inputs mb-4">
+            <div class="p-inputgroup">
+                <p-dropdown  
+                    styleClass="d-flex w-100 custom-dropdown" 
+                    [options]="countryFlag"
+                    optionLabel="flag"
+                    formControlName="country"
+                    (onChange)="onChangeCountry($event)"
+                    [autoDisplayFirst]="false"
+                    [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.phone.errors }" 
+                    [filter]="true" filterBy="name"
+                    optionValue="name">
+                    <ng-template pTemplate="selectedItem">
+                        <div class="flex align-items-center gap-2" *ngIf="countryCodeFormat">
+                            <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{countryCodeFormat}}.svg" alt="{{countryCodeFormat}}">
+                        </div>
+                    </ng-template>
+                    <ng-template let-option pTemplate="item">
+                        <span [class]="'customer-badge status-' + option.dial_code"> <img height="20px" width="20px" src="https://cdn.jsdelivr.net/npm/country-flag-emoji-json@2.0.0/dist/images/{{option.code}}.svg" alt="{{option.name}}"> - {{ option.name | translate }} - <span class="text-dim">{{option.dial_code}}</span></span>
+                    </ng-template>
+                </p-dropdown>
+                <span class="span-login" [ngClass]="{'text-danger': submitted && f.phone.errors }">
+                    <i  class="feather icon-phone"></i> 
+                    <ng-container *ngIf="submitted && f.phone.errors; else elseTemplate">
+                        <small class="small-msg" *ngIf="f.phone.errors.required"> Número telefónico es requerido</small>
+                        <small class="small-msg" *ngIf="f.phone.errors.minlength"> Número telefónico debe ser al menos 8 digitos</small>
+                        <small class="small-msg" *ngIf="f.phone.errors.pattern"> Solo se permiten números</small>
+                    </ng-container>
+                    <ng-template #elseTemplate>
+                        Número telefónico
+                    </ng-template> 
+                </span>
+                <p-inputMask styleClass="w-100 custom-input-mask is-invalid" mask="9999-9999" formControlName="phone" placeholder="9999-9999" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"></p-inputMask>
+    
+            </div>
+        </div>
 
         <div class="forms-inputs mb-4">
             <span class="span-login" [ngClass]="{'text-danger': submitted && f.productName.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Article name' | translate }}</span>
@@ -223,19 +283,6 @@
             <p-inputNumber styleClass="w-100" formControlName="quantity" mode="decimal" inputId="withoutgrouping" [useGrouping]="false" [ngClass]="{ 'is-invalid': submitted && f.quantity.errors }"> </p-inputNumber>
             <div *ngIf="submitted && f.quantity.errors" class="invalid-feedback">
                 <small class="small-msg" *ngIf="f.quantity.errors.required">{{'Quantity' | translate}} {{'is required' | translate}}</small>
-            </div>
-        </div>
-
-
-        <div class="forms-inputs mb-4">
-            <span class="span-login" [ngClass]="{'text-danger': submitted && f.description.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Description' | translate }}</span>
-            <!-- <textarea rows="5" cols="30" class="form-control" pInputTextarea formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea> -->
-            <div class="editor" [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.description.errors }">
-				<ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
-				<ngx-editor multiple [editor]="editor" formControlName="description" placeholder="{{'Type here...' | translate}}"  (ngModelChange)="onChange($event)"></ngx-editor>
-			</div>
-            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
-                <small class="small-msg" *ngIf="f.description.errors.required">{{'Description' | translate}} {{'is required' | translate}}</small>
             </div>
         </div>
 
@@ -289,29 +336,16 @@
         </div>  
     
         <div class="forms-inputs mb-4">
-            <label htmlFor="confirmPassword" [ngClass]="{ 'text-danger': submitted && uploadedFiles.length == 0 }">
-                <i class="feather icon-image"></i> Seleccione una foto
-            </label>
-    
-            <p-fileUpload #fileUpload name="myfile[]" [maxFileSize]="maxSizeInBytes" (onSelect)="processFile($event)" [multiple]="false" [showUploadButton]="false"
-                [chooseLabel]="(Media.IsMobile) ? 'Subir' : 'Subir Imagen'" [chooseIcon]="'feather icon-image'"  invalidFileSizeMessageDetail="El archivo excede el tamaño máximo permitido de 6MB"
-                [chooseStyleClass]="'p-1'"  allowTypes="*.jpg;*.png;*.jpeg;" [cancelLabel]="'Cancelar'" [cancelStyleClass]="'p-1'" accept="image/*">
-
-                <ng-template pTemplate="toolbar">
-                    <div *ngIf="!Media.IsMobile" class="py-3">Arrastra y suelta la imagen a esta zona <i class="feather icon-arrow-down"></i> </div>
-                </ng-template>
-                <ng-template pTemplate="content">
-                    <ng-template pTemplate="content">
-                        <ul *ngIf="uploadedFiles.length">
-                            <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-                        </ul>
-                    </ng-template>
-                </ng-template>
-            </p-fileUpload>
-    
+            <span class="span-login" [ngClass]="{'text-danger': submitted && f.description.errors }"><i  class="feather icon-edit-2"></i>  {{ 'Description' | translate }}</span>
+            <!-- <textarea rows="5" cols="30" class="form-control" pInputTextarea formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"></textarea> -->
+            <div class="editor" [ngClass]="{ 'is-invalid dropdown-invalid': submitted && f.description.errors }">
+				<ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+				<ngx-editor multiple [editor]="editor" formControlName="description" placeholder="{{'Type here...' | translate}}"  (ngModelChange)="onChange($event)"></ngx-editor>
+			</div>
+            <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                <small class="small-msg" *ngIf="f.description.errors.required">{{'Description' | translate}} {{'is required' | translate}}</small>
+            </div>
         </div>
-    
-     
 
         <div class="follow-btn" type="submit">
             <button [disabled]="loading" type="submit" (click)="createProduct();" class="btn btn-custom w-100 ">
