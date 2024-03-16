@@ -500,6 +500,26 @@ export function generateRandomNumber(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+export function changeThemeValidation(key:any){
+    switch (key) {
+        case 'theme-default-light':
+             return false;
+
+        case 'theme-default-dark':
+        return true; 
+        
+
+        case null:
+        case undefined: 
+        return false 
+        
+        default:
+
+        return false   
+    }
+}
+
+
 export function buildFormData(data: any): FormData {
     const fd = new FormData();
     Object.entries(data).forEach(([key, value]) => {

@@ -1,9 +1,10 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Component, Inject, Input, OnInit, PLATFORM_ID } from '@angular/core';
 import { Meta } from '@angular/platform-browser';
-import { calcularEdadPerroDesdeHumano, calculateAge } from '@methods/methods';
+import { calcularEdadPerroDesdeHumano, calculateAge, changeThemeValidation } from '@methods/methods';
 import { MediaResponse, MediaService } from '@services/media.service';
 import { NotificationService } from '@services/notification.service';
+import { ThemeService } from '@services/theme.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { Subscription } from 'rxjs/internal/Subscription';
 
@@ -17,6 +18,8 @@ export class PublicProfileComponent implements OnInit {
     @Input() primaryId: any;
     @Input() secondaryId: any;
     humanAge: number = 0;
+    showDarkMode: boolean = false;
+
 
     private mediaSubscription: Subscription;
     Media: MediaResponse;
@@ -24,6 +27,7 @@ export class PublicProfileComponent implements OnInit {
     constructor( 
         private _media: MediaService,
         private _clipboardService: ClipboardService, 
+        private _themeService: ThemeService,
         private _notificationService: NotificationService,
         @Inject(PLATFORM_ID) private platformId: Object,
         ){
@@ -33,7 +37,14 @@ export class PublicProfileComponent implements OnInit {
     }
 
     ngOnInit(): void {
- 
+        const theme = this._themeService.getThemeSelected();
+        this._themeService.setTheme(theme ? theme : 'theme-default-light');
+        this.showDarkMode = changeThemeValidation(theme); 
+    }
+
+    changeTheme(eventTheme){ 
+        this.showDarkMode = eventTheme.checked; 
+        this._themeService.setTheme(eventTheme.checked ? 'theme-default-dark' : 'theme-default-light');
     }
 
     copy(){

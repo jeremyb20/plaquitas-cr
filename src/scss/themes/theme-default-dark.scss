@@ -3,7 +3,8 @@
 
     --text-dark-color: #000;
     --text-light-color: #fff;
-
+    --opener-size: 2.5rem;
+    --dot-size: 0.4rem;
     --nav-width: 260px;
     --nav-text-color: #7e8086;
     --nav-color-hover: #fff;
@@ -1538,9 +1539,12 @@
         display: flex;
         flex-direction: column;
         overflow: hidden;
-        border-radius: 2rem;
+        // border-radius: 2rem;
         box-shadow: 0px 1rem 1.5rem rgba(0, 0, 0, 0.5);
-        color: var(--text-light-color);
+
+        &.dashboard {
+            border-radius: 2rem;
+        }
 
         @include media-breakpoint-up(lg) {
             &.dashboard {
@@ -1549,16 +1553,17 @@
 
             width: 23rem;
             height: fit-content;
+            border-radius: 2rem;
         }
     }
 
     /* Estilos del banner */
-    .card-profile .banner {
-        background-image: url(https://images.unsplash.com/photo-1545703549-7bdb1d01b734?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=400&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ);
-        background-position: center;
+    .public .banner {
+        background:linear-gradient(0deg, rgb(7 20 38 / 22%), rgba(41, 133, 158, 0.94)), url('../../assets/images/plaquitascr.png');
+        background-position: left;
         background-repeat: no-repeat;
-        background-size: cover;
-        height: 11rem;
+        background-size: auto;
+        height: 31rem;
         display: flex;
         align-items: flex-end;
         justify-content: center;
@@ -1567,7 +1572,7 @@
 
     /* Estilos del ícono SVG */
     .card-profile .banner img {
-        background-color: white;
+        background-color: var(--card-bg-color);
         width: var(--dp-size);
         height: var(--dp-size);
         box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.3);
@@ -1602,11 +1607,11 @@
     }
 
     .card-profile .menu .opener:hover {
-        background-color: #f2f2f2;
+        background-color: var(--background-color);
     }
 
     .card-profile .menu .opener span {
-        background-color: var(--font-color);
+        background-color: var(--text-light-color);
         width: var(--dot-size);
         height: var(--dot-size);
         position: absolute;
@@ -1691,13 +1696,9 @@
         background-color: #f2f2f2;
     }
 
-    .icon-banner{
-        color: var(--text-light-color);
-    }
-
     /* Estilos del botón de seguimiento */
     .card-profile .actions .follow-btn button {
-        color: var(--text-dark-color);
+        color: #fff;
         font: inherit;
         font-weight: bold;
         background-color: var(--btn-secondary-bg-color);
@@ -1711,15 +1712,13 @@
     }
 
     .card-profile .actions .follow-btn button:hover {
-        background-color: var(--btn-secondary-bg-color-hover);
+        background-color: var(--btn-secondary-bg-color);
         transform: scale(1.1);
-        color: var(--text-dark-color);
     }
 
     .card-profile .actions .follow-btn button:active {
         background-color: #e8a200;
         transform: scale(1);
-        color: var(--text-dark-color);
     }
 
     /* Estilos de la descripción */
@@ -1732,6 +1731,14 @@
 
     .card-img-overlay {
         background-color: rgba(#000, 0.4);
+    }
+
+    .text-custom {
+        color: var(--text-light-color);
+    }
+
+    .p-card-content {
+        color: gray;
     }
 
     .img-custom {
