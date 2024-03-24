@@ -214,6 +214,7 @@
                     <button *ngIf="editing" type="button" pSaveEditableRow (click)="onRowEditSave(payloadData)" class="btn btn-icon"> <i class="feather icon-save"></i> </button>
                     <button *ngIf="editing" type="button" pCancelEditableRow (click)="onRowEditCancel(payloadData, ri)" class="btn btn-icon"> <i class="feather icon-x"></i> </button>
                     <button *ngIf="!editing" type="button" pCancelEditableRow (click)="deleteUser(payloadData)" class="btn btn-icon"> <i class="feather icon-trash-2"></i> </button>
+                    <button *ngIf="!editing" type="button" (click)="addNewPet(payloadData)" class="btn btn-icon"> <i class="feather icon-plus-circle"></i> </button>
                 </div>
             </td>
         </tr>
@@ -344,3 +345,22 @@
         </div>  
     </div>
 </p-sidebar>
+
+<div class="modal fade" id="newPetRegisterByAdmin" tabindex="-1" aria-labelledby="newPetRegisterByAdminLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog modal-dialog-top modal-search modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="newPetRegisterByAdminLabel">{{ 'Register Pet' | translate}} </h5>
+                <a (click)="cancel()" type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div *ngIf="itemSelected" class="modal-body">
+                <app-general-form 
+                    [primaryId]="itemSelected.id"
+                    [formIdType]="2" 
+                    [isEditProfile]="false"
+                    (refreshUserData)="getProfileUpdated($event)"
+                ></app-general-form>
+            </div>
+        </div>
+    </div>
+</div>

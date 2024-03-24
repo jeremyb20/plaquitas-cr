@@ -40,6 +40,7 @@ export class GenericDataTableComponent {
     themeSelected: string = '';
     userTypeFilter: Filters[];
     userTypeIdActivateFilter: Filters[];
+    newPetRegisterByAdmin: any;
 
     userSelected: any = [];
     sidebarVisible: boolean = false;
@@ -361,5 +362,27 @@ export class GenericDataTableComponent {
     copy(text: string){
         this._clipboardService.copy(text);
         this._notificationService.success('Text copied..!', 'bg-success', 'animate__backInUp', 6000);
+    }
+
+    addNewPet(item:any){
+        this.itemSelected = []; 
+        this.itemSelected = item;
+        this.newPetRegisterByAdmin = new bootstrap.Modal(document.getElementById('newPetRegisterByAdmin'), {
+            keyboard: false
+        })
+        this.newPetRegisterByAdmin.show()
+    }
+
+    cancel(){
+        this.itemSelected = null; 
+        this.newPetRegisterByAdmin.hide()
+    }
+
+    getProfileUpdated(idFormType: any){
+        this.itemSelected = [];
+        if(idFormType == 2) {
+            this.newPetRegisterByAdmin.hide();
+        }
+        this.refreshData.emit(true);
     }
 }
