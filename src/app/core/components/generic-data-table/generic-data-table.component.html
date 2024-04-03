@@ -265,6 +265,9 @@
                                     </span>
                                 </td>
                                 <td>
+                                    <button [disabled]="payloadData.petViewCounter.length == 0" (click)="openModalPetViewed(payloadData.petViewCounter)" class="btn btn-outline-danger btn-sm" > <i class="feather icon-map-pin"></i> ({{payloadData.petViewCounter.length}}) </button>
+                                </td>
+                                <td>
                                     <span>{{payloadData.petStatus | translate}}</span>
                                 </td>
                                 <td>
@@ -327,7 +330,26 @@
     </div>
 </div>
 
-
+<div class="modal fade" id="modalPetViewed" tabindex="-1" aria-labelledby="modalPetViewedLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-dialog-centered modal-search modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header px-3 py-2">
+                <h5 class="modal-title fw-bold w-100 text-center" id="modalPetViewedLabel">{{ 'Ver Ubicacion' | translate}} </h5>
+                <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
+            </div>
+            <div class="modal-body pt-0 text-center">
+                <div class="grid">
+                    <div *ngFor="let item of itemPetViewed" class="col-12 my-2 border shadow">
+                        <span>
+                            Fecha: {{ transformDate(item.dateViewed) }}
+                        </span>
+                        <button class="btn btn-success" (click)="openLocation(item.lat, item.lng)">{{'Ver Ubicacion' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <p-sidebar [(visible)]="sidebarVisible" position="right" [fullScreen]="Media.IsMobile">
     <button (click)="sortPetNameList()" class="btn btn-warning" type="submit">Actualizar Lista</button>
     <div #dropListContainer class="example-container" cdkDropListGroup>

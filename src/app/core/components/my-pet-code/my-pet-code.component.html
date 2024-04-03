@@ -2,7 +2,9 @@
     <ng-container *ngIf="payloadData.isDigitalIdentificationActive; else elseTemplateNormalProfile">
         <app-digital-identification
             [payloadData]="payloadData"
-            [AngularxQrCode]="AngularxQrCode">
+            [AngularxQrCode]="AngularxQrCode"
+            [primaryId]="primaryId"
+            [secondaryId]="secondaryId">
         </app-digital-identification>
     </ng-container>
     <ng-template #elseTemplateNormalProfile>

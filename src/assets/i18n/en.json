@@ -48,6 +48,7 @@
   "Owner": "Owner",
   "QR Code": "QR Code",
   "View QR": "View QR",
+  "Pet Viewed": "Pet Viewed",
   "QR Code Generator": "QR Code Generator", 
   "Generate Code": "Generate Code",
   "Customize Code": "Customize Code",
@@ -153,5 +154,9 @@
   "Article name": "Article name",
   "Hola Soy": "Hello I'm",
   "Race": "Race",
-  "Weight": "Weight"
+  "Weight": "Weight",
+  "Enable location": "Enable location",
+  "Enable your location": "Enable your location",
+  "Permission Location": "For your safety and that of",
+  "Allow permission": "Please allow activation to continue."
 }

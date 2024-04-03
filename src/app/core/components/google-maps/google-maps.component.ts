@@ -185,7 +185,7 @@ export class GoogleMapsComponent implements OnInit {
                     animation: google.maps.Animation.DROP,
                 },
             });
-          });
+        });
     }
 
     onDragend(m, event){ 

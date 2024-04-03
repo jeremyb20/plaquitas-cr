@@ -59,6 +59,9 @@
                                 </div>
                                 <div class="col-5">
                                     <div class="grid mt-2">
+                                        <div class="col-12 text-center p-0">
+                                            <span style="font-size: 10px;" class="text-dim">Perfil visto: ({{item.petViewCounter.length }})</span>
+                                        </div>
                                         <div class="col-12">
                                             <div (click)="editProfile(payloadData._id, index)"  style="cursor: pointer;" class="font-bold text-center" [ngClass]="{'text-truncate': Media.IsMobile}">
                                                 <span class="font-semibold" style="font-size: 15px;"> 
@@ -128,6 +131,9 @@
                                          <i class="feather icon-copy"></i>
                                     </button> 
                                 </div>
+                            </div>
+                            <div class="col-12 text-center p-0">
+                                <span style="font-size: 10px;" class="text-dim">Perfil visto: ({{item.petViewCounter.length }})</span>
                             </div>
                             
                         </div>

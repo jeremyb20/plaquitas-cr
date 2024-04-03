@@ -1,8 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { CountryFlag, getCountry } from '@methods/countrycode';
-import { DeleteMethods, GetMethods, PostMethods, PutMethods, generateRandomNumber, responseError, transformDate } from '@methods/methods';
+import { GetMethods, PostMethods, PutMethods, generateRandomNumber, responseError, transformDate } from '@methods/methods';
 import { User } from '@models/auth-model';
 import { ResponseData } from '@models/models';
 import { TranslateService } from '@ngx-translate/core';

@@ -35,6 +35,7 @@ export class GenericDataTableComponent {
     AngularxQrCode: string = '';
     elem: any;
     itemSelected: any;
+    itemPetViewed: any;
     clonedProfile: { [s: string]: any } = {};
     clonedSecondProfile: { [s: string]: any } = {};
     themeSelected: string = '';
@@ -321,6 +322,19 @@ export class GenericDataTableComponent {
             keyboard: false
         })
         qrcodeModal.show();
+    }
+
+    openModalPetViewed(item: any){
+        this.itemPetViewed = item;
+        var modalPetViewed = new bootstrap.Modal(document.getElementById('modalPetViewed'), {
+            keyboard: false
+        })
+        modalPetViewed.show();
+    }
+
+    openLocation(latitude: any, longitude: any){ 
+        const googleMapsURL = `https://www.google.com/maps?q=${latitude},${longitude}`; 
+        window.open(googleMapsURL, '_blank');
     }
 
     downloadImage(showimg: boolean){
