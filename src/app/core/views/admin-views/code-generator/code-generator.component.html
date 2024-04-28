@@ -161,8 +161,8 @@
                 <a type="button" class="modal-title px-0" data-bs-dismiss="modal" aria-label="Close"> <i class="fas fa-times"></i> </a>
             </div>
             <div class="modal-body pt-0 text-center">
-                <qrcode [qrdata]="AngularxQrCode" [allowEmptyString]="true" [width]="256" [errorCorrectionLevel]="'H'"></qrcode>
-                <qrcode [qrdata]="AngularxQrCode" [allowEmptyString]="true" [width]="256" [errorCorrectionLevel]="'H'" size="500" level="H" canvas="true" #qrCode></qrcode>
+                <qrcode [qrdata]="AngularxQrCode" [allowEmptyString]="true" [width]="256" [errorCorrectionLevel]="'L'"></qrcode>
+                <qrcode [qrdata]="AngularxQrCode" [allowEmptyString]="true" [width]="256" [errorCorrectionLevel]="'L'" size="500" level="L" canvas="true" #qrCode></qrcode>
                 <button class="btn btn-success" (click)="downloadImage(true)">{{'Download Image' | translate }}</button>
             </div>
         </div>
