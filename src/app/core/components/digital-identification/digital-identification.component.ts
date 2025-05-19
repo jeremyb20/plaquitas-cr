@@ -22,6 +22,7 @@ export class DigitalIdentificationComponent implements OnInit {
     private mediaSubscription: Subscription;
     Media: MediaResponse;
     locationPermissionDenied: boolean = true;
+    isAppleDevice: boolean = false;
 
     constructor( 
         private _media: MediaService,
@@ -30,13 +31,13 @@ export class DigitalIdentificationComponent implements OnInit {
         private ngZone: NgZone,
         private route: ActivatedRoute, 
         @Inject(PLATFORM_ID) private platformId: Object,
-        ){
+    ){
         this.mediaSubscription = this._media.subscribeMedia().subscribe(media => {
             this.Media = media;
         }); 
 
-          //Para registro con codigo qr    
-          this.route.params.subscribe(params => {
+        // Para registro con codigo qr    
+        this.route.params.subscribe(params => {
             this.primaryId = params.id;
             this.secondaryId = params.idSecond;
         });
@@ -47,10 +48,22 @@ export class DigitalIdentificationComponent implements OnInit {
                 this.secondaryId = params.idSecond;
             });
         }
+
+        // Detectar si es dispositivo Apple
+        if(isPlatformBrowser(this.platformId)){
+            this.isAppleDevice = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+        }
     }
 
     ngOnInit(): void {
-        this.checkLocationPermission();
+        if (this.isAppleDevice) {
+            // Saltar verificación de permisos para dispositivos Apple
+            this.locationPermissionDenied = false;
+            this.activateLocation();
+        } else {
+            // Realizar verificación normal para otros dispositivos
+            this.checkLocationPermission();
+        }
     }
 
     checkLocationPermission() { 
@@ -58,13 +71,16 @@ export class DigitalIdentificationComponent implements OnInit {
             if (navigator.permissions) {
                 navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
                     if (permissionStatus.state === 'denied') {
-                    this.ngZone.run(() => {
-                        this.locationPermissionDenied = true;
-                    });
-                    }else{
-                        this.activateLocation()
+                        this.ngZone.run(() => {
+                            this.locationPermissionDenied = true;
+                        });
+                    } else {
+                        this.activateLocation();
                     }
                 });
+            } else {
+                // Navegadores que no soportan la API de permisos
+                this.activateLocation();
             }
         }
     }
@@ -75,17 +91,18 @@ export class DigitalIdentificationComponent implements OnInit {
                 this.ngZone.run(() => {
                     this.locationPermissionDenied = false;
                 }); 
-                this.updatePetView( position.coords.latitude, position.coords.longitude);
-    
+                this.updatePetView(position.coords.latitude, position.coords.longitude);
             }, (error) => {
                 console.error('Error getting location:', error);
-                this.checkLocationPermission();
+                if (!this.isAppleDevice) {
+                    this.checkLocationPermission();
+                }
             });
         }
     }
 
     updatePetView(lat: number, lng: number){
-        const URL = `${environment.WebApiUrl + PutMethods.USER_UPDATE_PET_VIEWED }`;
+        const URL = `${environment.WebApiUrl + PutMethods.USER_UPDATE_PET_VIEWED}`;
         if(this.primaryId){
             const data = {
                 lat: lat,
@@ -107,10 +124,12 @@ export class DigitalIdentificationComponent implements OnInit {
     }
 
     openChromeSettings() {
-        if(isPlatformBrowser(this.platformId)){
+        if(isPlatformBrowser(this.platformId) && !this.isAppleDevice){
             window.location.href = "chrome://settings/content/location";
-        }else{
-            this.checkLocationPermission()
+        } else {
+            if (!this.isAppleDevice) {
+                this.checkLocationPermission();
+            }
         }
     }
 
