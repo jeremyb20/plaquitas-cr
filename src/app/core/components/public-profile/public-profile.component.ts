@@ -21,7 +21,7 @@ export class PublicProfileComponent implements OnInit {
     @Input() secondaryId: any;
     humanAge: number = 0;
     showDarkMode: boolean = false;
-    locationPermissionDenied: boolean = true;
+    locationPermissionDenied: boolean = false;
 
     private mediaSubscription: Subscription;
     Media: MediaResponse;
@@ -44,7 +44,7 @@ export class PublicProfileComponent implements OnInit {
         const theme = this._themeService.getThemeSelected();
         this._themeService.setTheme(theme ? theme : 'theme-default-light');
         this.showDarkMode = changeThemeValidation(theme);  
-        this.checkLocationPermission();
+        // this.checkLocationPermission(); // hay que revisar permisos en safari Gucci tiene iphone
     }
 
     checkLocationPermission() {
